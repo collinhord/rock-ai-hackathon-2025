@@ -1,0 +1,17 @@
+MASTER_CONCEPT_ID,MASTER_CONCEPT_NAME,SOR_STRAND,SOR_PILLAR,SOR_DOMAIN,DESCRIPTION,SKILL_COUNT,AUTHORITY_COUNT,GRADE_RANGE
+MC-001,Letter-Sound Recognition,Decoding and Word Recognition,Alphabetic Principle,Letter-Sound Correspondence,"The ability to recognize and identify the sounds that individual letters represent",8,5,"Pre-K to Grade 1"
+MC-002,Letter Visual Discrimination,Decoding and Word Recognition,Alphabetic Principle,Letter Knowledge,"The ability to visually distinguish between different letter forms and shapes",6,4,"Pre-K to K"
+MC-003,Alphabet Sequence Knowledge,Decoding and Word Recognition,Alphabetic Principle,Letter Knowledge,"Understanding the sequential order of letters in the alphabet",5,4,"Pre-K to K"
+MC-004,Letter Writing Production,Decoding and Word Recognition,Alphabetic Principle,Letter Knowledge,"The physical skill of writing upper and lowercase letters",4,3,"K to Grade 1"
+MC-005,Phoneme Blending,Decoding and Word Recognition,Phonological Awareness,Phoneme Awareness,"The ability to combine individual phonemes to form recognizable words",12,8,"K to Grade 2"
+MC-006,Phoneme Segmentation,Decoding and Word Recognition,Phonological Awareness,Phoneme Awareness,"The ability to break spoken words into individual phonemes",10,7,"K to Grade 2"
+MC-007,Context Clues for Word Meaning,Language Comprehension,Vocabulary,Contextual Vocabulary,"Using surrounding text to determine the meaning of unfamiliar words",15,9,"Grade 2 to Grade 6"
+MC-008,Main Idea Identification,Language Comprehension,Comprehension,Key Ideas and Details,"Identifying the central idea or theme of a text",18,10,"Grade 2 to Grade 8"
+MC-009,Making Inferences,Language Comprehension,Comprehension,Integration and Interpretation,"Drawing conclusions based on text evidence and prior knowledge",16,9,"Grade 2 to Grade 8"
+MC-010,Author's Purpose Analysis,Language Comprehension,Comprehension,Craft and Structure,"Determining why an author wrote a text and their intended message",14,8,"Grade 3 to Grade 8"
+MC-011,Text Structure Recognition,Language Comprehension,Comprehension,Craft and Structure,"Identifying how texts are organized (sequence, cause-effect, compare-contrast, etc.)",12,7,"Grade 3 to Grade 7"
+MC-012,Character Analysis,Language Comprehension,Comprehension,Key Ideas and Details,"Understanding character traits, motivations, and development in narratives",11,7,"Grade 2 to Grade 8"
+MC-013,Theme Identification,Language Comprehension,Comprehension,Key Ideas and Details,"Identifying themes and central messages in literary texts",10,6,"Grade 3 to Grade 8"
+MC-014,Decoding Multisyllabic Words,Decoding and Word Recognition,Phonics,Advanced Phonics Patterns,"Applying phonics knowledge to decode complex multi-syllable words",13,7,"Grade 2 to Grade 5"
+MC-015,Syllable Division Patterns,Decoding and Word Recognition,Phonics,Syllabication,"Understanding and applying syllable division rules",8,5,"Grade 1 to Grade 4"
+
