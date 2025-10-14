@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Cursor
+.cursor/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Personal notes
+PRIVATE_NOTES.md
+TODO_PRIVATE.md
+
+# Screenshots (optional - uncomment if you want to track them)
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+
+# Large files
+*.mp4
+*.mov
+*.zip
+*.tar.gz
+
