@@ -34,3 +34,7 @@ TODO_PRIVATE.md
 *.zip
 *.tar.gz
 
+# Large ROCK data files (schemas)
+rock-skills/rock_schemas/*.csv
+rock_schemas/*.csv
+
