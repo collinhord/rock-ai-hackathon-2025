@@ -1,0 +1,2 @@
+skill_id,skill_name,grade_level,llm_mapping,llm_confidence,composite_score,semantic_similarity,reviewer_1_correct,reviewer_1_alternative,reviewer_1_notes,reviewer_2_correct,reviewer_2_alternative,reviewer_2_notes,consensus_mapping,consensus_confidence,validation_status,validation_notes
+

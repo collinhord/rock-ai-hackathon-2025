@@ -98,7 +98,112 @@ ROCK cannot be changed:
 
 → **P&I teams bypass ROCK entirely**
 
-### 1.3 The Compound Effect: Real-World Scenario
+### 1.3 State A vs State B: Two Types of Skill Relationships
+
+Analysis of 8,224 ROCK skills reveals **two distinct patterns of skill relationships**, each requiring different linking strategies:
+
+#### State A: Cross-State Variants (Cross-Sectional Redundancy)
+
+**Definition**: Conceptually identical skills with different terminology across education authorities at the **same grade level**.
+
+**Example - Phoneme Blending (Grade K)**:
+
+| ROCK Skill | Authority | Similarity |
+|------------|-----------|------------|
+| Blend phonemes to form words | CCSS | 0.92 |
+| Blend spoken phonemes into one-syllable words | Texas | 0.89 |
+| Orally blend 2-3 phonemes into recognizable words | California | 0.91 |
+| Blend sounds to make one-syllable words | Virginia | 0.88 |
+
+**Characteristics**:
+- **Normalized name similarity**: > 0.85
+- **Grade difference**: ≤ 1 grade level
+- **Different education authorities**
+- **Same underlying competency**
+
+**Classification Results** (from 8,224 skills):
+- **187 State A groups identified**
+- **383 skills total** (~5% of inventory)
+- **2-3 members per group** on average
+
+**P&I Solution Need**: Enable content tagging to **one master concept** that automatically inherits all state variants. Tag once → applies to TX, CA, CCSS, VA, etc.
+
+#### State B: Grade Progressions (Longitudinal Spiraling)
+
+**Definition**: Related skills showing **increasing complexity** across sequential grade levels, typically within the same education authority or standard set.
+
+**Example - Informational Text Analysis (Grades 1-8)**:
+
+| Grade | ROCK Skill | Complexity |
+|-------|------------|------------|
+| 1 | Compose informative text (first-grade reading) | Level 1 |
+| 2 | Compose informative text (second-grade reading) | Level 2 |
+| 3 | Compose informative text (third-grade reading) | Level 3 |
+| ... | ... | ... |
+| 8 | Compose informative text (eighth-grade reading) | Level 8 |
+
+**Characteristics**:
+- **Normalized name similarity**: 0.6-0.8 (related but not identical)
+- **Sequential grades**: 2→3→4 spiraling
+- **Same authority** or universal (CCSS)
+- **Increasing complexity** in same skill family
+
+**Classification Results** (from 8,224 skills):
+- **220 State B chains identified**
+- **569 skills total** (~7% of inventory)
+- **2-8 members per chain** (median: 2-3 grades)
+
+**P&I Solution Need**: Learning progression navigation with **prerequisite relationships**. Show teachers developmental sequence, suggest "next level" content automatically.
+
+#### The Remaining 88%: Unique Skills
+
+**Classification Results**:
+- **7,272 unique skills** (88% of inventory)
+- Not part of State A or B patterns
+- May still need taxonomy mapping for conceptual organization
+- Represent specialized or single-state skills
+
+#### Why This Distinction Matters
+
+**For P&I Product Design**:
+
+| Problem Type | Linking Strategy | Use Case |
+|--------------|------------------|----------|
+| **State A** | Equivalence Groups | Tag content once → applies to all state variants |
+| **State B** | Prerequisite Chains | Adaptive sequencing, learning progressions |
+| **Unique** | Direct 1:1 Mapping | Standard content tagging |
+
+**Metadata Requirements**:
+
+| Field | State A | State B | Purpose |
+|-------|---------|---------|---------|
+| `EQUIVALENCE_GROUP_ID` | ✓ | ✓ | Link related skills |
+| `EQUIVALENCE_TYPE` | "state-variant" | "grade-progression" | Distinguish pattern type |
+| `PREREQUISITE_SKILL_IDS` | ✗ | ✓ | Build prerequisite chains |
+| `COMPLEXITY_LEVEL` | ✗ | ✓ (1-5) | Rank difficulty in progression |
+| `MASTER_TAXONOMY_NODE` | ✓ | ✓ | Map to evidence-based framework |
+
+**Example Query Patterns**:
+
+```sql
+-- State A: Find all equivalent skills for content tagging
+SELECT * FROM skills 
+WHERE EQUIVALENCE_GROUP_ID = 'uuid-1234'
+  AND EQUIVALENCE_TYPE = 'state-variant';
+
+-- State B: Get prerequisite chain for learning progression
+WITH RECURSIVE prerequisite_chain AS (
+  SELECT * FROM skills WHERE SKILL_ID = 'target-skill-id'
+  UNION
+  SELECT s.* FROM skills s
+  JOIN prerequisite_chain pc ON s.SKILL_ID = pc.PREREQUISITE_SKILL_IDS
+)
+SELECT * FROM prerequisite_chain ORDER BY COMPLEXITY_LEVEL;
+```
+
+**Validation**: Automated classification using TF-IDF similarity + grade analysis achieved 187 State A groups and 220 State B chains from 8,224 skills. Human review of sample groups confirmed >90% accuracy.
+
+### 1.4 The Compound Effect: Real-World Scenario
 
 **Building a Context Clues Unit for P&I**
 

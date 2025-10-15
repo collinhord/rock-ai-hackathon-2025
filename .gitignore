@@ -38,3 +38,19 @@ TODO_PRIVATE.md
 rock-skills/rock_schemas/*.csv
 rock_schemas/*.csv
 
+# Analysis outputs (keep template/reference files, ignore generated outputs)
+rock-skills/analysis/outputs/*
+!rock-skills/analysis/outputs/.gitkeep
+
+# Analysis temporary/checkpoint files
+rock-skills/analysis/checkpoint_*.csv
+rock-skills/analysis/llm_assisted_mappings_*.csv
+rock-skills/analysis/mapping_summary_*.txt
+rock-skills/analysis/review_queue_*.csv
+rock-skills/analysis/*.log
+rock-skills/analysis/validation_*/
+
+# Keep specific reference output files
+!rock-skills/analysis/variant-classification-report.csv
+!rock-skills/analysis/variant-classification-report_summary.csv
+
