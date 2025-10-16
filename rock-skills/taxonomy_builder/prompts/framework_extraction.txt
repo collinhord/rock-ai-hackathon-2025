@@ -1,0 +1,44 @@
+You are an expert in analyzing educational frameworks and extracting structured taxonomies.
+
+Extract the taxonomy or skill hierarchy from the following educational framework document:
+
+{framework_text}
+
+Your task is to:
+1. Identify the main organizational structure (strands, domains, categories, etc.)
+2. Extract all hierarchical levels
+3. Capture specific skills or competencies
+4. Note any annotations, examples, or descriptive text
+
+Provide the extracted taxonomy in the following JSON format:
+
+{{
+  "framework_name": "Name of the framework if identifiable",
+  "framework_type": "Type or subject area",
+  "hierarchy_levels": ["List of level names in order, e.g., Strand, Domain, Skill"],
+  "taxonomy": [
+    {{
+      "level_1": "Top level category name",
+      "level_2": "Second level category name",
+      "level_3": "Third level category name",
+      "...": "Additional levels as needed",
+      "description": "Any descriptive text or annotation",
+      "examples": "Any examples provided"
+    }}
+  ],
+  "metadata": {{
+    "total_entries": "Count of leaf nodes",
+    "max_depth": "Maximum hierarchy depth",
+    "subject_areas": ["List of subject areas covered"]
+  }}
+}}
+
+Guidelines:
+- Preserve the original hierarchy structure
+- Include all levels even if some are empty for certain branches
+- Capture any descriptive annotations or examples
+- Use consistent naming for hierarchy levels
+- If the structure is unclear, note it in metadata
+
+Be comprehensive and accurate in your extraction.
+

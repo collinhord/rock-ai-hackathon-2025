@@ -38,3 +38,25 @@ TODO_PRIVATE.md
 rock-skills/rock_schemas/*.csv
 rock_schemas/*.csv
 
+# Generated databases and mappings
+*.db
+taxonomy_uuid_map.json
+
+# Backup files with timestamps
+*_backup_*.csv
+*_backup_*.json
+
+# Validation reports (generated)
+validation_report.json
+validation_report.md
+
+# Analysis directory - generated/runtime files
+rock-skills/analysis/backups/
+rock-skills/analysis/outputs/
+rock-skills/analysis/batch_progress.txt
+rock-skills/analysis/batch_status.json
+rock-skills/analysis/llm_skill_mappings_backup_*.csv
+
+# Mock data (if regenerated frequently)
+rock-skills/poc/mock_data/
+

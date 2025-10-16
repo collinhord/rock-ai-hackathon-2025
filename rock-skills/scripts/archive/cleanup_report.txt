@@ -1,0 +1,222 @@
+================================================================================
+TAXONOMY CLEANUP REPORT
+================================================================================
+Generated: 2025-10-15 14:22:22
+Input file: ../POC_science_of_reading_literacy_skills_taxonomy.csv
+Total rows: 1139
+
+CHANGES MADE:
+--------------------------------------------------------------------------------
+Total modifications: 202
+
+Sample changes:
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Text Structure & Features
+    After:  Text Structure and Features
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+  Column: Pillar
+    Before: Phonics & Decoding
+    After:  Phonics and Decoding
+
+
+POTENTIAL NEAR-DUPLICATES:
+--------------------------------------------------------------------------------
+Found 43 potential duplicates
+
+  Column: Skill Set (similarity: 0.96)
+    1: Formal Speaking Performance
+    2: Informal Speaking Performance
+
+  Column: Skill Set (similarity: 0.96)
+    1: CVC Patterns
+    2: CVCE Patterns
+
+  Column: Skill Set (similarity: 0.96)
+    1: CVC Patterns
+    2: CVVC Patterns
+
+  Column: Skill Set (similarity: 0.95)
+    1: Constructing Words
+    2: Deconstructing Words
+
+  Column: Skill Set (similarity: 0.94)
+    1: Avoid Logical Fallacies
+    2: Avoiding Logical Fallacies
+
+  Column: Skill Set (similarity: 0.94)
+    1: Formal Speaking
+    2: Informal Speaking
+
+  Column: Skill Set (similarity: 0.93)
+    1: Applying Deductive Reasoning
+    2: Applying Inductive Reasoning
+
+  Column: Skill Set (similarity: 0.93)
+    1: Understanding Nouns
+    2: Understanding Pronouns
+
+  Column: Skill Set (similarity: 0.92)
+    1: Functions of Nouns
+    2: Functions of Pronouns
+
+  Column: Skill Set (similarity: 0.92)
+    1: CVCE Patterns
+    2: CVVC Patterns
+
+  Column: Skill Area (similarity: 0.92)
+    1: Morphological Application in Reading
+    2: Morphological Application in Writing
+
+  Column: Skill Set (similarity: 0.91)
+    1: Noun Possessives
+    2: Pronoun Possessives
+
+  Column: Skill Area (similarity: 0.91)
+    1: Rhyme Recognition
+    2: Rime Recognition
+
+  Column: Skill Set (similarity: 0.91)
+    1: Initial Sound Isolation
+    2: Final Sound Isolation
+
+  Column: Skill Set (similarity: 0.90)
+    1: Coordinating Conjunctions
+    2: Subordinating Conjunctions
+
+  Column: Skill Set (similarity: 0.90)
+    1: Common Irregular Words
+    2: Less Common Irregular Words
+
+  Column: Skill Area (similarity: 0.89)
+    1: Deductive Reasoning
+    2: Inductive Reasoning
+
+  Column: Skill Area (similarity: 0.89)
+    1: Post-Reading Strategies
+    2: Pre-Reading Strategies
+
+  Column: Skill Set (similarity: 0.89)
+    1: Understanding Historical Figures
+    2: Understanding Historical Science Figures
+
+  Column: Skill Set (similarity: 0.89)
+    1: Understanding Personal Relationships
+    2: Understanding Causal Relationships
+
+  Column: Skill Set (similarity: 0.88)
+    1: Final Sound Isolation
+    2: Medial Sound Isolation
+
+  Column: Skill Set (similarity: 0.88)
+    1: Elements of Plot
+    2: Elements of Poetry
+
+  Column: Skill Set (similarity: 0.88)
+    1: Single Consonants
+    2: Silent Consonants
+
+  Column: Skill Area (similarity: 0.88)
+    1: Disciplinary Knowledge
+    2: Cross-disciplinary Knowledge
+
+  Column: Skill Area (similarity: 0.88)
+    1: Morpheme Manipulation
+    2: Phoneme Manipulation
+
+  Column: Skill Set (similarity: 0.88)
+    1: Structured Formats
+    2: Structured Note Formats
+
+  Column: Skill Set (similarity: 0.87)
+    1: Analyzing Sentence Structure
+    2: Varying Sentence Structures
+
+  Column: Skill Set (similarity: 0.87)
+    1: Reflecting on Reading Preferences
+    2: Reflecting on Reading Process
+
+  Column: Skill Set (similarity: 0.87)
+    1: Sustaining Smooth Oral Reading
+    2: Sustaining Smooth Silent Reading
+
+  Column: Skill Area (similarity: 0.87)
+    1: Pre-Reading Strategies
+    2: While-Reading Strategies
+
+
+VALIDATION ISSUES:
+--------------------------------------------------------------------------------
+No validation issues found
+================================================================================

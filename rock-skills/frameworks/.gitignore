@@ -1,0 +1,18 @@
+# Framework files (PDFs can be large)
+# Don't commit actual framework documents to git
+*.pdf
+*.docx
+*.doc
+
+# Keep the directory structure
+!.gitkeep
+!README.md
+
+# Analysis outputs are fine to commit
+!output/*.md
+!output/*.json
+
+# Temporary files
+*.tmp
+.DS_Store
+
