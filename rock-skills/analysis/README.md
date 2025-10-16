@@ -305,7 +305,283 @@ Script automatically resumes from last checkpoint if interrupted.
 
 ---
 
+## Master Concepts Pipeline
+
+### Overview
+
+The master concepts pipeline generates a bridging layer between fragmented ROCK skills and the Science of Reading taxonomy. It consists of three main components:
+
+1. **Variant Classification**: Identifies State A (cross-state variants) and State B (grade progressions) relationships
+2. **Metadata Enrichment** (optional): Extracts pedagogical characteristics using LLM
+3. **Master Concepts Generation**: Creates master concepts from variant groups with complexity bands
+
+### Quick Start
+
+Run the complete pipeline:
+```bash
+cd analysis
+./run_full_pipeline.sh
+```
+
+This will:
+- Classify all ELA skills into variants (State A/B) and unique skills
+- Generate progression chains summary
+- Create master concepts with complexity bands
+- Generate skill-to-concept bridge table
+
+### Pipeline Components
+
+#### 1. Variant Classification
+
+**Script**: `variant_classifier.py`
+
+**What it does**:
+- Analyzes ~8,000+ ELA skills for semantic similarity
+- Groups cross-state variants (State A): Same skill across different states at same grade
+- Identifies grade progressions (State B): Skills that spiral across grades
+- Tracks complexity levels (0-14) based on grade
+- Maps prerequisite relationships in progression chains
+
+**Output files**:
+- `outputs/variant-classification-report.csv`: Full classification with complexity levels
+- `outputs/progression-chains-summary.csv`: Summary of spiraled skills
+
+**New columns added**:
+- `COMPLEXITY_LEVEL`: Numeric complexity (0=Pre-K, 13=Grade 12)
+- `PREREQUISITE_SKILL_ID`: Previous skill in progression chain
+- `IS_SPIRAL_SKILL`: Boolean flag for progression membership
+
+**Usage**:
+```bash
+python variant_classifier.py
+```
+
+**Run time**: ~2-5 minutes for 8,000 skills
+
+#### 2. Metadata Enrichment (Optional)
+
+**Script**: `scripts/metadata_extractor.py`
+
+**What it does**:
+- Uses Claude Sonnet 4.5 to extract pedagogical metadata from skill descriptions
+- Identifies text characteristics (fictional/informational, prose/poetry)
+- Classifies skill domains (reading/writing/speaking/listening/language)
+- Assesses task complexity and cognitive demand
+
+**Extracted fields**:
+- `text_type`: fictional | informational | mixed | not_applicable
+- `text_mode`: prose | poetry | mixed | not_applicable
+- `text_genre`: narrative | expository | argumentative | procedural | literary | not_applicable
+- `skill_domain`: reading | writing | speaking | listening | language | not_applicable
+- `task_complexity`: basic | intermediate | advanced
+- `cognitive_demand`: recall | comprehension | application | analysis | synthesis | evaluation
+
+**Output**: `outputs/skill_metadata_enriched.csv`
+
+**Usage**:
+```bash
+python scripts/metadata_extractor.py \
+    --content-area "English Language Arts" \
+    --checkpoint-interval 50 \
+    --output-dir ./outputs/metadata_enrichment
+```
+
+**Cost**: ~$0.005-0.01 per skill (~$40-80 for 8,000 ELA skills)  
+**Run time**: ~1-2 hours for 8,000 skills
+
+#### 3. Master Concepts Generation
+
+**Script**: `scripts/generate_master_concepts.py`
+
+**What it does**:
+- Creates master concepts from State A variant groups
+- Integrates LLM taxonomy mappings for concept naming
+- Adds complexity bands (K-2, 3-5, 6-8, 9-12)
+- Enriches with metadata if available
+- Generates skill-to-concept bridge table
+
+**New fields in master concepts**:
+- `COMPLEXITY_BAND`: K-2 | 3-5 | 6-8 | 9-12 | Mixed
+- `TEXT_TYPE`: Most common text type from variants
+- `TEXT_MODE`: Most common text mode
+- `SKILL_DOMAIN`: Most common skill domain
+- `PREREQUISITE_CONCEPT_ID`: For future prerequisite tracking
+
+**Output files**:
+- `master-concepts.csv`: Master concept definitions
+- `skill_master_concept_mapping.csv`: Skill-to-concept bridge
+
+**Usage**:
+```bash
+python scripts/generate_master_concepts.py
+```
+
+**Run time**: <1 minute
+
+### Workflow Sequence
+
+#### Prerequisite: LLM Skill Mappings
+
+Before running the pipeline, ensure you have LLM skill mappings:
+
+```bash
+# Check if mappings exist
+ls -lh llm_skill_mappings.csv
+
+# If not, run batch mapping first
+python scripts/batch_map_skills.py \
+    --content-area "English Language Arts" \
+    --checkpoint-interval 10 \
+    --output-dir ./outputs/ela_batch
+```
+
+#### Standard Workflow (Without Metadata)
+
+```bash
+# 1. Classify variants
+python variant_classifier.py
+
+# 2. Generate master concepts
+python scripts/generate_master_concepts.py
+
+# 3. Verify outputs
+ls -lh outputs/variant-classification-report.csv
+ls -lh outputs/progression-chains-summary.csv
+ls -lh master-concepts.csv
+```
+
+#### Enhanced Workflow (With Metadata)
+
+```bash
+# 1. Classify variants
+python variant_classifier.py
+
+# 2. Extract metadata
+python scripts/metadata_extractor.py \
+    --content-area "English Language Arts" \
+    --checkpoint-interval 50 \
+    --output-dir ./outputs/metadata_enrichment
+
+# 3. Generate master concepts (will auto-detect metadata)
+python scripts/generate_master_concepts.py
+```
+
+#### Automated Workflow
+
+Use the orchestration script:
+
+```bash
+./run_full_pipeline.sh
+```
+
+### When to Run Each Component
+
+#### Variant Classification
+**Run when**:
+- Adding new skills to ROCK database
+- ROCK skills updated/modified
+- Testing different similarity thresholds
+- Need fresh progression chain analysis
+
+**Frequency**: After each significant ROCK skills update
+
+#### Metadata Enrichment
+**Run when**:
+- First time setting up pipeline
+- Want to enrich master concepts with pedagogical metadata
+- Adding support for new skill domains
+
+**Frequency**: Once initially, then incrementally for new skills
+
+**Note**: Optional but recommended - master concepts will work without metadata but will lack `TEXT_TYPE`, `TEXT_MODE`, and `SKILL_DOMAIN` fields
+
+#### Master Concepts Generation
+**Run when**:
+- After variant classification completes
+- After adding new LLM skill mappings
+- After metadata enrichment (to re-enrich concepts)
+- Testing different concept grouping strategies
+
+**Frequency**: After variant classification or metadata enrichment
+
+### Integration with Demo App
+
+The pipeline outputs feed directly into the Streamlit POC application:
+
+```bash
+# After running pipeline, restart Streamlit to see updates
+cd ../poc
+pkill -f streamlit
+python -m streamlit run skill_bridge_app.py --server.port 8501
+```
+
+**Updated features**:
+- 🔗 Variant Analysis page shows:
+  - State A (cross-state variants)
+  - State B (grade progressions) with complexity levels
+  - **📈 Spiraled Skills tab** (NEW): Visual progression chains with complexity badges
+  - Master concepts from State A groups
+- 🔍 Master Concept Browser enriched with:
+  - Complexity bands
+  - Text type/mode/skill domain metadata (if enrichment run)
+
+### Output Schema Changes
+
+#### `variant-classification-report.csv`
+
+**New columns**:
+```
+COMPLEXITY_LEVEL (int):        0-13 based on grade level
+PREREQUISITE_SKILL_ID (str):   Previous skill ID in chain (null if first)
+IS_SPIRAL_SKILL (bool):        True if part of grade progression
+```
+
+#### `progression-chains-summary.csv` (NEW)
+
+**Columns**:
+```
+CHAIN_ID:              Unique chain identifier (SB-####)
+CONCEPT_NAME:          Normalized skill concept name
+CHAIN_LENGTH:          Number of grades in progression
+GRADE_RANGE:           Grade span (e.g., "K-8", "3-12")
+AUTHORITY:             State authority (e.g., "Texas", "CCSS")
+EXAMPLE_SKILL_ID:      First skill ID in chain
+EXAMPLE_SKILL_NAME:    First skill name in chain
+```
+
+#### `master-concepts.csv`
+
+**New columns**:
+```
+COMPLEXITY_BAND (str):         K-2 | 3-5 | 6-8 | 9-12 | Mixed | Unknown
+TEXT_TYPE (str):               fictional | informational | mixed | null
+TEXT_MODE (str):               prose | poetry | mixed | null
+SKILL_DOMAIN (str):            reading | writing | speaking | listening | language | null
+PREREQUISITE_CONCEPT_ID (str): For future use (currently null)
+```
+
+### Troubleshooting
+
+#### "No metadata enrichment found"
+
+**Cause**: `outputs/skill_metadata_enriched.csv` doesn't exist  
+**Impact**: Master concepts generated without text_type/text_mode/skill_domain fields  
+**Fix**: Run metadata extraction (optional) or proceed without metadata
+
+#### "Variant classification data not available"
+
+**Cause**: `outputs/variant-classification-report.csv` missing  
+**Fix**: Run `python variant_classifier.py` first
+
+#### "LLM skill mappings not available"
+
+**Cause**: `llm_skill_mappings.csv` empty or missing  
+**Fix**: Run batch mapping first: `python scripts/batch_map_skills.py`
+
+---
+
 **Project**: ROCK Skills Taxonomy Bridge  
 **Hackathon**: Renaissance Learning AI Hackathon 2025  
-**Pipeline Status**: ✅ Operational
+**Pipeline Status**: ✅ Operational  
+**Last Updated**: October 16, 2025
 

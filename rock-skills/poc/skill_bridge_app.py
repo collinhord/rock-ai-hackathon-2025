@@ -59,6 +59,39 @@ def natural_sort(items):
     """
     return sorted(items, key=natural_sort_key)
 
+
+def format_grade_display(grade_level_name):
+    """
+    Format grade level for display, avoiding 'Grade Grade' duplication.
+    
+    Args:
+        grade_level_name: Grade level value from GRADE_LEVEL_NAME or GRADE_LEVEL_SHORT_NAME
+        
+    Returns:
+        Properly formatted grade string
+        
+    Examples:
+        "Grade 1" -> "Grade 1"
+        "1" -> "Grade 1"
+        "Pre-K" -> "Pre-K"
+        "Kindergarten" -> "Kindergarten"
+    """
+    if pd.isna(grade_level_name):
+        return "Unknown"
+    
+    grade_str = str(grade_level_name).strip()
+    
+    # If already starts with "Grade", return as-is
+    if grade_str.startswith("Grade"):
+        return grade_str
+    
+    # Otherwise, prepend "Grade" for numeric grades only
+    if grade_str.isdigit() or (grade_str and grade_str[0].isdigit()):
+        return f"Grade {grade_str}"
+    
+    # For Pre-K, PK, K, Kindergarten, return as-is
+    return grade_str
+
 # Page configuration
 st.set_page_config(
     page_title="ROCK Skills Bridge Explorer",
@@ -1676,7 +1709,7 @@ elif page == "🔎 Skill Inspector":
                 
                 with col2:
                     st.markdown(f"**Content Area:** {skill_info['CONTENT_AREA_NAME']}")
-                    st.markdown(f"**Grade:** {skill_info['GRADE_LEVEL_NAME']}")
+                    st.markdown(f"**Grade:** {format_grade_display(skill_info['GRADE_LEVEL_NAME'])}")
                     
                     # Taxonomy mapping if exists
                     if pd.notna(skill_info.get('TAXONOMY_PATH')):
@@ -1896,7 +1929,7 @@ elif page == "🔗 Variant Analysis":
         st.markdown("---")
         
         # Tabs for detailed analysis
-        tab1, tab2, tab3, tab4 = st.tabs(["State A (Cross-State)", "State B (Progressions)", "Unique Skills", "🎯 Master Concepts"])
+        tab1, tab2, tab2b, tab3, tab4 = st.tabs(["State A (Cross-State)", "State B (Progressions)", "📈 Spiraled Skills", "Unique Skills", "🎯 Master Concepts"])
         
         with tab1:
             st.markdown("### Cross-State Variants (State A)")
@@ -1973,7 +2006,7 @@ elif page == "🔗 Variant Analysis":
                             st.markdown(f"**Level {int(skill['COMPLEXITY_LEVEL'])}**")
                         
                         with col2:
-                            st.info(f"{skill['SKILL_NAME']} (Grade {skill['GRADE_LEVEL_NAME']})")
+                            st.info(f"{skill['SKILL_NAME']} ({format_grade_display(skill['GRADE_LEVEL_NAME'])})")
                         
                         with col3:
                             # Check if mapped
@@ -1985,6 +2018,126 @@ elif page == "🔗 Variant Analysis":
                         
                         if idx < len(chain_skills) - 1:
                             st.markdown("↓")
+        
+        with tab2b:
+            st.markdown("### Spiraled Skills (Progression Chains)")
+            st.info("💡 Detailed view of skills that increase in complexity across grade levels")
+            
+            # Load progression chains summary
+            chains_summary_path = Path(__file__).resolve().parent.parent / 'analysis' / 'outputs' / 'progression-chains-summary.csv'
+            
+            if chains_summary_path.exists():
+                chains_summary = pd.read_csv(chains_summary_path)
+                
+                # Overview metrics
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    st.metric("Total Progression Chains", len(chains_summary))
+                
+                with col2:
+                    if len(chains_summary) > 0:
+                        st.metric("Longest Chain", f"{chains_summary['CHAIN_LENGTH'].max()} grades")
+                
+                with col3:
+                    if len(chains_summary) > 0:
+                        st.metric("Avg Chain Length", f"{chains_summary['CHAIN_LENGTH'].mean():.1f} grades")
+                
+                # Visualization: Distribution of chain lengths
+                if not chains_summary.empty:
+                    st.markdown("#### Chain Length Distribution")
+                    
+                    chain_length_dist = chains_summary['CHAIN_LENGTH'].value_counts().sort_index()
+                    fig = px.bar(
+                        x=chain_length_dist.index,
+                        y=chain_length_dist.values,
+                        labels={'x': 'Chain Length (Grades)', 'y': 'Number of Chains'},
+                        title='Distribution of Progression Chain Lengths'
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    # Select a chain to explore
+                    st.markdown("#### Explore a Progression Chain")
+                    
+                    # Sort by chain length for easier browsing
+                    chains_display = chains_summary.sort_values('CHAIN_LENGTH', ascending=False)
+                    
+                    chain_options = {
+                        f"{row['CONCEPT_NAME'][:60]}... ({row['CHAIN_LENGTH']} grades, {row['GRADE_RANGE']})": row['CHAIN_ID']
+                        for _, row in chains_display.iterrows()
+                    }
+                    
+                    selected_chain_display = st.selectbox(
+                        "Select a progression chain to visualize:",
+                        options=list(chain_options.keys())
+                    )
+                    
+                    if selected_chain_display:
+                        selected_chain_id = chain_options[selected_chain_display]
+                        
+                        # Get skills in this chain
+                        chain_skills = variants_df[
+                            (variants_df['EQUIVALENCE_GROUP_ID'] == selected_chain_id) &
+                            (variants_df['EQUIVALENCE_TYPE'] == 'grade-progression')
+                        ].sort_values('COMPLEXITY_LEVEL')
+                        
+                        if not chain_skills.empty:
+                            chain_info = chains_summary[chains_summary['CHAIN_ID'] == selected_chain_id].iloc[0]
+                            
+                            st.markdown(f"**Concept:** {chain_info['CONCEPT_NAME']}")
+                            st.markdown(f"**Grade Range:** {chain_info['GRADE_RANGE']} ({chain_info['CHAIN_LENGTH']} grades)")
+                            st.markdown(f"**Authority:** {chain_info['AUTHORITY']}")
+                            
+                            st.markdown("---")
+                            st.markdown("#### 📊 Progression Visualization")
+                            
+                            # Display the progression chain visually
+                            for idx, (_, skill) in enumerate(chain_skills.iterrows()):
+                                col1, col2, col3, col4 = st.columns([1, 3, 1, 1])
+                                
+                                with col1:
+                                    # Complexity level badge
+                                    st.markdown(f"""
+                                    <div style='background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px; text-align: center;'>
+                                        <b>Level {int(skill['COMPLEXITY_LEVEL'])}</b>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                
+                                with col2:
+                                    # Skill name
+                                    st.info(f"**{format_grade_display(skill['GRADE_LEVEL_NAME'])}**\n\n{skill['SKILL_NAME']}")
+                                
+                                with col3:
+                                    # Prerequisite indicator
+                                    if pd.notna(skill.get('PREREQUISITE_SKILL_ID')):
+                                        st.caption("⬆️ Has prereq")
+                                    else:
+                                        st.caption("🌟 First")
+                                
+                                with col4:
+                                    # Mapping status
+                                    mappings_df = loader.load_llm_skill_mappings()
+                                    if not mappings_df.empty and skill['SKILL_ID'] in mappings_df['SKILL_ID'].values:
+                                        st.success("✅ Mapped")
+                                    else:
+                                        st.caption("⏳ Not mapped")
+                                
+                                # Show arrow between skills
+                                if idx < len(chain_skills) - 1:
+                                    st.markdown("<div style='text-align: center; font-size: 24px;'>↓</div>", unsafe_allow_html=True)
+                            
+                            st.markdown("---")
+                            st.markdown("#### 📋 Skills Table")
+                            
+                            # Show detailed table
+                            display_cols = ['SKILL_NAME', 'GRADE_LEVEL_NAME', 'COMPLEXITY_LEVEL', 'SKILL_AREA_NAME']
+                            st.dataframe(chain_skills[display_cols], use_container_width=True)
+                        else:
+                            st.warning("No skills found for this chain.")
+                else:
+                    st.info("No progression chains found.")
+            else:
+                st.warning("⚠️ Progression chains summary not found. Run `python analysis/variant_classifier.py` to generate.")
         
         with tab3:
             st.markdown("### Unique Skills")
@@ -2088,13 +2241,13 @@ elif page == "🔗 Variant Analysis":
                                         for _, skill in auth_skills.iterrows():
                                             grade = skill.get('GRADE_LEVEL_SHORT_NAME') or skill.get('GRADE_LEVEL_NAME_variant', 'Unknown')
                                             skill_name = skill.get('SKILL_NAME_variant') or skill.get('SKILL_NAME', 'Unknown')
-                                            st.markdown(f"- Grade {grade}: {skill_name}")
+                                            st.markdown(f"- {format_grade_display(grade)}: {skill_name}")
                                 else:
                                     # Fallback if no authority column
                                     for _, skill in group_details.iterrows():
                                         grade = skill.get('GRADE_LEVEL_SHORT_NAME') or skill.get('GRADE_LEVEL_NAME_variant', 'Unknown')
                                         skill_name = skill.get('SKILL_NAME_variant') or skill.get('SKILL_NAME', 'Unknown')
-                                        st.markdown(f"- Grade {grade}: {skill_name}")
+                                        st.markdown(f"- {format_grade_display(grade)}: {skill_name}")
                             
                             # Link to Master Concept Browser
                             if has_concept:

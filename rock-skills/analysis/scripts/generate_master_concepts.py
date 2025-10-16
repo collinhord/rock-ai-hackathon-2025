@@ -163,16 +163,120 @@ def determine_confidence(confidence_values: List[str]) -> str:
         return "Low"
 
 
+def determine_complexity_band(grade_levels: List[str]) -> str:
+    """
+    Determine complexity band from grade levels.
+    
+    Args:
+        grade_levels: List of grade level names
+        
+    Returns:
+        Complexity band: "K-2", "3-5", "6-8", "9-12", or "Mixed"
+    """
+    if not grade_levels:
+        return "Unknown"
+    
+    # Define bands
+    bands = {
+        'K-2': ['Pre-K', 'PK', 'K', '1', '2'],
+        '3-5': ['3', '4', '5'],
+        '6-8': ['6', '7', '8'],
+        '9-12': ['9', '10', '11', '12']
+    }
+    
+    # Normalize grade levels
+    normalized = [str(g).strip() for g in grade_levels if pd.notna(g)]
+    
+    # Count which bands are represented
+    band_counts = {band: 0 for band in bands}
+    for grade in normalized:
+        for band_name, band_grades in bands.items():
+            if grade in band_grades:
+                band_counts[band_name] += 1
+                break
+    
+    # Get primary band (most represented)
+    if sum(band_counts.values()) == 0:
+        return "Unknown"
+    
+    max_band = max(band_counts.items(), key=lambda x: x[1])
+    
+    # If multiple bands represented, return "Mixed"
+    active_bands = [b for b, c in band_counts.items() if c > 0]
+    if len(active_bands) > 1:
+        return "Mixed"
+    
+    return max_band[0]
+
+
+def enrich_concept_with_metadata(concept_skills: pd.DataFrame, 
+                                 metadata_df: pd.DataFrame) -> Dict:
+    """
+    Add pedagogical metadata to master concept definition.
+    
+    Args:
+        concept_skills: DataFrame of skills in this concept
+        metadata_df: DataFrame with metadata enrichment
+        
+    Returns:
+        Dictionary with aggregated metadata fields
+    """
+    enrichment = {
+        'TEXT_TYPE': None,
+        'TEXT_MODE': None,
+        'SKILL_DOMAIN': None
+    }
+    
+    # Return early if no metadata available
+    if metadata_df is None or metadata_df.empty:
+        return enrichment
+    
+    # Merge skills with metadata
+    skill_ids = concept_skills['SKILL_ID'].tolist()
+    skill_metadata = metadata_df[metadata_df['SKILL_ID'].isin(skill_ids)]
+    
+    if skill_metadata.empty:
+        return enrichment
+    
+    # Find most common values for each field
+    for field in ['text_type', 'text_mode', 'skill_domain']:
+        values = skill_metadata[field].dropna()
+        if not values.empty:
+            # Get most common, exclude "not_applicable"
+            value_counts = values.value_counts()
+            non_na_values = value_counts[value_counts.index != 'not_applicable']
+            if not non_na_values.empty:
+                enrichment[field.upper()] = non_na_values.index[0]
+    
+    return enrichment
+
+
 def generate_master_concepts(variants_df: pd.DataFrame, 
                              mappings_df: pd.DataFrame, 
                              taxonomy_df: pd.DataFrame,
-                             skills_df: pd.DataFrame) -> pd.DataFrame:
-    """Generate master concepts from State A variant groups."""
+                             skills_df: pd.DataFrame,
+                             metadata_df: Optional[pd.DataFrame] = None) -> pd.DataFrame:
+    """
+    Generate master concepts from State A variant groups.
+    
+    Args:
+        variants_df: Variant classification data
+        mappings_df: LLM skill mappings
+        taxonomy_df: Science of Reading taxonomy
+        skills_df: ROCK skills data
+        metadata_df: Optional metadata enrichment data
+        
+    Returns:
+        DataFrame of master concepts with complexity bands and metadata
+    """
     print("\nGenerating master concepts from State A groups...")
     
     # Filter to State A (cross-state variants)
     state_a_skills = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'state-variant'].copy()
     print(f"  Found {len(state_a_skills):,} State A skills in {state_a_skills['EQUIVALENCE_GROUP_ID'].nunique()} groups")
+    
+    if metadata_df is not None and not metadata_df.empty:
+        print(f"  Using metadata enrichment from {len(metadata_df):,} skills")
     
     master_concepts = []
     concept_id_counter = 1
@@ -223,6 +327,13 @@ def generate_master_concepts(variants_df: pd.DataFrame,
         confidences = group_mappings['CONFIDENCE'].dropna().tolist()
         taxonomy_confidence = determine_confidence(confidences)
         
+        # Determine complexity band
+        grade_levels = group_with_grades['GRADE_LEVEL_SHORT_NAME'].tolist()
+        complexity_band = determine_complexity_band(grade_levels)
+        
+        # Enrich with metadata if available
+        metadata_enrichment = enrich_concept_with_metadata(group_skills, metadata_df)
+        
         # Create master concept
         master_concept = {
             'MASTER_CONCEPT_ID': f"MC-SA-{concept_id_counter:04d}",
@@ -234,6 +345,11 @@ def generate_master_concepts(variants_df: pd.DataFrame,
             'SKILL_COUNT': skill_count,
             'AUTHORITY_COUNT': authority_count,
             'GRADE_RANGE': grade_range,
+            'COMPLEXITY_BAND': complexity_band,
+            'TEXT_TYPE': metadata_enrichment.get('TEXT_TYPE'),
+            'TEXT_MODE': metadata_enrichment.get('TEXT_MODE'),
+            'SKILL_DOMAIN': metadata_enrichment.get('SKILL_DOMAIN'),
+            'PREREQUISITE_CONCEPT_ID': None,  # TODO: Implement prerequisite tracking
             'EQUIVALENCE_GROUP_ID': group_id,
             'TAXONOMY_CONFIDENCE': taxonomy_confidence
         }
@@ -374,8 +490,21 @@ def main():
     # Load data
     variants_df, mappings_df, taxonomy_df, skills_df = load_data()
     
+    # Try to load metadata enrichment (optional)
+    metadata_df = None
+    metadata_path = BASE_DIR / 'analysis' / 'outputs' / 'skill_metadata_enriched.csv'
+    
+    if metadata_path.exists():
+        print(f"\n📊 Loading metadata enrichment from {metadata_path.name}...")
+        metadata_df = pd.read_csv(metadata_path)
+        print(f"   Found metadata for {len(metadata_df):,} skills")
+    else:
+        print(f"\n⚠️  No metadata enrichment found at {metadata_path}")
+        print("   Master concepts will be generated without text_type/text_mode/skill_domain fields")
+        print("   To add metadata: run `python analysis/scripts/metadata_extractor.py`")
+    
     # Generate master concepts
-    concepts_df = generate_master_concepts(variants_df, mappings_df, taxonomy_df, skills_df)
+    concepts_df = generate_master_concepts(variants_df, mappings_df, taxonomy_df, skills_df, metadata_df)
     
     # Generate skill mappings
     skill_mappings_df = generate_skill_mapping(variants_df, mappings_df, concepts_df, skills_df)

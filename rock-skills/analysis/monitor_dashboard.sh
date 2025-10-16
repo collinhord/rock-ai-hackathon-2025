@@ -90,8 +90,11 @@ show_dashboard() {
     
     # Check current batch progress
     CURRENT_BATCH_DIR=$(ls -td outputs/ela_batch_* 2>/dev/null | head -1)
-    if [ -n "$CURRENT_BATCH_DIR" ] && [ -f "$CURRENT_BATCH_DIR"/checkpoint_*.csv ]; then
-        CHECKPOINT=$(ls -t "$CURRENT_BATCH_DIR"/checkpoint_*.csv | head -1)
+    if [ -n "$CURRENT_BATCH_DIR" ]; then
+        CHECKPOINT=$(ls -t "$CURRENT_BATCH_DIR"/checkpoint_*.csv 2>/dev/null | head -1)
+    fi
+    
+    if [ -n "$CHECKPOINT" ] && [ -f "$CHECKPOINT" ]; then
         SKILLS_DONE=$(($(wc -l < "$CHECKPOINT") - 1))
         BATCH_PERCENT=$((SKILLS_DONE * 100 / 200))
         
