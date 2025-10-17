@@ -10,6 +10,13 @@ This directory contains historical hackathon work and prototypes that have been 
 **Reason**: Prototype created during hackathon. Core functionality (Bedrock client) has been moved to `shared/llm/bedrock_client.py` and enhanced.  
 **Value**: Demonstrates excellent code organization patterns that were replicated across the platform.
 
+### `rock-skills-poc-legacy/`
+**Original**: `/rock-skills/poc/`  
+**Archived**: October 17, 2025 (Post-migration cleanup)  
+**Reason**: Legacy POC application superseded by reorganized workspace structure. Not part of final platform architecture.  
+**Content**: Skills Bridge Explorer prototype (10 files: 6 Python, 4 Markdown)  
+**Value**: Demonstrates early UI/UX concepts and application flow.
+
 ### `backups/`
 **Original**: `/rock-skills/backups/`  
 **Archived**: October 17, 2025  
