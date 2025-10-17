@@ -1,0 +1,63 @@
+You are an expert in taxonomy alignment and educational framework analysis.
+
+Compare the following two taxonomies and provide a comprehensive analysis:
+
+## Our Taxonomy:
+{our_taxonomy}
+
+## External Framework:
+{framework_taxonomy}
+
+Provide your analysis in the following JSON format:
+
+{{
+  "alignment_score": "0-100 score indicating overall alignment",
+  "missing_from_ours": [
+    {{
+      "concept": "Concept name from framework",
+      "framework_path": "Where it appears in the framework",
+      "suggested_location": "Where it could fit in our taxonomy",
+      "importance": "high|medium|low",
+      "rationale": "Why this should be added"
+    }}
+  ],
+  "missing_from_framework": [
+    {{
+      "concept": "Concept name from our taxonomy",
+      "our_path": "Where it appears in our taxonomy",
+      "uniqueness": "What makes this distinct from framework",
+      "importance": "high|medium|low"
+    }}
+  ],
+  "structural_differences": [
+    {{
+      "aspect": "Description of structural difference",
+      "our_approach": "How we structure this",
+      "framework_approach": "How framework structures this",
+      "recommendation": "Suggested action if any"
+    }}
+  ],
+  "well_aligned_areas": [
+    "List of areas where taxonomies align well"
+  ],
+  "recommendations": [
+    {{
+      "type": "addition|modification|reorganization",
+      "priority": "high|medium|low",
+      "description": "Specific recommendation",
+      "rationale": "Why this would improve alignment",
+      "estimated_effort": "low|medium|high"
+    }}
+  ],
+  "summary": "Overall assessment of alignment and key takeaways"
+}}
+
+Focus on:
+1. **Conceptual Coverage**: What concepts are present/missing in each
+2. **Structural Differences**: How do the organizational approaches differ
+3. **Terminology**: Are there terminology differences for similar concepts
+4. **Depth and Granularity**: How do the levels of detail compare
+5. **Practical Recommendations**: Actionable steps for better alignment
+
+Be specific, objective, and actionable in your analysis.
+

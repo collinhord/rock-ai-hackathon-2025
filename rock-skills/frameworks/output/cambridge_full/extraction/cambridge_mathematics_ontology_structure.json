@@ -1,0 +1,35 @@
+{
+  "levels": [
+    {
+      "level_name": "Layer",
+      "level_number": 1,
+      "description": "Major organizational divisions of the framework (Mathematical Ideas, Research, Glossary, Add-on Modules)",
+      "example": "Mathematical Ideas Layer"
+    },
+    {
+      "level_name": "Waypoint",
+      "level_number": 2,
+      "description": "Places where learners acquire knowledge, familiarity or expertise; nodes representing mathematical ideas",
+      "example": "Identifying and comparing angles"
+    },
+    {
+      "level_name": "Theme",
+      "level_number": 3,
+      "description": "Relationships/edges connecting waypoints, representing development or use of concepts/skills/procedures",
+      "example": "Angles (Development of)"
+    },
+    {
+      "level_name": "Student Action",
+      "level_number": 4,
+      "description": "Specific activities students engage in to build understanding at a waypoint",
+      "example": "Classifying, Representing, Analyzing"
+    }
+  ],
+  "rationale": "The Cambridge Mathematics Framework uses a graph database structure where mathematical ideas are nodes (waypoints) connected by edges (themes). This differs from traditional hierarchical curriculum structures by emphasizing interconnectedness and multiple pathways rather than linear progressions. The framework explicitly avoids prescribing teaching order or student trajectories, instead providing a conceptual map that supports flexible curriculum design.",
+  "mapping_to_standard": {
+    "domain": "Corresponds to broad mathematical areas (though not explicitly structured as 'domains' in traditional sense)",
+    "concept": "Maps to Waypoints - specific mathematical ideas",
+    "skill": "Maps to Student Actions and Theme relationships",
+    "progression": "Maps to Theme edges showing 'Development of' relationships"
+  }
+}

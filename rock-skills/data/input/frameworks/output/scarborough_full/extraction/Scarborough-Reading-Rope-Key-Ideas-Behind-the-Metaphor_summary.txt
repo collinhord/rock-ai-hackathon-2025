@@ -1,0 +1,17 @@
+Taxonomy Extraction Summary
+============================================================
+
+Source: Scarborough-Reading-Rope-Key-Ideas-Behind-the-Metaphor.pdf
+Subject: ela
+Word Count: 1,747
+
+Concepts Extracted: 16
+
+Concepts by Level:
+  - Endpoint: 1
+  - Strand Bundle: 2
+  - Strand: 8
+  - Developmental Characteristic: 2
+  - Performance Indicator: 1
+  - Developmental Principle: 1
+  - Difficulty Pattern: 1

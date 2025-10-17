@@ -8,6 +8,8 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 import streamlit as st
+import json
+import glob
 
 
 class ROCKDataLoader:
@@ -66,11 +68,64 @@ class ROCKDataLoader:
     
     @st.cache_data
     def load_skill_master_concept_mapping(_self) -> pd.DataFrame:
-        """Load skill-to-master-concept bridge table."""
+        """Load skill-to-master-concept bridge table with enriched columns."""
         if 'skill_concept_mapping' not in _self._cache:
             mapping_path = _self.analysis_dir / 'skill_master_concept_mapping.csv'
             if mapping_path.exists():
-                _self._cache['skill_concept_mapping'] = pd.read_csv(mapping_path)
+                mapping_df = pd.read_csv(mapping_path)
+                
+                # Enrich with additional columns from SKILLS, MASTER_CONCEPTS, STANDARD_SKILLS, and STANDARD_SETS
+                try:
+                    # Load SKILLS table to get GRADE_LEVEL_NAME
+                    skills = _self.load_skills()
+                    if not skills.empty:
+                        # Join with SKILLS to get GRADE_LEVEL_NAME and other fields
+                        mapping_df = mapping_df.merge(
+                            skills[['SKILL_ID', 'GRADE_LEVEL_NAME', 'SKILL_AREA_NAME', 'CONTENT_AREA_NAME']],
+                            on='SKILL_ID',
+                            how='left',
+                            suffixes=('', '_skill')
+                        )
+                    
+                    # Load MASTER_CONCEPTS to get SOR taxonomy columns
+                    master_concepts = _self.load_master_concepts()
+                    if not master_concepts.empty:
+                        # Join with MASTER_CONCEPTS to get SOR_STRAND, SOR_PILLAR, SOR_DOMAIN
+                        concept_cols = ['MASTER_CONCEPT_ID', 'SOR_STRAND', 'SOR_PILLAR', 'SOR_DOMAIN']
+                        available_cols = [col for col in concept_cols if col in master_concepts.columns]
+                        if 'MASTER_CONCEPT_ID' in available_cols:
+                            mapping_df = mapping_df.merge(
+                                master_concepts[available_cols],
+                                on='MASTER_CONCEPT_ID',
+                                how='left',
+                                suffixes=('', '_concept')
+                            )
+                    
+                    # Load STANDARD_SKILLS and STANDARD_SETS to get EDUCATION_AUTHORITY
+                    standard_skills = _self.load_standard_skills()
+                    standard_sets = _self.load_standard_sets()
+                    
+                    if not standard_skills.empty and not standard_sets.empty:
+                        # Join to get STANDARD_SET_ID for each SKILL_ID
+                        skill_to_set = standard_skills[['SKILL_ID', 'STANDARD_SET_ID']].drop_duplicates()
+                        
+                        # Join with STANDARD_SETS to get EDUCATION_AUTHORITY
+                        skill_to_authority = skill_to_set.merge(
+                            standard_sets[['STANDARD_SET_ID', 'EDUCATION_AUTHORITY']],
+                            on='STANDARD_SET_ID',
+                            how='left'
+                        ).drop_duplicates(subset=['SKILL_ID'])
+                        
+                        # Join with mapping
+                        mapping_df = mapping_df.merge(
+                            skill_to_authority[['SKILL_ID', 'EDUCATION_AUTHORITY']],
+                            on='SKILL_ID',
+                            how='left'
+                        )
+                except Exception as e:
+                    st.warning(f"Could not enrich mapping data: {e}")
+                
+                _self._cache['skill_concept_mapping'] = mapping_df
             else:
                 _self._cache['skill_concept_mapping'] = pd.DataFrame()
         return _self._cache['skill_concept_mapping']
@@ -143,6 +198,80 @@ class ROCKDataLoader:
             else:
                 _self._cache['variants'] = pd.DataFrame()
         return _self._cache['variants']
+    
+    @st.cache_data
+    def load_base_skills(_self) -> pd.DataFrame:
+        """Load base skills summary from JSON files with taxonomy mappings."""
+        if 'base_skills' not in _self._cache:
+            # Load from base_skills_summary.json
+            base_skills_dir = _self.schema_dir.parent / 'taxonomy' / 'base_skills'
+            summary_path = base_skills_dir / 'base_skills_summary.json'
+            
+            if summary_path.exists():
+                with open(summary_path, 'r') as f:
+                    base_skills_list = json.load(f)
+                base_skills_df = pd.DataFrame(base_skills_list)
+            else:
+                # Try loading individual files
+                base_skills_data = []
+                if base_skills_dir.exists():
+                    for json_file in sorted(base_skills_dir.glob('BS-*.json')):
+                        with open(json_file, 'r') as f:
+                            base_skills_data.append(json.load(f))
+                
+                if base_skills_data:
+                    base_skills_df = pd.DataFrame(base_skills_data)
+                else:
+                    base_skills_df = pd.DataFrame()
+            
+            # Load taxonomy mappings if available
+            if not base_skills_df.empty:
+                taxonomy_mapping_path = base_skills_dir / 'base_skills_taxonomy_mapping.csv'
+                if taxonomy_mapping_path.exists():
+                    taxonomy_mappings = pd.read_csv(taxonomy_mapping_path)
+                    # Merge taxonomy mappings into base skills
+                    base_skills_df = base_skills_df.merge(
+                        taxonomy_mappings[['base_skill_id', 'taxonomy_strand', 'taxonomy_pillar', 
+                                          'taxonomy_domain', 'taxonomy_notes']],
+                        on='base_skill_id',
+                        how='left'
+                    )
+                    # Add taxonomy source indicator
+                    base_skills_df['taxonomy_source'] = base_skills_df['taxonomy_strand'].apply(
+                        lambda x: 'Manually Mapped' if pd.notna(x) else None
+                    )
+            
+            _self._cache['base_skills'] = base_skills_df
+        
+        return _self._cache['base_skills']
+    
+    @st.cache_data
+    def load_skill_specifications(_self) -> pd.DataFrame:
+        """Load enhanced metadata as skill specifications."""
+        if 'specifications' not in _self._cache:
+            # Try to load the most recent enhanced metadata file
+            metadata_dir = _self.analysis_dir / 'outputs' / 'filtered_enhanced_metadata'
+            
+            if metadata_dir.exists():
+                # Find the most recent skill_metadata_enhanced file
+                metadata_files = sorted(metadata_dir.glob('skill_metadata_enhanced_*.csv'))
+                
+                if metadata_files:
+                    # Load the most recent file
+                    latest_file = metadata_files[-1]
+                    _self._cache['specifications'] = pd.read_csv(latest_file)
+                else:
+                    _self._cache['specifications'] = pd.DataFrame()
+            else:
+                _self._cache['specifications'] = pd.DataFrame()
+        
+        return _self._cache['specifications']
+    
+    @st.cache_data
+    def load_taxonomy_hierarchy(_self) -> pd.DataFrame:
+        """Load Science of Reading taxonomy for hierarchical browsing."""
+        # This is the same as load_sor_taxonomy, kept for consistency
+        return _self.load_sor_taxonomy()
     
     @st.cache_data
     def load_standard_sets(_self) -> pd.DataFrame:
@@ -348,26 +477,14 @@ class ROCKDataLoader:
     def get_skills_by_master_concept_id(self, concept_id: str) -> pd.DataFrame:
         """Get all ROCK skills mapped to a master concept using bridge table."""
         skill_mapping = self.load_skill_master_concept_mapping()
-        skills = self.load_skills()
         
         if skill_mapping.empty:
             return pd.DataFrame()
         
-        # Filter mapping by concept ID
+        # Filter mapping by concept ID (mapping is already enriched with skill details)
         concept_skills = skill_mapping[skill_mapping['MASTER_CONCEPT_ID'] == concept_id]
         
-        if concept_skills.empty:
-            return pd.DataFrame()
-        
-        # Join with full skill details
-        result = concept_skills.merge(
-            skills,
-            on='SKILL_ID',
-            how='left',
-            suffixes=('_mapping', '_skill')
-        )
-        
-        return result
+        return concept_skills
     
     def get_master_concept_for_skill(self, skill_id: str) -> Optional[Dict]:
         """Reverse lookup: find master concept for a given skill."""
@@ -732,4 +849,36 @@ class ROCKDataLoader:
                 },
                 'mode': 'with_bridge'
             }
+    
+    # ============================================================================
+    # BASE SKILLS METHODS (for demo)
+    # ============================================================================
+    
+    def get_base_skill_by_id(self, base_skill_id: str) -> Optional[pd.Series]:
+        """Get base skill details by ID."""
+        base_skills = self.load_base_skills()
+        if base_skills.empty:
+            return None
+        
+        skill = base_skills[base_skills['base_skill_id'] == base_skill_id]
+        if skill.empty:
+            return None
+        
+        return skill.iloc[0]
+    
+    def get_rock_skills_for_base_skill(self, base_skill_name: str) -> pd.DataFrame:
+        """
+        Get all ROCK skills that map to a specific base skill.
+        Uses the enhanced metadata to find matching skills.
+        """
+        specifications = self.load_skill_specifications()
+        
+        if specifications.empty:
+            return pd.DataFrame()
+        
+        # For now, we'll match on similar skill names since we don't have explicit mapping
+        # In production, this would use a proper base_skill_id mapping table
+        mask = specifications['SKILL_NAME'].str.contains(base_skill_name.split()[0], case=False, na=False)
+        
+        return specifications[mask]
 

@@ -1,0 +1,29 @@
+ROCK Skills Metadata Enrichment Summary
+============================================================
+Date: 2025-10-16 14:57:24
+Skills Processed: 2900
+Time Elapsed: 16871.8s
+Avg Time per Skill: 5.8s
+
+Confidence Distribution:
+  high: 2898 (99.9%)
+  medium: 2 (0.1%)
+
+Skill Domain Distribution:
+  reading: 1737 (59.9%)
+  language: 751 (25.9%)
+  writing: 298 (10.3%)
+  speaking: 65 (2.2%)
+  listening: 42 (1.4%)
+  not_applicable: 7 (0.2%)
+
+Text Type Distribution:
+  mixed: 857 (29.6%)
+  not_applicable: 771 (26.6%)
+  informational: 665 (22.9%)
+  fictional: 607 (20.9%)
+
+LLM Usage:
+  API Calls: 2900
+  Total Tokens: 1,811,087
+  Estimated Cost: $10.58

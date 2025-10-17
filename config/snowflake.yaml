@@ -1,0 +1,26 @@
+# Snowflake Configuration
+# 
+# This file configures data access to the ROCK database in Snowflake.
+# Credentials should be provided via environment variables:
+#   - SNOWFLAKE_USER
+#   - SNOWFLAKE_PASSWORD
+
+snowflake:
+  account: "your-account.us-east-1"
+  warehouse: "ROCK_WAREHOUSE"
+  database: "ROCK_DB"
+  schema: "SKILLS"
+  
+  tables:
+    skills: "SKILLS"
+    skill_areas: "SKILL_AREAS"
+    standards: "STANDARDS"
+    standard_skills: "STANDARD_SKILLS"
+    standard_sets: "STANDARD_SETS"
+    standard_set_domains: "STANDARD_SET_DOMAINS"
+    
+cache:
+  enabled: true
+  ttl_hours: 24
+  directory: "data/cache/"
+

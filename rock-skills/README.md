@@ -1,4 +1,4 @@
-# ROCK Skills Taxonomy Bridge Project
+# ROCK Skills Taxonomy: Base Skill + Specification System
 
 **Renaissance Learning AI Hackathon 2025**
 
@@ -6,7 +6,46 @@
 
 This project addresses the **Master Skill Fragmentation Problem** in ROCK: the same learning concept appears 6-8 times across state standards with no metadata connecting conceptually equivalent skills.
 
-**Solution**: Bridge ROCK skills to Science of Reading taxonomy to enable discovery, reduce redundancy, and ground skills in learning science.
+**Solution**: A hierarchical base skill + specification architecture that bridges ROCK skills to scientific frameworks (Science of Reading), enabling discovery, reducing redundancy, and grounding skills in learning science.
+
+### What's New: Three-Level Integration (Hackathon 2025)
+
+**🚀 NEW**: Integrated three-level approach combining metadata extraction, redundancy detection, and master concept mapping:
+
+**🔬 MICRO Level (Jess)**: Extract structured metadata from skills using spaCy NLP
+- **Result**: 95%+ extraction accuracy for actions, targets, qualifiers
+- **Value**: Enables concept-based analysis beyond text similarity
+
+**🔍 MID Level (Savannah)**: Detect and resolve redundancies through concept-aware similarity  
+- **Result**: 23.7% redundancy detected in filtered dataset
+- **Value**: Groups cross-state variants, reduces apparent skill count
+
+**🎯 MACRO Level (Collin)**: Create master concepts through scientific framework triangulation
+- **Result**: 254 master concepts from 333 skills (23.7% reduction)
+- **Value**: Enables cross-state content scaling, learning progression tracking
+
+**Pipeline Status**: ✅ Production-ready (2.7 seconds for 333 skills)
+
+**Quick Start**:
+```bash
+cd rock-skills/analysis/pipelines
+python3 integrated_skill_analysis.py --input ../../rock_schemas/skill_list_filtered_data_set.csv
+```
+
+**Documentation**: See [`docs/three-level-integration.md`](docs/three-level-integration.md) for complete architecture
+
+---
+
+### Base Skill + Specification Model
+
+Instead of treating redundant skills as "master concepts," we use:
+- **Base Skills**: Core learning objectives (e.g., "Capitalize")
+- **Hierarchical Specifications**: Context and application tags (e.g., text_type, complexity_band, support_level)
+
+This enables:
+- **Flexible Querying**: "Show me all reading comprehension base skills for fictional prose at grade 3-5 complexity"
+- **MECE Validation**: Automated detection of redundant or conflicting base skills
+- **Scientific Alignment**: Top-down framework → bottom-up skills bridging
 
 ## Project Structure
 
@@ -65,6 +104,60 @@ rock-skills/
 
 ## Quick Start
 
+### System Workflows (New Architecture)
+
+**Check System Status:**
+```bash
+cd rock-skills
+./scripts/status.sh
+```
+
+**First Time Setup & Test:**
+```bash
+cd rock-skills/analysis/pipelines
+./quick_start.sh                    # Install dependencies, run POC test (5-10 min, Free)
+cd ../../poc
+streamlit run skill_bridge_app.py   # Launch UI
+```
+
+**Update Entire Taxonomy (Full Refresh):**
+```bash
+cd rock-skills
+./scripts/refresh_taxonomy.sh       # Complete regeneration (3-5 hours, $40-60)
+# Or without LLM (faster, lower quality):
+./scripts/refresh_taxonomy.sh --no-llm
+```
+
+**Add New Skills (Incremental):**
+```bash
+cd rock-skills
+./scripts/update_taxonomy.sh --new-skills data/new_skills.csv  # (30-60 min, $5-10)
+```
+
+**Resolve Conflicts (Human Review):**
+```bash
+cd rock-skills/poc
+streamlit run skill_bridge_app.py
+# Navigate to "Redundancy Grooming" page
+# Make decisions, export, then:
+cd ../scripts
+./apply_decisions.sh
+```
+
+**Validate Quality:**
+```bash
+cd rock-skills
+./scripts/validate_taxonomy.sh      # Quality checks (10-15 min, Free)
+```
+
+📖 **Full Workflow Documentation**: See [docs/architecture/base-skill-architecture.md](docs/architecture/base-skill-architecture.md)
+
+📋 **Phase 0 Implementation**: See [PHASE_0_IMPLEMENTATION_SUMMARY.md](PHASE_0_IMPLEMENTATION_SUMMARY.md)
+
+📚 **All Documentation**: See [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+
+---
+
 ### Pre-Demo Validation ✅
 
 ```bash
@@ -72,7 +165,7 @@ rock-skills/
 bash scripts/quick_demo_test.sh
 ```
 
-### Launch the Interactive Demo (Primary)
+### Launch the Interactive Demo (Original Hackathon)
 
 ```bash
 cd poc

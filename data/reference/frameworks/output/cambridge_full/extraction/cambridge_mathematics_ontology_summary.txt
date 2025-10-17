@@ -1,0 +1,23 @@
+Taxonomy Extraction Summary
+============================================================
+
+Source: cambridge_mathematics_ontology.pdf
+Subject: math
+Word Count: 9,197
+
+Concepts Extracted: 30
+
+Concepts by Level:
+  - Core Framework Element: 1
+  - Waypoint Type: 2
+  - Relationship Type: 2
+  - Design Principle: 2
+  - Student Action: 9
+  - Mathematical Proficiency Component: 3
+  - Framework Layer: 3
+  - Add-on Module: 2
+  - Visualization Convention: 1
+  - Authoring Tool Feature: 1
+  - Research Layer Element: 2
+  - Technology Platform: 1
+  - Technical Infrastructure: 1
