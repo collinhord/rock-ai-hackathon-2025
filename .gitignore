@@ -37,8 +37,8 @@ TODO_PRIVATE.md
 *.tar.gz
 
 # Large ROCK data files (schemas)
-rock-skills/rock_schemas/*.csv
-rock_schemas/*.csv
+data/reference/rock_schemas/*.csv
+rock-skills/rock_data/*.csv
 
 # Generated databases and mappings
 *.db
