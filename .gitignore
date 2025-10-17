@@ -17,6 +17,8 @@
 *.tmp
 *.bak
 *.log
+*.swp
+*.swo
 
 # Personal notes
 PRIVATE_NOTES.md
@@ -56,7 +58,80 @@ rock-skills/analysis/outputs/
 rock-skills/analysis/batch_progress.txt
 rock-skills/analysis/batch_status.json
 rock-skills/analysis/llm_skill_mappings_backup_*.csv
+rock-skills/analysis/llm_skill_mappings.csv
+rock-skills/analysis/master-concepts.csv
+rock-skills/analysis/skill_master_concept_mapping.csv
+rock-skills/analysis/data_validation_report.txt
+rock-skills/analysis/*.log
+
+# Pipeline outputs
+rock-skills/analysis/outputs/
+rock-skills/taxonomy/base_skills/
+rock-skills/taxonomy/specifications/
+rock-skills/taxonomy/mappings/
+rock-skills/taxonomy/conflicts.json
+rock-skills/taxonomy/redundancies.json
 
 # Mock data (if regenerated frequently)
 rock-skills/poc/mock_data/
+rock-skills/poc/streamlit.log
+rock-skills/poc/*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Archive directories (local development history)
+.archive/
+rock-skills/.archive/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# AWS credentials
+.aws/credentials
+
+# spaCy models (downloaded separately)
+# Models are large, download with: python -m spacy download en_core_web_lg
+
+# Documentation that was generated during audit
+CODEBASE_AUDIT_PROMPT.md
+
+# ============================================
+# REORGANIZED WORKSPACE PATTERNS (2025-10-17)
+# ============================================
+
+# Project outputs (generated during runtime)
+01-skill-specification-extraction/outputs/
+02-skill-redundancy-relationships/outputs/
+03-base-skills-taxonomy/outputs/
+
+# Data cache (Snowflake query results)
+data/cache/
+
+# Project-specific logs
+01-skill-specification-extraction/*.log
+02-skill-redundancy-relationships/*.log
+03-base-skills-taxonomy/*.log
+
+# Migration tracking files
+migration_python_files.txt
+migration_tracking.txt
 

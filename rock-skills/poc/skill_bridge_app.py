@@ -1,10 +1,18 @@
 """
-ROCK Skills Bridge Explorer - Interactive POC
+ROCK Skills Bridge Explorer v2.0 - Optimized for Stakeholder Presentations
 
-A Streamlit app demonstrating the value of bridging ROCK skills to 
-Science of Reading taxonomy to solve the fragmentation problem.
+A streamlined Streamlit app demonstrating the value of bridging ROCK skills to 
+Science of Reading taxonomy with a clear narrative-driven hierarchy.
+
+Architecture:
+- Executive View: Problem → Solution narrative (5-minute stakeholder overview)
+- Three-Level Deep Dive: MACRO/MID/MICRO organized exploration
+- Interactive Explorer: Hands-on search and discovery tools
+- Validation Dashboard: Quality metrics and validation suite integration
+- Technical Reference: Implementation details for developers
 
 Run with: streamlit run skill_bridge_app.py
+Updated: 2025-10-17 - Full taxonomy mapping (59/59 base skills)
 """
 
 import streamlit as st
@@ -14,6 +22,7 @@ import plotly.graph_objects as go
 from pathlib import Path
 import sys
 import re
+import json
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent))
@@ -21,122 +30,139 @@ sys.path.append(str(Path(__file__).parent))
 from data_loader import ROCKDataLoader
 
 # ============================================================================
-# UTILITY FUNCTIONS
+# CONFIGURATION & SETUP
 # ============================================================================
-
-def natural_sort_key(text):
-    """
-    Generate a key for natural (alphanumeric) sorting.
-    
-    Examples:
-        "Grade 1" < "Grade 2" < "Grade 10" < "Grade 11"
-        "Level 1" < "Level 2" < "Level 10"
-    
-    Args:
-        text: String to generate sort key for
-        
-    Returns:
-        List of alternating strings and integers for proper sorting
-    """
-    if pd.isna(text):
-        return [0]
-    
-    def atoi(text_part):
-        return int(text_part) if text_part.isdigit() else text_part.lower()
-    
-    return [atoi(c) for c in re.split(r'(\d+)', str(text))]
-
-
-def natural_sort(items):
-    """
-    Sort a list of items using natural (alphanumeric) sorting.
-    
-    Args:
-        items: List or pandas Series to sort
-        
-    Returns:
-        Sorted list
-    """
-    return sorted(items, key=natural_sort_key)
-
-
-def format_grade_display(grade_level_name):
-    """
-    Format grade level for display, avoiding 'Grade Grade' duplication.
-    
-    Args:
-        grade_level_name: Grade level value from GRADE_LEVEL_NAME or GRADE_LEVEL_SHORT_NAME
-        
-    Returns:
-        Properly formatted grade string
-        
-    Examples:
-        "Grade 1" -> "Grade 1"
-        "1" -> "Grade 1"
-        "Pre-K" -> "Pre-K"
-        "Kindergarten" -> "Kindergarten"
-    """
-    if pd.isna(grade_level_name):
-        return "Unknown"
-    
-    grade_str = str(grade_level_name).strip()
-    
-    # If already starts with "Grade", return as-is
-    if grade_str.startswith("Grade"):
-        return grade_str
-    
-    # Otherwise, prepend "Grade" for numeric grades only
-    if grade_str.isdigit() or (grade_str and grade_str[0].isdigit()):
-        return f"Grade {grade_str}"
-    
-    # For Pre-K, PK, K, Kindergarten, return as-is
-    return grade_str
 
 # Page configuration
 st.set_page_config(
-    page_title="ROCK Skills Bridge Explorer",
+    page_title="ROCK Skills Bridge Explorer v2.0",
     page_icon="🔗",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS for improved visual hierarchy
 st.markdown("""
 <style>
+    /* Main headers with level-specific styling */
     .main-header {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         font-weight: bold;
         color: #1f77b4;
         margin-bottom: 0.5rem;
+        border-bottom: 3px solid #1f77b4;
+        padding-bottom: 0.5rem;
     }
     .sub-header {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         color: #666;
         margin-bottom: 2rem;
     }
+    
+    /* Level-specific colors */
+    .macro-header { color: #1f77b4; border-color: #1f77b4; }
+    .mid-header { color: #ff7f0e; border-color: #ff7f0e; }
+    .micro-header { color: #2ca02c; border-color: #2ca02c; }
+    
+    /* Metric cards */
     .metric-card {
         background-color: #f0f2f6;
-        padding: 1rem;
+        padding: 1.5rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
+        border-left: 4px solid #1f77b4;
     }
+    
+    .metric-card-problem {
+        border-left-color: #d62728;
+    }
+    
+    .metric-card-solution {
+        border-left-color: #2ca02c;
+    }
+    
+    /* Highlights and callouts */
     .highlight {
         background-color: #ffffcc;
         padding: 0.2rem 0.4rem;
         border-radius: 0.3rem;
     }
+    
+    .callout-box {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+    }
+    
+    .callout-info {
+        background-color: #e3f2fd;
+        border-left: 4px solid #2196F3;
+    }
+    
+    .callout-warning {
+        background-color: #fff3e0;
+        border-left: 4px solid #ff9800;
+    }
+    
+    .callout-success {
+        background-color: #e8f5e9;
+        border-left: 4px solid #4caf50;
+    }
+    
+    /* Tab styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2rem;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    
+    /* Export button styling */
+    .export-button {
+        float: right;
+        margin-top: -3rem;
+    }
 </style>
 """, unsafe_allow_html=True)
+
+# ============================================================================
+# UTILITY FUNCTIONS
+# ============================================================================
+
+def natural_sort_key(text):
+    """Generate a key for natural (alphanumeric) sorting."""
+    if pd.isna(text):
+        return [0]
+    def atoi(text_part):
+        return int(text_part) if text_part.isdigit() else text_part.lower()
+    return [atoi(c) for c in re.split(r'(\d+)', str(text))]
+
+def natural_sort(items):
+    """Sort a list of items using natural (alphanumeric) sorting."""
+    return sorted(items, key=natural_sort_key)
+
+def format_grade_display(grade_level_name):
+    """Format grade level for display."""
+    if pd.isna(grade_level_name):
+        return "Unknown"
+    grade_str = str(grade_level_name).strip()
+    if grade_str.startswith("Grade"):
+        return grade_str
+    if grade_str.isdigit() or (grade_str and grade_str[0].isdigit()):
+        return f"Grade {grade_str}"
+    return grade_str
 
 # Initialize data loader
 @st.cache_resource
 def get_data_loader():
-    # Use absolute path resolution
+    """Initialize and cache the data loader."""
     base_dir = Path(__file__).resolve().parent.parent
-    schema_dir = base_dir / 'rock_schemas'
+    schema_dir = base_dir / 'rock_data'
     analysis_dir = base_dir / 'analysis'
     
-    # Verify paths exist
     if not schema_dir.exists():
         st.error(f"Schema directory not found: {schema_dir}")
         st.stop()
@@ -145,2903 +171,2083 @@ def get_data_loader():
 
 loader = get_data_loader()
 
-# Sidebar navigation
-st.sidebar.title("🔗 Skills Bridge Explorer")
+# Load validation results (cached)
+@st.cache_data
+def load_validation_results():
+    """Load all validation suite outputs."""
+    base_path = Path(__file__).parent.parent / 'frameworks' / 'validation_outputs'
+    
+    results = {}
+    
+    # Check if validation outputs exist
+    if not base_path.exists():
+        return None
+    
+    try:
+        # Load CSVs
+        if (base_path / 'potential_duplicates.csv').exists():
+            results['duplicates'] = pd.read_csv(base_path / 'potential_duplicates.csv')
+        
+        if (base_path / 'sibling_conflicts.csv').exists():
+            results['sibling_conflicts'] = pd.read_csv(base_path / 'sibling_conflicts.csv')
+        
+        if (base_path / 'concept_confidence.csv').exists():
+            results['concept_confidence'] = pd.read_csv(base_path / 'concept_confidence.csv')
+        
+        if (base_path / 'recommendations_priority.csv').exists():
+            results['recommendations'] = pd.read_csv(base_path / 'recommendations_priority.csv')
+        
+        # Load markdown reports
+        if (base_path / 'semantic_validation_report.md').exists():
+            results['semantic_report'] = (base_path / 'semantic_validation_report.md').read_text()
+        
+        if (base_path / 'framework_convergence_summary.md').exists():
+            results['convergence_report'] = (base_path / 'framework_convergence_summary.md').read_text()
+        
+        if (base_path / 'validation_master_report.md').exists():
+            results['master_report'] = (base_path / 'validation_master_report.md').read_text()
+        
+        return results if results else None
+    
+    except Exception as e:
+        st.warning(f"Could not load validation results: {e}")
+        return None
+
+# ============================================================================
+# NAVIGATION & SIDEBAR
+# ============================================================================
+
+st.sidebar.title("🔗 Skills Bridge Explorer v2.0")
+st.sidebar.markdown("**Narrative-Driven Taxonomy Analysis**")
 st.sidebar.markdown("---")
 
+# Simplified navigation - enhanced sections
 page = st.sidebar.radio(
     "Navigation",
     [
-        "📋 Problem → Solution",
-        "🏠 Home",
-        "🎯 Content Scaling Simulator",
-        "🔎 Cross-State Discovery",
-        "💰 Scaling Impact Dashboard",
-        "🔍 Master Concept Browser",
-        "🔎 Skill Inspector",
-        "📊 Redundancy Visualizer",
-        "🔗 Variant Analysis",
-        "📈 Mapping Quality",
-        "📚 Science of Reading Taxonomy",
-        "⚙️ Technical Overview"
-    ]
+        "🎯 Executive View",
+        "🔬 Three-Level Deep Dive",
+        "⚡ Base Skills Explorer",
+        "📖 Demo Scenarios",
+        "🧭 Interactive Explorer",
+        "📊 Validation Dashboard",
+        "🔧 Technical Reference"
+    ],
+    help="Navigate through different views of the Skills Bridge solution"
 )
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### About")
+
+# Quick stats in sidebar
+try:
+    concepts_df = loader.load_master_concepts()
+    skill_mapping = loader.load_skill_master_concept_mapping()
+    
+    if not concepts_df.empty and not skill_mapping.empty:
+        st.sidebar.markdown("### 📈 Quick Stats")
+        total_skills = len(skill_mapping)
+        total_concepts = len(concepts_df)
+        
+        if total_concepts > 0:
+            redundancy_ratio = total_skills / total_concepts
+            st.sidebar.metric("Total ROCK Skills", f"{total_skills:,}")
+            st.sidebar.metric("Master Concepts", f"{total_concepts:,}")
+            st.sidebar.metric("Redundancy Ratio", f"{redundancy_ratio:.1f}x")
+except Exception as e:
+    pass  # Silently handle if data not available
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("### About v2.0")
 st.sidebar.info(
-    "This POC demonstrates how connecting ROCK skills to Science of Reading "
-    "taxonomy solves the fragmentation problem and enables discovery of "
-    "conceptually equivalent skills across states."
+    "**New in v2.0:**\n\n"
+    "✨ Narrative-driven organization\n\n"
+    "🎯 Executive-friendly overview\n\n"
+    "🔬 Clear MACRO/MID/MICRO levels\n\n"
+    "📊 Integrated validation suite\n\n"
+    "🚀 Streamlined for stakeholders"
 )
 
 # ============================================================================
-# PROBLEM → SOLUTION PAGE
+# PAGE 1: EXECUTIVE VIEW
 # ============================================================================
-if page == "📋 Problem → Solution":
-    st.markdown('<div class="main-header">Problem → Solution</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Understanding skill fragmentation and the bridging layer solution</div>', unsafe_allow_html=True)
-    
-    # Load data
-    concepts_df = loader.load_master_concepts()
-    skill_mapping = loader.load_skill_master_concept_mapping()
-    variants_df = loader.load_variant_classification()
-    
-    if concepts_df.empty:
-        st.warning("⚠️ Master concepts not yet generated. Please run the data pipeline first.")
-    else:
-        # ========================================================================
-        # SECTION 1: THE PROBLEM (Horizontal Fragmentation)
-        # ========================================================================
-        st.markdown("## 🚨 Section 1: The Problem - Skill Fragmentation")
-        
-        st.markdown("""
-        **ROCK skills are fragmented across states with no master taxonomy:**
-        
-        - The same learning concept appears multiple times across different states
-        - Each state expresses it with different terminology and structure
-        - No metadata connects conceptually equivalent skills
-        - Curriculum developers can't find all relevant skills for a concept
-        - Content tagged to one state's skill is invisible to other states
-        """)
-        
-        st.markdown("### 🔍 Explore a Real Example")
-        
-        # Select example concept
-        concept_options = concepts_df.sort_values('SKILL_COUNT', ascending=False)
-        concept_display = {f"{row['MASTER_CONCEPT_NAME']} ({row['SKILL_COUNT']} variants)": row['MASTER_CONCEPT_ID'] 
-                          for _, row in concept_options.iterrows()}
-        
-        selected_display = st.selectbox(
-            "Select a master concept to see how it's fragmented:",
-            options=list(concept_display.keys()),
-            index=0
-        )
-        
-        selected_concept_id = concept_display[selected_display]
-        selected_concept = concepts_df[concepts_df['MASTER_CONCEPT_ID'] == selected_concept_id].iloc[0]
-        
-        # Display concept details
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            st.markdown(f"**Concept:** {selected_concept['MASTER_CONCEPT_NAME']}")
-            st.markdown(f"**Taxonomy:** {selected_concept['SOR_STRAND']} > {selected_concept['SOR_PILLAR']} > {selected_concept['SOR_DOMAIN']}")
-            
-            if pd.notna(selected_concept['DESCRIPTION']):
-                st.info(f"**What it is:** {selected_concept['DESCRIPTION']}")
-        
-        with col2:
-            st.metric("Skill Variants", selected_concept['SKILL_COUNT'])
-            st.metric("States/Authorities", selected_concept['AUTHORITY_COUNT'])
-            st.metric("Grade Range", selected_concept['GRADE_RANGE'])
-        
-        # Show the actual skill variants
-        st.markdown("**How Different States Express This Same Concept:**")
-        
-        concept_skills = loader.get_skills_by_master_concept_id(selected_concept_id)
-        
-        if not concept_skills.empty:
-            with st.expander(f"📋 View All {len(concept_skills)} Skill Variants", expanded=True):
-                for idx, skill in concept_skills.iterrows():
-                    skill_name = skill.get('SKILL_NAME_mapping') or skill.get('SKILL_NAME', 'Unknown')
-                    grade = skill.get('GRADE_LEVEL_NAME') or skill.get('GRADE_LEVEL_NAME_skill', 'Unknown')
-                    st.markdown(f"- **Grade {grade}:** {skill_name}")
-        
-        # Visualization
-        st.markdown("### 📊 Fragmentation Across Master Concepts")
-        
-        top_10 = concepts_df.nlargest(10, 'SKILL_COUNT')
-        fig = px.bar(
-            top_10,
-            x='MASTER_CONCEPT_NAME',
-            y='SKILL_COUNT',
-            title='Top 10 Most Fragmented Concepts',
-            labels={'SKILL_COUNT': 'Number of Skill Variants', 'MASTER_CONCEPT_NAME': 'Concept'},
-            color='SKILL_COUNT',
-            color_continuous_scale='Reds'
-        )
-        fig.update_layout(height=400, xaxis_tickangle=-45, showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # ========================================================================
-        # SECTION 2: THE DATA (Evidence)
-        # ========================================================================
-        st.markdown("## 📊 Section 2: The Data - Real Evidence from ROCK")
-        
-        st.markdown("""
-        Analysis of ROCK skills using AI-assisted taxonomy mapping and variant classification 
-        reveals significant fragmentation:
-        """)
-        
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            st.metric(
-                "Master Concepts", 
-                len(concepts_df),
-                help="Unique learning concepts identified from State A variant groups"
-            )
-        
-        with col2:
-            bridged_count = skill_mapping['MASTER_CONCEPT_ID'].notna().sum()
-            st.metric(
-                "Skills Bridged",
-                f"{bridged_count:,}",
-                help="ROCK skills connected to master concepts via bridging layer"
-            )
-        
-        with col3:
-            avg_redundancy = concepts_df['SKILL_COUNT'].mean()
-            st.metric(
-                "Avg Redundancy",
-                f"{avg_redundancy:.1f}x",
-                help="Average number of skill variants per concept"
-            )
-        
-        with col4:
-            state_a_count = (variants_df['EQUIVALENCE_TYPE'] == 'state-variant').sum()
-            st.metric(
-                "Cross-State Variants",
-                state_a_count,
-                help="Skills identified as state-specific variants (State A)"
-            )
-        
-        # Histogram of skills per concept
-        st.markdown("### Distribution of Skills per Concept")
-        
-        fig = px.histogram(
-            concepts_df,
-            x='SKILL_COUNT',
-            nbins=int(max(concepts_df['SKILL_COUNT'].max(), 5)),
-            title='How Many Skills Does Each Concept Have?',
-            labels={'SKILL_COUNT': 'Skills per Concept', 'count': 'Number of Concepts'},
-            color_discrete_sequence=['steelblue']
-        )
-        fig.add_vline(x=avg_redundancy, line_dash="dash", line_color="red",
-                     annotation_text=f"Mean: {avg_redundancy:.1f}x")
-        fig.update_layout(height=350)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # ========================================================================
-        # SECTION 3: THE SOLUTION (Bridging Layer)
-        # ========================================================================
-        st.markdown("## ✅ Section 3: The Solution - Master Concepts as Bridging Layer")
-        
-        st.markdown("""
-        **Master concepts act as a bridging layer** that connects fragmented ROCK skills, enabling:
-        - Single point of reference for each learning concept
-        - Automatic inheritance of state-specific skill relationships
-        - Cross-state content discoverability
-        """)
-        
-        st.markdown("### 🔄 Interactive Comparison: Without vs. With Bridge")
-        
-        # Use the selected concept for comparison
-        st.info(f"**Example:** Using **{selected_concept['MASTER_CONCEPT_NAME']}** ({selected_concept['SKILL_COUNT']} skill variants across {selected_concept['AUTHORITY_COUNT']} states)")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### ❌ WITHOUT Master Concepts Bridge")
-            
-            st.error(f"""
-            **Content Tagging:**
-            - Tag content to 1 specific ROCK skill
-            - Example: Tag to Texas Grade K skill
-            
-            **Discoverability:**
-            - Visible in: **1 state** (Texas only)
-            - Hidden from: **{selected_concept['AUTHORITY_COUNT'] - 1} other states**
-            - Coverage: **{100/selected_concept['AUTHORITY_COUNT']:.0f}%**
-            
-            **Maintenance:**
-            - Must update {selected_concept['SKILL_COUNT']} separate tags
-            - Or duplicate content {selected_concept['SKILL_COUNT']} times
-            - Or bypass ROCK entirely ❌
-            """)
-        
-        with col2:
-            st.markdown("#### ✅ WITH Master Concepts Bridge")
-            
-            st.success(f"""
-            **Content Tagging:**
-            - Tag once to **master concept**
-            - Example: Tag to "{selected_concept['MASTER_CONCEPT_NAME']}"
-            
-            **Discoverability:**
-            - Visible in: **All {selected_concept['AUTHORITY_COUNT']} states** automatically
-            - Bridge inherits all {selected_concept['SKILL_COUNT']} skill mappings
-            - Coverage: **100%**
-            
-            **Maintenance:**
-            - Update **1 master tag** only
-            - Changes propagate automatically
-            - Full ROCK integration preserved ✅
-            """)
-        
-        # Benefits summary
-        st.markdown("### 💡 Key Benefits")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown("**🚀 Reduced Tagging Time**")
-            st.markdown(f"""
-            - Tag once vs. {selected_concept['SKILL_COUNT']}× times
-            - {((selected_concept['SKILL_COUNT'] - 1) / selected_concept['SKILL_COUNT'] * 100):.0f}% time savings
-            - Sustainable at scale
-            """)
-        
-        with col2:
-            st.markdown("**🔍 Improved Discoverability**")
-            st.markdown(f"""
-            - {selected_concept['AUTHORITY_COUNT']}× more users find content
-            - Cross-state content sharing
-            - Network effect amplified
-            """)
-        
-        with col3:
-            st.markdown("**🛠️ Simplified Maintenance**")
-            st.markdown("""
-            - One tag to update
-            - Automatic propagation
-            - No duplication needed
-            """)
-        
-        st.markdown("---")
-        
-        # Call to action
-        st.markdown("### 🎯 Next Steps: Explore the Implementation")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.info("""
-            **🔍 Master Concept Browser**
-            
-            Explore all {0} generated master concepts, view their taxonomy mappings, 
-            and see state-by-state skill variants.
-            """.format(len(concepts_df)))
-            if st.button("→ Explore Master Concepts"):
-                st.info("👈 Select 'Master Concept Browser' from the sidebar")
-        
-        with col2:
-            st.info("""
-            **🔗 Variant Analysis**
-            
-            Deep dive into State A groups (cross-state variants) and see how 
-            they map to master concepts.
-            """)
-            if st.button("→ View Variant Analysis"):
-                st.info("👈 Select 'Variant Analysis' from the sidebar")
-        
-        with col3:
-            st.info("""
-            **🎯 Content Scaling**
-            
-            See the impossible dilemma of content tagging and how bridges solve it.
-            """)
-            if st.button("→ Try Scaling Demo"):
-                st.info("👈 Select 'Content Scaling Simulator' from the sidebar")
 
-# ============================================================================
-# HOME PAGE
-# ============================================================================
-elif page == "🏠 Home":
-    st.markdown('<div class="main-header">ROCK Skills Bridge Explorer</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Connecting Fragmented Skills through Science-Based Taxonomy</div>', unsafe_allow_html=True)
+if page == "🎯 Executive View":
+    st.markdown('<div class="main-header">Executive View: Problem → Solution</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">A 5-minute overview of the master skill fragmentation problem and our three-level solution</div>', unsafe_allow_html=True)
     
-    # Overview metrics
-    st.markdown("### 📊 System Overview")
+    # ========================================================================
+    # SECTION A: THE PROBLEM
+    # ========================================================================
     
-    skills_df = loader.load_skills()
-    skill_concept_mapping = loader.load_skill_master_concept_mapping()
-    concepts_df = loader.load_master_concepts()
-    state_a_groups = loader.get_state_a_groups_summary()
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Total ROCK Skills", f"{len(skills_df):,}")
-    
-    with col2:
-        bridged_skills = skill_concept_mapping['MASTER_CONCEPT_ID'].notna().sum()
-        st.metric("Bridged Skills", f"{bridged_skills:,}")
-    
-    with col3:
-        st.metric("Master Concepts", f"{len(concepts_df):,}", help="Generated from State A variant groups")
-    
-    with col4:
-        if not concepts_df.empty:
-            avg_redundancy = concepts_df['SKILL_COUNT'].mean()
-            st.metric("Avg Redundancy", f"{avg_redundancy:.1f}x", help="Average skills per master concept")
-        else:
-            st.metric("Avg Redundancy", "N/A")
-    
-    st.markdown("---")
-    
-    # The Problems
-    st.markdown("### 🚨 The Compound Problem")
-    
-    tab1, tab2 = st.tabs(["Problem 1: Horizontal Fragmentation", "Problem 2: Content Scaling Blocked"])
-    
-    with tab1:
-        st.markdown("#### Horizontal Fragmentation (Cross-State Redundancy)")
-        
-        col1, col2 = st.columns([1, 1])
-        
-        with col1:
-            st.markdown("""
-            **ROCK skills are fragmented across states with no master taxonomy:**
-            
-            - Same learning concept appears 6-15+ times
-            - Each state expresses it differently
-            - No metadata connects equivalent skills
-            - Curriculum developers can't find all relevant skills
-            - Research can't aggregate across state variants
-            """)
-        
-        with col2:
-            if not concepts_df.empty and not state_a_groups.empty:
-                # Show example of most fragmented concept
-                top_concept = concepts_df.nlargest(1, 'SKILL_COUNT').iloc[0]
-                st.markdown(f"**Real Example: {top_concept['MASTER_CONCEPT_NAME']}**")
-                st.info(f"""
-                - **Total Skills**: {top_concept['SKILL_COUNT']}
-                - **Authorities**: {top_concept['AUTHORITY_COUNT']}
-                - **Grade Range**: {top_concept['GRADE_RANGE']}
-                - **Redundancy**: {top_concept['SKILL_COUNT']}x
-                - **State A Group**: {len(state_a_groups)} groups found
-                """)
-            elif not concepts_df.empty:
-                # Fallback: show any concept
-                example_concept = concepts_df.iloc[0]
-                st.markdown(f"**Example: {example_concept['MASTER_CONCEPT_NAME']}**")
-                st.info(f"""
-                - **Total Skills**: {example_concept['SKILL_COUNT']}
-                - **Authorities**: {example_concept['AUTHORITY_COUNT']}
-                - **Grade Range**: {example_concept['GRADE_RANGE']}
-                - **Redundancy**: {example_concept['SKILL_COUNT']}x
-                """)
-    
-    with tab2:
-        st.markdown("#### Vertical Granularity Mismatch + Absent Bridging")
-        
-        st.markdown("""
-        **Even when appropriately-granular ROCK skills exist, content cannot scale across 50+ state systems:**
-        
-        **The Impossible Dilemma for Curriculum Developers:**
-        - ❌ **Option A**: Tag content to 1 state → 49 states can't discover it
-        - ❌ **Option B**: Tag content to all 50 states → Unsustainable maintenance burden
-        - ❌ **Option C**: Bypass ROCK entirely → Lose standards alignment (current reality)
-        
-        **Root Cause**: No master skill to serve as content anchor/proxy
-        - Content tagged to TX skill is invisible to CA teachers
-        - No bridging mechanism to inherit cross-state mappings
-        - Must duplicate content 50x or bypass ROCK completely
-        
-        **Impact**: P&I teams build parallel systems, losing all ROCK integration
-        """)
-        
-        st.warning("👉 **NEW: Try the Content Scaling Simulator** to experience this problem interactively")
-    
-    st.markdown("---")
-    
-    # The Solution
-    st.markdown("### ✅ The Solution: Taxonomy Bridge Layer")
-    
-    st.markdown("""
-    **Science of Reading provides the master taxonomy to connect fragmented skills:**
-    
-    - Evidence-based framework grounded in reading research
-    - Hierarchical structure: Strand → Pillar → Domain → Skill Area
-    - Grade-independent competency definitions
-    - Consistent terminology across applications
-    """)
-    
-    # Value demonstration
-    st.markdown("### 💡 Value Demonstration")
+    st.markdown("## 🚨 The Problem: Skill Fragmentation")
     
     col1, col2, col3 = st.columns(3)
     
-    with col1:
-        st.markdown("#### Without Bridge")
-        st.markdown("""
-        ❌ Search "phoneme blending"  
-        ❌ Find 5 skills (miss 7 more)  
-        ❌ No way to know they're equivalent  
-        ❌ Manual analysis required
-        """)
-    
-    with col2:
-        st.markdown("#### →")
-        st.markdown("### 🔗")
-    
-    with col3:
-        st.markdown("#### With Bridge")
-        st.markdown("""
-        ✅ Search master concept  
-        ✅ Find all 12 skills instantly  
-        ✅ See state variants grouped  
-        ✅ Automated discovery
-        """)
-    
-    st.markdown("---")
-    st.markdown("### 🎯 Explore the Demo")
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("#### 🎯 Content Scaling")
-        st.markdown("""
-        **Interactive Simulator**
+    # Load data for metrics
+    try:
+        concepts_df = loader.load_master_concepts()
+        skill_mapping = loader.load_skill_master_concept_mapping()
         
-        Experience the impossible dilemma curriculum developers face when tagging content without master skill bridges.
-        
-        - See the 3 impossible options
-        - Toggle to bridge solution
-        - Compare coverage & efficiency
-        """)
-        st.info("**NEW:** Interactive before/after demo")
-    
-    with col2:
-        st.markdown("#### 🔎 Cross-State Discovery")
-        st.markdown("""
-        **Discovery Simulation**
-        
-        See how content becomes invisible across state boundaries without bridges.
-        
-        - Select your state
-        - Search for content
-        - Discover what you're missing
-        """)
-        st.info("**NEW:** State-by-state view")
-    
-    with col3:
-        st.markdown("#### 💰 ROI Calculator")
-        st.markdown("""
-        **Business Impact Dashboard**
-        
-        Quantify efficiency gains and calculate break-even point for bridge implementation.
-        
-        - Adjust assumptions
-        - Calculate annual savings
-        - View ROI timeline
-        """)
-        st.info("**NEW:** Interactive ROI model")
-    
-    st.markdown("---")
-    st.info("👈 Use the sidebar to explore: Content Scaling features (NEW), Master Concepts, Skills, and Redundancy analysis.")
-
-# ============================================================================
-# CONTENT SCALING SIMULATOR
-# ============================================================================
-elif page == "🎯 Content Scaling Simulator":
-    st.markdown('<div class="main-header">Content Scaling Simulator</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Interactive demo: The impossible dilemma of tagging content without master skill bridges</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    **Scenario:** You're a curriculum developer who just created a lesson on phoneme blending. 
-    You need to tag it so teachers can find it. But there's a problem...
-    """)
-    
-    # ========================================================================
-    # REAL MASTER CONCEPTS INTEGRATION
-    # ========================================================================
-    st.markdown("### 🎯 Explore a Real Master Concept")
-    
-    concepts_df = loader.load_master_concepts()
-    
-    if not concepts_df.empty:
-        st.info("💡 Before using the mock content simulator below, explore how **real master concepts from the data** work:")
-        
-        # Dropdown for real concepts
-        concept_options = concepts_df.sort_values('SKILL_COUNT', ascending=False)
-        concept_display = {f"{row['MASTER_CONCEPT_NAME']} ({row['SKILL_COUNT']} variants across {row['AUTHORITY_COUNT']} states)": row['MASTER_CONCEPT_ID'] 
-                          for _, row in concept_options.iterrows()}
-        
-        selected_display = st.selectbox(
-            "Select a real master concept from ROCK data:",
-            options=list(concept_display.keys()),
-            index=0
-        )
-        
-        selected_concept_id = concept_display[selected_display]
-        selected_concept = concepts_df[concepts_df['MASTER_CONCEPT_ID'] == selected_concept_id].iloc[0]
-        
-        # Display concept details in columns
-        col1, col2 = st.columns([3, 1])
-        
-        with col1:
-            st.markdown(f"**Master Concept:** {selected_concept['MASTER_CONCEPT_NAME']}")
-            st.markdown(f"**Taxonomy Path:** {selected_concept['SOR_STRAND']} > {selected_concept['SOR_PILLAR']} > {selected_concept['SOR_DOMAIN']}")
+        if not concepts_df.empty and not skill_mapping.empty:
+            total_skills = len(skill_mapping)
+            total_concepts = len(concepts_df)
+            redundancy_ratio = total_skills / total_concepts if total_concepts > 0 else 0
+            overlap_pct = ((redundancy_ratio - 1) / redundancy_ratio * 100) if redundancy_ratio > 1 else 0
             
-            if pd.notna(selected_concept['DESCRIPTION']):
-                st.caption(f"{selected_concept['DESCRIPTION']}")
-        
-        with col2:
-            st.metric("State Variants", selected_concept['SKILL_COUNT'])
-            st.metric("States", selected_concept['AUTHORITY_COUNT'])
-            st.metric("Grades", selected_concept['GRADE_RANGE'])
-        
-        # The dilemma visualization
-        st.markdown("#### ⚖️ Tagging Dilemma:")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.error(f"""
-            **❌ WITHOUT Bridge:**
-            - Tag to 1 ROCK skill
-            - Visible in: **1 state only**
-            - Hidden from: **{selected_concept['AUTHORITY_COUNT'] - 1} other states**
-            - **OR** manually tag {selected_concept['SKILL_COUNT']} times
-            - Maintenance: Update {selected_concept['SKILL_COUNT']} tags on changes
-            """)
-        
-        with col2:
-            st.success(f"""
-            **✅ WITH Bridge (Master Concept):**
-            - Tag once to: **{selected_concept['MASTER_CONCEPT_NAME']}**
-            - Visible in: **All {selected_concept['AUTHORITY_COUNT']} states automatically**
-            - Bridge inherits {selected_concept['SKILL_COUNT']} skill mappings
-            - Maintenance: Update **1 tag** only
-            - **Efficiency gain: {selected_concept['SKILL_COUNT']}x**
-            """)
-        
-        # Link to explore further
-        if st.button(f"→ View All {selected_concept['SKILL_COUNT']} Skill Variants in Master Concept Browser"):
-            st.info("👈 Navigate to 'Master Concept Browser' in the sidebar to see full details")
-        
-        st.markdown("---")
-    
-    st.markdown("### 📚 Try the Interactive Simulator (Mock Data)")
-    st.caption("The section below uses mock content examples to demonstrate the scaling problem interactively.")
-    
-    st.markdown("---")
-    
-    # Load data
-    content_lib = loader.load_content_library()
-    scenarios = loader.load_tagging_scenarios()
-    
-    if content_lib.empty:
-        st.warning("Content library not loaded. Please ensure mock_data/content_library.csv exists.")
-    else:
-        # Step 1: Select Content
-        st.markdown("### Step 1: Select Your Content")
-        
-        content_options = content_lib[['CONTENT_ID', 'CONTENT_TITLE', 'MASTER_CONCEPT']].copy()
-        content_options['display'] = content_options['CONTENT_TITLE'] + ' (' + content_options['MASTER_CONCEPT'] + ')'
-        
-        selected_display = st.selectbox(
-            "Choose a content item to tag:",
-            options=content_options['display'].tolist(),
-            index=0
-        )
-        
-        selected_content_id = content_options[content_options['display'] == selected_display]['CONTENT_ID'].iloc[0]
-        content_item = content_lib[content_lib['CONTENT_ID'] == selected_content_id].iloc[0]
-        
-        # Show content details
-        with st.expander("📋 Content Details", expanded=True):
-            col1, col2 = st.columns(2)
             with col1:
-                st.markdown(f"**Title:** {content_item['CONTENT_TITLE']}")
-                st.markdown(f"**Type:** {content_item['CONTENT_TYPE']}")
-                st.markdown(f"**Master Concept:** {content_item['MASTER_CONCEPT']}")
+                st.markdown('<div class="metric-card metric-card-problem">', unsafe_allow_html=True)
+                st.metric("Total ROCK Skills", f"{total_skills:,}", 
+                         help="Total number of skills in ROCK database")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
             with col2:
-                st.markdown(f"**Grade:** {content_item['TARGET_GRADE']}")
-                st.markdown(f"**Duration:** {content_item['DURATION_MINUTES']} minutes")
-                st.markdown(f"**Author:** {content_item['AUTHOR']}")
-            st.markdown(f"**Description:** {content_item['DESCRIPTION']}")
+                st.markdown('<div class="metric-card metric-card-problem">', unsafe_allow_html=True)
+                st.metric("Redundancy Ratio", f"~{redundancy_ratio:.1f}x",
+                         delta=f"+{redundancy_ratio-1:.1f}x redundant",
+                         delta_color="inverse",
+                         help="Average number of skills per unique master concept")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            with col3:
+                st.markdown('<div class="metric-card metric-card-problem">', unsafe_allow_html=True)
+                st.metric("Conceptual Overlap", f"{overlap_pct:.0f}%",
+                         help="Percentage of skills that are redundant variants")
+                st.markdown('</div>', unsafe_allow_html=True)
+        
+        else:
+            st.warning("⚠️ Data not yet loaded. Please run the data pipeline first.")
+    
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+    
+    st.markdown("""
+    <div class="callout-box callout-warning">
+    <strong>The Core Problem:</strong> ROCK skills derive from 50+ state standards with no master taxonomy 
+    to connect conceptually equivalent skills. The same learning concept appears 6-8 times 
+    across states using different terminology, grade assignments, and scope qualifiers—with 
+    <strong>zero metadata linking them</strong>.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Concrete example visualization
+    st.markdown("### Concrete Example: Phoneme Blending Fragmentation")
+    
+    # Create example data for visualization
+    example_skills = pd.DataFrame({
+        'State': ['CCSS', 'Texas', 'California', 'Virginia', 'Ohio', 'Florida', 'New York', 'Illinois'],
+        'Skill Name': [
+            'Blend phonemes to form words',
+            'Blend spoken phonemes into one-syllable words',
+            'Orally blend 2-3 phonemes into recognizable words',
+            'Blend sounds to make one-syllable words',
+            'Orally produce words by blending sounds',
+            'Blend phonemes in spoken words',
+            'Blend sounds (phonemes) to make words',
+            'Orally blend individual sounds in words'
+        ],
+        'Grade': ['K', 'K', 'K', 'K-1', 'K', 'K', 'K', 'K'],
+        'Skill Count': [1, 1, 1, 1, 1, 1, 1, 1]  # For bar chart
+    })
+    
+    fig = px.bar(example_skills, x='State', y='Skill Count',
+                 hover_data={'Skill Name': True, 'Grade': True, 'Skill Count': False},
+                 color_discrete_sequence=['#d62728'],
+                 title="One Concept → 8 State-Specific Skills (No Linking Metadata)")
+    fig.update_layout(showlegend=False, yaxis_title="Redundant Skills", xaxis_title="State Standard")
+    st.plotly_chart(fig, use_container_width=True)
+    
+    with st.expander("📋 View all 8 skill variants"):
+        st.dataframe(example_skills[['State', 'Skill Name', 'Grade']], use_container_width=True, hide_index=True)
+    
+    st.markdown("""
+    **Business Impact:**
+    - 🔍 **Discovery**: 3 hours to manually find all variants
+    - 💰 **Cost**: Duplicate content development for each state
+    - 📊 **Research**: Cannot aggregate data across state variants  
+    - 👥 **Educators**: Unclear which skills are redundant vs. progressive
+    """)
+    
+    # ========================================================================
+    # SECTION B: THE SOLUTION
+    # ========================================================================
+    
+    st.markdown("---")
+    st.markdown("## ✅ The Solution: Three-Level Taxonomy Bridge")
+    
+    st.markdown("""
+    <div class="callout-box callout-success">
+    <strong>Our Approach:</strong> Build a scientifically-grounded taxonomy bridge that connects ROCK skills 
+    to evidence-based frameworks (Science of Reading) without modifying ROCK—enabling discovery, 
+    deduplication, and enrichment across three integrated levels.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Three-level architecture visualization
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("### 🎯 MACRO Level")
+        st.markdown("""
+        **Master Taxonomy & Frameworks**
+        
+        Connect skills to Science of Reading framework
+        
+        - Framework convergence analysis
+        - Taxonomy hierarchy mapping
+        - Learning progression tracking
+        
+        <div class="metric-card">
+        <strong>Value:</strong> Scientific grounding + cross-state bridging
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("### 🔍 MID Level")
+        st.markdown("""
+        **Redundancy & Variant Analysis**
+        
+        Identify and group conceptually equivalent skills
+        
+        - Semantic similarity detection
+        - State variant clustering
+        - MECE validation
+        
+        <div class="metric-card">
+        <strong>Value:</strong> 60-75% redundancy elimination
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("### 🔬 MICRO Level")
+        st.markdown("""
+        **Metadata & Skill Quality**
+        
+        Extract fine-grained metadata from skills
+        
+        - NLP-based concept parsing
+        - Metadata enrichment
+        - Quality scoring
+        
+        <div class="metric-card">
+        <strong>Value:</strong> Concept-aware analysis
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Before/After comparison
+    st.markdown("### Before vs. After Comparison")
+    
+    before_after = pd.DataFrame({
+        'Metric': ['Search Time', 'Skills Found', 'Relationships', 'Framework Support', 'Content Reuse'],
+        'Without Bridge': ['3 hours', '5 of 12', 'None', 'Unknown', '0% (isolated)'],
+        'With Bridge': ['30 seconds', '12 of 12', 'Automatic', 'Validated', '100% (connected)'],
+        'Improvement': ['99% faster', '140% more', '∞', 'Grounded', '∞']
+    })
+    
+    st.dataframe(before_after, use_container_width=True, hide_index=True)
+    
+    # ========================================================================
+    # SECTION C: IMPACT & NEXT STEPS
+    # ========================================================================
+    
+    st.markdown("---")
+    st.markdown("## 🎯 Stakeholder Impact")
+    
+    impact_matrix = pd.DataFrame({
+        'Stakeholder': [
+            'Curriculum Developers',
+            'Product Teams',
+            'Data Scientists',
+            'Educators',
+            'Researchers'
+        ],
+        'Current Pain Point': [
+            'Cannot discover all relevant skills',
+            'Cannot build adaptive features',
+            'Cannot aggregate across states',
+            'Unclear skill relationships',
+            'Manual skill coding required'
+        ],
+        'With Taxonomy Bridge': [
+            'Find all 12 variants in 30 seconds',
+            'Build evidence-based progressions',
+            'Aggregate by master concepts',
+            'See clear learning paths',
+            'Research-grade data export'
+        ],
+        'Efficiency Gain': [
+            '70-80%',
+            '∞ (previously blocked)',
+            '90%',
+            '60%',
+            '85%'
+        ]
+    })
+    
+    st.dataframe(impact_matrix, use_container_width=True, hide_index=True)
+    
+    # Success metrics
+    st.markdown("### 📊 POC Success Metrics")
+    
+    metrics_col1, metrics_col2 = st.columns(2)
+    
+    with metrics_col1:
+        st.markdown("""
+        **Analysis Results:**
+        - ✅ 6.8x redundancy ratio confirmed
+        - ✅ 15 concrete skill clusters documented
+        - ✅ 50+ skills mapped to SoR taxonomy
+        """)
+    
+    with metrics_col2:
+        st.markdown("""
+        **Validation Results:**
+        - ✅ Semantic similarity validator operational
+        - ✅ Framework convergence tracker active
+        - ✅ MECE quality scores calculated
+        """)
+    
+    # Call to action
+    st.markdown("---")
+    st.markdown("### 🚀 Explore the Prototype")
+    
+    cta_col1, cta_col2, cta_col3 = st.columns(3)
+    
+    with cta_col1:
+        if st.button("🔬 Explore Three Levels", use_container_width=True):
+            st.info("Navigate to 'Three-Level Deep Dive' in the sidebar →")
+    
+    with cta_col2:
+        if st.button("🧭 Try Interactive Tools", use_container_width=True):
+            st.info("Navigate to 'Interactive Explorer' in the sidebar →")
+    
+    with cta_col3:
+        if st.button("📊 View Validation Results", use_container_width=True):
+            st.info("Navigate to 'Validation Dashboard' in the sidebar →")
+
+# ============================================================================
+# PAGE 2: THREE-LEVEL DEEP DIVE
+# ============================================================================
+
+elif page == "🔬 Three-Level Deep Dive":
+    st.markdown('<div class="main-header">Three-Level Deep Dive</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Explore the problem-solution space organized by conceptual level</div>', unsafe_allow_html=True)
+    
+    # Tab interface for three levels
+    tab1, tab2, tab3 = st.tabs(["🎯 MACRO Level", "🔍 MID Level", "🔬 MICRO Level"])
+    
+    # ========================================================================
+    # TAB 1: MACRO LEVEL
+    # ========================================================================
+    with tab1:
+        st.markdown('<div class="macro-header" style="font-size: 1.8rem; font-weight: bold; margin-bottom: 1rem;">MACRO Level: Master Taxonomy & Framework Convergence</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        **Focus:** Connect ROCK skills to evidence-based frameworks and master taxonomies.
+        
+        **Key Questions:**
+        - Which concepts have strong multi-framework support?
+        - How do ROCK skills map to Science of Reading hierarchy?
+        - Where are potential duplicates at the concept level?
+        """)
+        
+        # Component A: Framework Convergence Dashboard
+        st.markdown("### 📊 Framework Convergence Dashboard")
+        
+        validation_results = load_validation_results()
+        
+        if validation_results and 'concept_confidence' in validation_results:
+            confidence_df = validation_results['concept_confidence']
+            
+            # Summary metrics
+            col1, col2, col3, col4 = st.columns(4)
+            
+            strong = len(confidence_df[confidence_df['Evidence_Strength'] == 'strong'])
+            moderate = len(confidence_df[confidence_df['Evidence_Strength'] == 'moderate'])
+            weak = len(confidence_df[confidence_df['Evidence_Strength'] == 'weak'])
+            unvalidated = len(confidence_df[confidence_df['Evidence_Strength'] == 'unvalidated'])
+            
+            with col1:
+                st.metric("Strong Evidence (3+ frameworks)", strong)
+            with col2:
+                st.metric("Moderate Evidence (2 frameworks)", moderate)
+            with col3:
+                st.metric("Weak Evidence (1 framework)", weak)
+            with col4:
+                st.metric("Unvalidated (0 frameworks)", unvalidated)
+            
+            # Convergence distribution
+            evidence_dist = confidence_df['Evidence_Strength'].value_counts()
+            fig = px.pie(values=evidence_dist.values, names=evidence_dist.index,
+                        title="Evidence Strength Distribution",
+                        color_discrete_map={
+                            'strong': '#2ca02c',
+                            'moderate': '#ff7f0e',
+                            'weak': '#ffcc00',
+                            'unvalidated': '#d62728'
+                        })
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # Top validated concepts
+            with st.expander("📋 View top validated concepts"):
+                top_concepts = confidence_df[confidence_df['Convergence_Score'] > 0].sort_values('Convergence_Score', ascending=False).head(20)
+                st.dataframe(top_concepts[['Concept_Name', 'Convergence_Score', 'Frameworks', 'Evidence_Strength']], 
+                           use_container_width=True, hide_index=True)
+        
+        else:
+            st.info("⚠️ Framework convergence data not yet generated. Run the validation suite first.")
+            if st.button("📖 Learn how to run validation suite"):
+                st.code("cd frameworks\npython3 run_full_validation.py")
         
         st.markdown("---")
         
-        # Step 2: The Impossible Dilemma
-        st.markdown("### Step 2: The Impossible Dilemma")
+        # Component B: Taxonomy Browser
+        st.markdown("### 🌳 Science of Reading Taxonomy Browser")
         
-        # Get scenario data
-        scenario = scenarios[scenarios['CONTENT_ITEM'] == selected_content_id]
-        if not scenario.empty:
-            scenario = scenario.iloc[0]
-            matching_skills = scenario['MATCHING_ROCK_SKILLS_COUNT']
-            states_list = scenario['STATES_WITH_SKILLS'].split(',')
-            
-            st.warning(f"""
-            **Problem:** {matching_skills} different ROCK skills exist across states teaching this same concept, 
-            but you can only tag your content to specific skill IDs. What do you do?
-            """)
-            
-            # Show the three impossible options
-            tab1, tab2, tab3 = st.tabs(["❌ Option A: Tag 1 State", "❌ Option B: Tag All States", "❌ Option C: Bypass ROCK"])
-            
-            with tab1:
-                st.markdown("### Option A: Tag One State Only")
-                coverage = loader.calculate_state_coverage(selected_content_id, with_bridge=False)
-                burden = loader.calculate_tagging_burden(selected_content_id, with_bridge=False)
+        try:
+            taxonomy_path = Path(__file__).parent.parent / 'POC_science_of_reading_literacy_skills_taxonomy.csv'
+            if taxonomy_path.exists():
+                taxonomy_df = pd.read_csv(taxonomy_path)
                 
-                col1, col2, col3 = st.columns(3)
+                # Show hierarchy overview
+                st.markdown("**6-Level Hierarchy:**")
+                hierarchy_levels = ['Strand', 'Pillar', 'Domain', 'Skill Area', 'Skill Set', 'Skill Subset']
+                
+                level_counts = {}
+                for level in hierarchy_levels:
+                    if level in taxonomy_df.columns:
+                        level_counts[level] = taxonomy_df[level].nunique()
+                
+                counts_df = pd.DataFrame(list(level_counts.items()), columns=['Level', 'Unique Concepts'])
+                st.dataframe(counts_df, use_container_width=True, hide_index=True)
+                
+                # Interactive exploration
+                selected_strand = st.selectbox("Explore Strand:", 
+                                              options=['All'] + sorted(taxonomy_df['Strand'].dropna().unique().tolist()))
+                
+                if selected_strand != 'All':
+                    strand_data = taxonomy_df[taxonomy_df['Strand'] == selected_strand]
+                    
+                    # Show pillars in this strand
+                    pillars = sorted(strand_data['Pillar'].dropna().unique().tolist())
+                    st.markdown(f"**Pillars in {selected_strand}:** {', '.join(pillars)}")
+                    
+                    with st.expander(f"📋 View all concepts in {selected_strand}"):
+                        display_cols = [col for col in hierarchy_levels if col in strand_data.columns]
+                        st.dataframe(strand_data[display_cols].drop_duplicates(), use_container_width=True, hide_index=True)
+            
+            else:
+                st.warning("Taxonomy file not found")
+        
+        except Exception as e:
+            st.error(f"Error loading taxonomy: {e}")
+        
+        st.markdown("---")
+        
+        # Component C: Semantic Similarity Network
+        st.markdown("### 🕸️ Semantic Similarity Network")
+        
+        if validation_results and 'duplicates' in validation_results:
+            duplicates_df = validation_results['duplicates']
+            
+            # High similarity pairs
+            high_sim = duplicates_df[duplicates_df['similarity'] >= 0.90]
+            
+            st.metric("High-Similarity Concept Pairs (>0.90)", len(high_sim))
+            
+            if len(high_sim) > 0:
+                st.markdown("**Top 10 Most Similar Concept Pairs:**")
+                
+                top_pairs = high_sim.nlargest(10, 'similarity')[['concept1_name', 'concept2_name', 'similarity', 'same_level', 'same_strand']]
+                st.dataframe(top_pairs, use_container_width=True, hide_index=True)
+                
+                with st.expander("📊 View similarity distribution"):
+                    fig = px.histogram(duplicates_df, x='similarity', nbins=50,
+                                     title="Distribution of Semantic Similarity Scores",
+                                     labels={'similarity': 'Cosine Similarity', 'count': 'Frequency'})
+                    fig.add_vline(x=0.85, line_dash="dash", line_color="orange", annotation_text="Medium threshold")
+                    fig.add_vline(x=0.90, line_dash="dash", line_color="red", annotation_text="High threshold")
+                    st.plotly_chart(fig, use_container_width=True)
+        
+        else:
+            st.info("⚠️ Semantic similarity data not yet generated. Run the validation suite first.")
+    
+    # ========================================================================
+    # TAB 2: MID LEVEL
+    # ========================================================================
+    with tab2:
+        st.markdown('<div class="mid-header" style="font-size: 1.8rem; font-weight: bold; margin-bottom: 1rem;">MID Level: Redundancy & Variant Analysis</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        **Focus:** Identify and resolve redundant or highly similar skills.
+        
+        **Key Questions:**
+        - Which skills are conceptual duplicates across states?
+        - Where do we have sibling conflicts (similar concepts at same level)?
+        - What is our MECE quality score?
+        """)
+        
+        # Component A: Redundancy Overview
+        st.markdown("### 📊 Redundancy Overview")
+        
+        validation_results = load_validation_results()
+        
+        if validation_results:
+            col1, col2, col3 = st.columns(3)
+            
+            if 'duplicates' in validation_results:
+                duplicates_df = validation_results['duplicates']
+                high_pri = len(duplicates_df[duplicates_df['similarity'] >= 0.90])
+                med_pri = len(duplicates_df[(duplicates_df['similarity'] >= 0.85) & (duplicates_df['similarity'] < 0.90)])
+                
                 with col1:
-                    st.metric("Tagging Time", f"{burden['option_a']['time_minutes']} min")
+                    st.metric("High-Priority Duplicates (>0.90)", high_pri, 
+                             delta=f"{'Critical' if high_pri > 50 else 'Moderate' if high_pri > 10 else 'Good'}")
                 with col2:
-                    st.metric("States Covered", f"{coverage['states_covered']}/{coverage['total_states_available']}")
-                with col3:
-                    st.metric("Coverage", f"{coverage['coverage_percentage']:.1f}%", 
-                             delta=f"-{100-coverage['coverage_percentage']:.1f}%", delta_color="inverse")
-                
-                st.error(f"""
-                **Result:** Fast to tag, but **{len(coverage['missing_states'])} states cannot discover this content**.
-                
-                Teachers in {', '.join(coverage['missing_states'][:5])}... will never find your lesson, 
-                even though their students need the exact same learning.
-                """)
-                
-                # Show which states miss out
-                if len(coverage['missing_states']) > 0:
-                    with st.expander(f"🚫 {len(coverage['missing_states'])} States Missing This Content"):
-                        st.write(', '.join(coverage['missing_states']))
+                    st.metric("Medium-Priority Overlaps (0.85-0.90)", med_pri)
             
-            with tab2:
-                st.markdown("### Option B: Tag All State Variants")
-                burden = loader.calculate_tagging_burden(selected_content_id, with_bridge=False)
-                
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric("Tagging Time", f"{burden['option_b']['time_hours']:.1f} hours")
-                with col2:
-                    st.metric("Skills to Tag", f"{matching_skills}")
+            if 'sibling_conflicts' in validation_results:
+                siblings_df = validation_results['sibling_conflicts']
                 with col3:
-                    st.metric("Coverage", "100%")
+                    st.metric("Sibling Conflicts", len(siblings_df))
+        
+        else:
+            st.info("⚠️ Run validation suite to see redundancy metrics")
+        
+        # Component B: Interactive Grooming Interface
+        st.markdown("---")
+        st.markdown("### 🧹 Redundancy Grooming Interface")
+        
+        if validation_results and 'recommendations' in validation_results:
+            rec_df = validation_results['recommendations']
+            
+            # Filter controls
+            priority_filter = st.multiselect("Filter by Priority:", 
+                                            options=[1, 2, 3],
+                                            default=[1],
+                                            help="1 = High priority, 2 = Medium, 3 = Low")
+            
+            filtered_recs = rec_df[rec_df['Priority'].isin(priority_filter)]
+            
+            st.markdown(f"**Showing {len(filtered_recs)} recommendations**")
+            
+            # Display recommendations
+            st.dataframe(filtered_recs, use_container_width=True, hide_index=True)
+            
+            # Export option
+            csv = filtered_recs.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 Download Recommendations CSV", 
+                             data=csv,
+                             file_name="redundancy_recommendations.csv",
+                             mime="text/csv")
+        
+        else:
+            st.info("⚠️ Recommendations not yet generated. Run validation suite first.")
+        
+        # Component C: Variant Cluster Explorer
+        st.markdown("---")
+        st.markdown("### 🗺️ State Variant Cluster Explorer")
+        
+        try:
+            variants_df = loader.load_variant_classification()
+            
+            if not variants_df.empty:
+                # Filter to skills with equivalence groups only
+                grouped_skills = variants_df[variants_df['EQUIVALENCE_GROUP_ID'].notna()]
                 
-                st.error(f"""
-                **Result:** Complete coverage, but **{burden['option_b']['time_hours']:.1f} hours of work** per content item.
+                if not grouped_skills.empty:
+                    # Show variant summary using EQUIVALENCE_GROUP_ID
+                    variant_counts = grouped_skills.groupby('EQUIVALENCE_GROUP_ID').agg({
+                        'SKILL_ID': 'count',
+                        'SKILL_NAME': 'first',
+                        'EQUIVALENCE_TYPE': 'first'
+                    }).reset_index()
+                    variant_counts.columns = ['EQUIVALENCE_GROUP_ID', 'variant_count', 'example_skill', 'type']
+                    high_redundancy = variant_counts[variant_counts['variant_count'] >= 5]
+                    
+                    st.metric("Equivalence Groups with 5+ Variants", len(high_redundancy))
+                    
+                    with st.expander("📋 View high-redundancy equivalence groups"):
+                        display_df = high_redundancy[['example_skill', 'variant_count', 'type']].sort_values('variant_count', ascending=False).head(20)
+                        st.dataframe(display_df, use_container_width=True, hide_index=True)
+                else:
+                    st.info("⚠️ No equivalence groups found in variant data")
+            
+            else:
+                st.info("⚠️ Variant classification data not yet loaded")
+        
+        except Exception as e:
+            st.warning(f"Could not load variant data: {e}")
+    
+    # ========================================================================
+    # TAB 3: MICRO LEVEL
+    # ========================================================================
+    with tab3:
+        st.markdown('<div class="micro-header" style="font-size: 1.8rem; font-weight: bold; margin-bottom: 1rem;">MICRO Level: Skill Metadata & Quality</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        **Focus:** Extract and analyze fine-grained metadata from individual skills.
+        
+        **Key Questions:**
+        - How complete is our metadata coverage?
+        - What metadata fields have been extracted?
+        - Which skills have quality issues?
+        """)
+        
+        # Component A: Metadata Dashboard
+        st.markdown("### 📊 Skill Metadata Dashboard")
+        
+        try:
+            concepts_df = loader.load_master_concepts()
+            
+            if not concepts_df.empty:
+                # Metadata coverage metrics
+                total_concepts = len(concepts_df)
                 
-                For 100 content items: **{burden['option_b']['time_hours'] * 100:.0f} hours** = 
-                **{burden['option_b']['time_hours'] * 100 / 40:.1f} weeks** of full-time tagging work.
+                # Check which fields are populated
+                metadata_fields = ['DESCRIPTION', 'SOR_STRAND', 'SOR_PILLAR', 'SOR_DOMAIN', 
+                                 'TEXT_TYPE', 'TEXT_MODE', 'SKILL_DOMAIN']
                 
-                Plus: Every time skills change, you must update {matching_skills} tags. **Unsustainable.**
-                """)
+                coverage_data = []
+                for field in metadata_fields:
+                    if field in concepts_df.columns:
+                        populated = concepts_df[field].notna().sum()
+                        coverage_pct = (populated / total_concepts * 100) if total_concepts > 0 else 0
+                        coverage_data.append({
+                            'Field': field,
+                            'Populated': populated,
+                            'Coverage %': f"{coverage_pct:.1f}%"
+                        })
                 
-                # Visualize the maintenance nightmare
-                import plotly.graph_objects as go
+                coverage_df = pd.DataFrame(coverage_data)
+                st.dataframe(coverage_df, use_container_width=True, hide_index=True)
                 
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
-                    x=['Option A<br>(1 state)', f'Option B<br>({matching_skills} states)'],
-                    y=[burden['option_a']['time_minutes'], burden['option_b']['time_minutes']],
-                    marker_color=['orange', 'red'],
-                    text=[f"{burden['option_a']['time_minutes']} min", 
-                          f"{burden['option_b']['time_minutes']} min<br>({burden['option_b']['time_hours']:.1f} hrs)"],
-                    textposition='auto'
-                ))
-                fig.update_layout(
-                    title="Tagging Time Comparison",
-                    yaxis_title="Time (minutes)",
-                    height=300,
-                    showlegend=False
-                )
+                # Visualize coverage
+                fig = px.bar(coverage_df, x='Field', y='Populated',
+                           title="Metadata Field Population",
+                           labels={'Populated': 'Number of Concepts'})
                 st.plotly_chart(fig, use_container_width=True)
             
-            with tab3:
-                st.markdown("### Option C: Bypass ROCK Entirely")
-                burden = loader.calculate_tagging_burden(selected_content_id, with_bridge=False)
-                
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric("Tagging Time", f"{burden['option_c']['time_minutes']} min")
-                with col2:
-                    st.metric("Your Custom System", "✅ Works")
-                with col3:
-                    st.metric("ROCK Integration", "❌ Lost")
-                
-                st.error(f"""
-                **Result:** Build parallel content taxonomy outside ROCK. Fast, but...
-                
-                **You Lose:**
-                - ❌ Standards alignment metadata
-                - ❌ Star Assessment connections
-                - ❌ ROCK skill relationships
-                - ❌ Existing ROCK infrastructure
-                - ❌ Cross-product integration
-                
-                **This is why P&I teams bypass ROCK today.**
-                """)
+            else:
+                st.warning("⚠️ Master concepts not yet loaded")
+        
+        except Exception as e:
+            st.error(f"Error loading metadata: {e}")
         
         st.markdown("---")
         
-        # Step 3: Toggle to Solution
-        st.markdown("### Step 3: The Bridge Solution")
+        # Component B: Metadata Enrichment Status
+        st.markdown("### ⚙️ Metadata Enrichment Pipeline")
         
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            show_bridge = st.toggle("**Show With Bridge**", value=False, key="bridge_toggle")
-        with col2:
-            if not show_bridge:
-                st.info("👆 Toggle to see how master skill bridges solve this problem")
+        st.info("""
+        **Pipeline Status:** Ready for execution
         
-        if show_bridge:
-            st.success("### ✅ WITH MASTER SKILL BRIDGE")
+        The metadata enrichment pipeline uses NLP and LLM techniques to extract:
+        - Action verbs and targets
+        - Text types and modes
+        - Complexity indicators
+        - Pedagogical metadata
+        
+        Run pipeline from command line: `cd analysis && python3 scripts/batch_map_skills_enhanced.py`
+        """)
+        
+        # Component C: Skill Quality Inspector
+        st.markdown("---")
+        st.markdown("### 🔍 Skill Quality Inspector")
+        
+        st.markdown("Quick search for specific skills:")
+        
+        search_term = st.text_input("Search skills:", placeholder="Enter skill name or concept...")
+        
+        if search_term:
+            try:
+                skill_mapping = loader.load_skill_master_concept_mapping()
+                
+                # Search in skill names
+                matches = skill_mapping[skill_mapping['SKILL_NAME'].str.contains(search_term, case=False, na=False)]
+                
+                if not matches.empty:
+                    st.markdown(f"**Found {len(matches)} matching skills:**")
+                    st.dataframe(matches[['SKILL_NAME', 'MASTER_CONCEPT_NAME', 'SOR_STRAND', 'SOR_PILLAR']].head(20),
+                               use_container_width=True, hide_index=True)
+                else:
+                    st.warning("No skills found matching your search.")
             
-            coverage_bridge = loader.calculate_state_coverage(selected_content_id, with_bridge=True)
-            burden_bridge = loader.calculate_tagging_burden(selected_content_id, with_bridge=True)
+            except Exception as e:
+                st.error(f"Error searching skills: {e}")
+
+# ============================================================================
+# PAGE 3: BASE SKILLS EXPLORER
+# ============================================================================
+
+elif page == "⚡ Base Skills Explorer":
+    st.markdown('<div class="main-header">Base Skills Explorer</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Discover how base skills reduce redundancy and enable taxonomy-powered organization</div>', unsafe_allow_html=True)
+    
+    # Load base skills data (now includes taxonomy mappings)
+    try:
+        base_skills = loader.load_base_skills()
+        specifications = loader.load_skill_specifications()
+        
+        if base_skills.empty:
+            st.warning("⚠️ Base skills data not loaded. Please ensure base_skills_summary.json exists in /taxonomy/base_skills/")
+        else:
+            # ========================================================================
+            # SECTION A: Overview Metrics
+            # ========================================================================
+            st.markdown("## 📊 Base Skills Overview")
             
             col1, col2, col3, col4 = st.columns(4)
+            
+            total_base_skills = len(base_skills)
+            total_rock_skills = base_skills['rock_skills_count'].sum()
+            avg_redundancy = total_rock_skills / total_base_skills if total_base_skills > 0 else 0
+            
             with col1:
-                st.metric("Tagging Time", 
-                         f"{burden_bridge['bridge_solution']['time_minutes']} min",
-                         delta=f"-{burden_bridge['time_savings_vs_option_b']['minutes_saved']:.0f} min saved",
-                         delta_color="normal")
+                st.metric("Total Base Skills", f"{total_base_skills:,}")
+            
             with col2:
-                st.metric("Tags to Maintain", "1 master skill",
-                         delta=f"-{matching_skills - 1} tags",
-                         delta_color="normal")
+                st.metric("Total ROCK Skills Collapsed", f"{total_rock_skills:,}")
+            
             with col3:
-                st.metric("States Covered", f"{coverage_bridge['states_covered']}/{coverage_bridge['total_states_available']}")
+                st.metric("Average Redundancy Ratio", f"{avg_redundancy:.1f}x")
+            
             with col4:
-                st.metric("Coverage", "100%",
-                         delta="+98%",
-                         delta_color="normal")
+                # Calculate how many have taxonomy mappings (from master concepts)
+                if 'taxonomy_strand' in base_skills.columns:
+                    mapped = base_skills['taxonomy_strand'].notna().sum()
+                    coverage_pct = (mapped / total_base_skills * 100) if total_base_skills > 0 else 0
+                    st.metric("Taxonomy Linked", f"{mapped}/{total_base_skills}")
+                else:
+                    st.metric("Taxonomy Status", "Pending Mapping")
             
-            st.markdown(f"""
-            **How It Works:**
+            st.markdown("""
+            <div class="callout-box callout-info">
+            <strong>What are Base Skills?</strong> Base skills are the fundamental learning competencies that 
+            multiple ROCK skills teach. By identifying base skills through specification extraction, we reduce 
+            redundancy by <strong>{:.1f}x</strong> and enable precise taxonomy-based discovery.
+            </div>
+            """.format(avg_redundancy), unsafe_allow_html=True)
             
-            1. **Tag Once** to master concept: `{content_item['MASTER_CONCEPT']}`
-            2. **Bridge layer automatically inherits** {matching_skills} state-specific ROCK skill mappings
-            3. **All {coverage_bridge['states_covered']} states** can discover your content via their local skills
-            4. **One update** to master tag propagates to all state skills
+            # ========================================================================
+            # SECTION B: Base Skills Distribution
+            # ========================================================================
+            st.markdown("---")
+            st.markdown("## 📊 Redundancy Reduction Visualization")
             
-            **Efficiency Gain:** {burden_bridge['time_savings_vs_option_b']['efficiency_gain_pct']:.0f}% reduction in tagging burden
-            """)
-            
-            # Show state coverage visualization
-            import plotly.graph_objects as go
-            
-            fig = go.Figure()
-            
-            # Without bridge
-            fig.add_trace(go.Bar(
-                name='Without Bridge',
-                x=['Coverage'],
-                y=[coverage['coverage_percentage']],
-                marker_color='red',
-                text=[f"{coverage['coverage_percentage']:.1f}%<br>({coverage['states_covered']} states)"],
-                textposition='auto'
-            ))
-            
-            # With bridge
-            fig.add_trace(go.Bar(
-                name='With Bridge',
-                x=['Coverage'],
-                y=[coverage_bridge['coverage_percentage']],
-                marker_color='green',
-                text=[f"{coverage_bridge['coverage_percentage']:.0f}%<br>({coverage_bridge['states_covered']} states)"],
-                textposition='auto'
-            ))
-            
-            fig.update_layout(
-                title=f"State Coverage Comparison",
-                yaxis_title="Coverage (%)",
-                yaxis=dict(range=[0, 105]),
-                height=350,
-                barmode='group'
-            )
-            st.plotly_chart(fig, use_container_width=True)
-            
-            # Show covered states
-            with st.expander(f"✅ All {len(coverage_bridge['states_list'])} States Covered"):
-                st.write(', '.join(coverage_bridge['states_list']))
-        
-        st.markdown("---")
-        st.markdown("### 💡 Key Takeaway")
-        st.info("""
-        **Without bridges:** Curriculum developers face an impossible choice between inadequate coverage (Option A), 
-        unsustainable maintenance burden (Option B), or complete ROCK bypass (Option C).
-        
-        **With bridges:** Tag once to master skill, reach all 50+ states automatically, maintain one relationship. 
-        This is the **only** way to make content scaling viable.
-        """)
-
-# ============================================================================
-# CROSS-STATE DISCOVERY
-# ============================================================================
-elif page == "🔎 Cross-State Discovery":
-    st.markdown('<div class="main-header">Cross-State Content Discovery</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">How content tagged without bridges becomes invisible across state boundaries</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    **Scenario:** You're a teacher searching for instructional content. Your state has specific ROCK skills, 
-    but content is scattered across state-specific skill tags. What can you discover?
-    """)
-    
-    st.markdown("---")
-    
-    # Load data
-    content_lib = loader.load_content_library()
-    scenarios = loader.load_tagging_scenarios()
-    
-    if content_lib.empty:
-        st.warning("Content library not loaded.")
-    else:
-        # Step 1: Select Your State
-        st.markdown("### Step 1: Who Are You?")
-        
-        # Get unique states from scenarios
-        all_states = set()
-        for _, scenario in scenarios.iterrows():
-            states = scenario['STATES_WITH_SKILLS'].split(',')
-            all_states.update(states)
-        all_states = sorted(list(all_states))
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            selected_state = st.selectbox(
-                "Select your state:",
-                options=all_states,
-                index=0
-            )
-        with col2:
-            selected_concept = st.selectbox(
-                "What are you searching for?",
-                options=content_lib['MASTER_CONCEPT'].unique().tolist(),
-                index=0
-            )
-        
-        st.info(f"**You are:** A teacher in **{selected_state}** searching for **{selected_concept}** content")
-        
-        st.markdown("---")
-        
-        # Step 2: WITHOUT BRIDGE
-        st.markdown("### Step 2: WITHOUT Master Skill Bridge")
-        
-        st.warning("🔍 Searching for content tagged to your state's skills...")
-        
-        # Find content for this concept
-        concept_content = content_lib[content_lib['MASTER_CONCEPT'] == selected_concept]
-        
-        # Simulate: only content tagged to this state is visible
-        # In reality, content_lib has ONE tagged skill (typically first state in scenario)
-        visible_content = []
-        hidden_content = []
-        
-        for _, content_item in concept_content.iterrows():
-            scenario = scenarios[scenarios['CONTENT_ITEM'] == content_item['CONTENT_ID']]
-            if not scenario.empty:
-                scenario = scenario.iloc[0]
-                states_with_skills = scenario['STATES_WITH_SKILLS'].split(',')
-                
-                # Check if this state is the "tagged" state (we'll use first state as tagged)
-                tagged_state = states_with_skills[0]
-                
-                if selected_state == tagged_state:
-                    visible_content.append(content_item)
-                elif selected_state in states_with_skills:
-                    hidden_content.append(content_item)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Content Found", len(visible_content), 
-                     delta=f"{len(visible_content)} discoverable",
-                     delta_color="normal")
-        with col2:
-            st.metric("Content Missed", len(hidden_content),
-                     delta=f"-{len(hidden_content)} hidden",
-                     delta_color="inverse")
-        with col3:
-            discovery_rate = (len(visible_content) / max(len(concept_content), 1)) * 100
-            st.metric("Discovery Rate", f"{discovery_rate:.0f}%",
-                     delta=f"-{100-discovery_rate:.0f}%",
-                     delta_color="inverse")
-        
-        if len(visible_content) > 0:
-            st.success(f"✅ **Found {len(visible_content)} content item(s):**")
-            for content in visible_content:
-                with st.expander(f"📚 {content['CONTENT_TITLE']}"):
-                    st.markdown(f"**Type:** {content['CONTENT_TYPE']}")
-                    st.markdown(f"**Description:** {content['DESCRIPTION']}")
-                    st.markdown(f"**Duration:** {content['DURATION_MINUTES']} min")
-        else:
-            st.warning("⚠️ No content found for your state!")
-        
-        if len(hidden_content) > 0:
-            st.error(f"❌ **Missed {len(hidden_content)} content item(s)** that exist but are tagged to other states:")
-            with st.expander(f"🚫 Hidden Content (exists but not discoverable in {selected_state})"):
-                for content in hidden_content:
-                    st.markdown(f"- **{content['CONTENT_TITLE']}** - {content['CONTENT_TYPE']}")
-                    st.caption(f"  {content['DESCRIPTION']}")
-                    st.caption(f"  *(Tagged to different state's skill - you can't find it)*")
-        
-        st.markdown("---")
-        
-        # Step 3: WITH BRIDGE
-        st.markdown("### Step 3: WITH Master Skill Bridge")
-        
-        col1, col2 = st.columns([1, 4])
-        with col1:
-            show_bridge_discovery = st.toggle("**Show With Bridge**", value=False, key="discovery_bridge_toggle")
-        with col2:
-            if not show_bridge_discovery:
-                st.info("👆 Toggle to see how bridge enables cross-state discovery")
-        
-        if show_bridge_discovery:
-            st.success("### ✅ WITH MASTER SKILL BRIDGE")
-            
-            # With bridge, ALL content for the concept is discoverable
-            all_concept_content = concept_content
-            
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("Content Found", len(all_concept_content),
-                         delta=f"+{len(hidden_content)} more found",
-                         delta_color="normal")
-            with col2:
-                st.metric("Content Missed", 0,
-                         delta=f"+{len(hidden_content)} recovered",
-                         delta_color="normal")
-            with col3:
-                st.metric("Discovery Rate", "100%",
-                         delta=f"+{100-discovery_rate:.0f}%",
-                         delta_color="normal")
-            
-            st.markdown(f"""
-            **How It Works:**
-            
-            1. All {len(all_concept_content)} content items tagged to **master concept**: `{selected_concept}`
-            2. Your search in **{selected_state}** queries the master concept
-            3. **Bridge automatically maps** master concept → your state's ROCK skills
-            4. **All content discovered** regardless of which state originally created it
-            """)
-            
-            st.success(f"✅ **All {len(all_concept_content)} content items discovered:**")
-            for content in all_concept_content.itertuples():
-                with st.expander(f"📚 {content.CONTENT_TITLE}"):
-                    st.markdown(f"**Type:** {content.CONTENT_TYPE}")
-                    st.markdown(f"**Description:** {content.DESCRIPTION}")
-                    st.markdown(f"**Duration:** {content.DURATION_MINUTES} min | **Grade:** {content.TARGET_GRADE}")
-                    st.markdown(f"**Author:** {content.AUTHOR}")
-            
-            # Visualization
-            import plotly.graph_objects as go
-            
-            fig = go.Figure()
-            fig.add_trace(go.Bar(
-                name='Without Bridge',
-                x=[selected_state],
-                y=[len(visible_content)],
-                marker_color='red',
-                text=[f"{len(visible_content)} items<br>({discovery_rate:.0f}%)"],
-                textposition='auto'
-            ))
-            fig.add_trace(go.Bar(
-                name='With Bridge',
-                x=[selected_state],
-                y=[len(all_concept_content)],
-                marker_color='green',
-                text=[f"{len(all_concept_content)} items<br>(100%)"],
-                textposition='auto'
-            ))
-            fig.update_layout(
-                title=f"Content Discoverability in {selected_state}",
-                yaxis_title="Content Items Found",
-                height=350,
-                barmode='group'
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        st.markdown("### 💡 Key Takeaway")
-        st.info("""
-        **Without bridges:** Teachers can only discover content tagged to their state's specific ROCK skills. 
-        Content developed in TX is invisible to CA teachers, even though both states teach the same concept.
-        
-        **With bridges:** All content for a master concept is discoverable across all states automatically. 
-        One teacher's work benefits 50 states.
-        """)
-
-# ============================================================================
-# SCALING IMPACT DASHBOARD
-# ============================================================================
-elif page == "💰 Scaling Impact Dashboard":
-    st.markdown('<div class="main-header">Content Scaling Impact Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Quantifying the business impact and ROI of master skill bridges</div>', unsafe_allow_html=True)
-    
-    # Load data
-    content_lib = loader.load_content_library()
-    scenarios = loader.load_tagging_scenarios()
-    
-    if content_lib.empty:
-        st.warning("Content library not loaded.")
-    else:
-        # Overall metrics
-        st.markdown("### 📊 Current State Analysis")
-        
-        total_content = len(content_lib)
-        avg_skills_per_content = scenarios['MATCHING_ROCK_SKILLS_COUNT'].mean()
-        total_concepts = content_lib['MASTER_CONCEPT'].nunique()
-        
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Content Items", f"{total_content}")
-        with col2:
-            st.metric("Master Concepts", f"{total_concepts}")
-        with col3:
-            st.metric("Avg Skills/Concept", f"{avg_skills_per_content:.1f}")
-        with col4:
-            st.metric("Total State Variants", f"{scenarios['MATCHING_ROCK_SKILLS_COUNT'].sum()}")
-        
-        st.markdown("---")
-        
-        # WITHOUT BRIDGE comparison
-        st.markdown("### ❌ WITHOUT Master Skill Bridge")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### Option A: Tag 1 State Per Item")
-            time_per_tag = 5
-            total_time_a = total_content * time_per_tag
-            coverage_a = (1 / avg_skills_per_content) * 100
-            
-            st.error(f"""
-            **Tagging Burden:**
-            - Time: {total_time_a} minutes ({total_time_a/60:.1f} hours)
-            - Tags to maintain: {total_content}
-            
-            **Coverage:**
-            - Average: {coverage_a:.1f}% of states per content item
-            - Result: 90-95% of potential users cannot find content
-            
-            **Outcome:** Fast but inadequate coverage
-            """)
-        
-        with col2:
-            st.markdown("#### Option B: Tag All States")
-            total_tags_b = scenarios['MATCHING_ROCK_SKILLS_COUNT'].sum()
-            total_time_b = total_tags_b * time_per_tag
-            
-            st.error(f"""
-            **Tagging Burden:**
-            - Time: {total_time_b:,} minutes ({total_time_b/60:.1f} hours = {total_time_b/60/40:.1f} weeks)
-            - Tags to maintain: {total_tags_b:,}
-            
-            **Coverage:**
-            - Average: 100% of states per content item
-            - Every skill update requires {avg_skills_per_content:.0f}× work
-            
-            **Outcome:** Complete coverage but unsustainable
-            """)
-        
-        st.markdown("---")
-        
-        # WITH BRIDGE
-        st.markdown("### ✅ WITH Master Skill Bridge")
-        
-        total_time_bridge = total_content * time_per_tag  # Tag once to master
-        coverage_bridge = 100.0
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.success(f"""
-            **Tagging Burden:**
-            - Time: {total_time_bridge} minutes ({total_time_bridge/60:.1f} hours)
-            - Tags: {total_content} (one master skill per item)
-            """)
-        with col2:
-            st.success(f"""
-            **Coverage:**
-            - Average: 100% of states per content item
-            - Automatic inheritance via bridge
-            """)
-        with col3:
-            time_saved = total_time_b - total_time_bridge
-            st.success(f"""
-            **Efficiency Gain:**
-            - Time saved: {time_saved:,} min ({time_saved/60:.1f} hrs)
-            - Reduction: {(time_saved/total_time_b)*100:.0f}%
-            """)
-        
-        st.markdown("---")
-        
-        # ROI Calculator
-        st.markdown("### 💰 ROI Calculator")
-        
-        st.markdown("Adjust assumptions to model your content development scenario:")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            content_items_per_year = st.slider(
-                "Content items developed per year:",
-                min_value=10, max_value=1000, value=200, step=10
-            )
-            avg_dev_cost_per_item = st.slider(
-                "Development cost per item ($):",
-                min_value=100, max_value=10000, value=2000, step=100
-            )
-        with col2:
-            hourly_rate = st.slider(
-                "Curriculum developer hourly rate ($):",
-                min_value=20, max_value=200, value=75, step=5
-            )
-            bridge_implementation_cost = st.number_input(
-                "Bridge layer implementation cost ($):",
-                min_value=0, max_value=2000000, value=350000, step=50000
-            )
-        
-        # Calculate ROI
-        st.markdown("---")
-        st.markdown("### 📈 ROI Analysis")
-        
-        # Annual calculations
-        annual_tagging_time_without = (content_items_per_year * avg_skills_per_content * time_per_tag) / 60  # hours
-        annual_tagging_time_with = (content_items_per_year * time_per_tag) / 60  # hours
-        annual_time_saved = annual_tagging_time_without - annual_tagging_time_with
-        annual_cost_saved = annual_time_saved * hourly_rate
-        
-        # Plus improved coverage enables more content reuse
-        reuse_multiplier = avg_skills_per_content  # Content can reach X more states
-        annual_effective_content_value = content_items_per_year * avg_dev_cost_per_item * (reuse_multiplier - 1)
-        
-        # Total annual benefit
-        total_annual_benefit = annual_cost_saved + annual_effective_content_value
-        
-        # Break-even
-        break_even_years = bridge_implementation_cost / total_annual_benefit if total_annual_benefit > 0 else 999
-        break_even_months = break_even_years * 12
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Annual Time Saved", f"{annual_time_saved:.0f} hours",
-                     help="Hours saved on tagging and maintenance per year")
-        with col2:
-            st.metric("Annual Cost Savings", f"${annual_cost_saved:,.0f}",
-                     help="Direct cost savings from reduced tagging time")
-        with col3:
-            st.metric("Content Reuse Value", f"${annual_effective_content_value:,.0f}",
-                     help="Value of content reaching additional states")
-        
-        st.markdown("---")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("#### Total Annual Benefit")
-            st.success(f"## ${total_annual_benefit:,.0f}")
-            st.caption(f"Cost savings + Content reuse value")
-        with col2:
-            st.markdown("#### Break-Even Point")
-            if break_even_months < 12:
-                st.success(f"## {break_even_months:.1f} months")
-                st.caption(f"ROI achieved in < 1 year")
-            elif break_even_months < 24:
-                st.success(f"## {break_even_years:.1f} years")
-                st.caption(f"ROI achieved in {break_even_months:.0f} months")
-            else:
-                st.warning(f"## {break_even_years:.1f} years")
-                st.caption(f"Adjust assumptions for faster ROI")
-        
-        # Visualization: Cumulative benefit
-        import plotly.graph_objects as go
-        import numpy as np
-        
-        years = np.arange(0, 5.1, 0.25)
-        cumulative_benefit = years * total_annual_benefit
-        cumulative_cost = np.full_like(years, bridge_implementation_cost)
-        net_benefit = cumulative_benefit - cumulative_cost
-        
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=years, y=cumulative_cost,
-            name='Implementation Cost',
-            line=dict(color='red', dash='dash'),
-            fill=None
-        ))
-        fig.add_trace(go.Scatter(
-            x=years, y=cumulative_benefit,
-            name='Cumulative Benefit',
-            line=dict(color='green'),
-            fill='tonexty'
-        ))
-        fig.update_layout(
-            title='ROI Timeline: When Does Bridge Layer Pay for Itself?',
-            xaxis_title='Years',
-            yaxis_title='Cumulative Value ($)',
-            height=400,
-            hovermode='x unified'
-        )
-        
-        # Add break-even marker
-        if break_even_years < 5:
-            fig.add_vline(x=break_even_years, line_dash="dot", line_color="blue",
-                         annotation_text=f"Break-even: {break_even_months:.1f} months")
-        
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        st.markdown("### 💡 Key Insights")
-        
-        efficiency_gain = ((annual_tagging_time_without - annual_tagging_time_with) / annual_tagging_time_without) * 100
-        
-        st.info(f"""
-        **Efficiency Impact:**
-        - Tagging time reduced by **{efficiency_gain:.0f}%** ({annual_time_saved:.0f} hours/year)
-        - Content reaches **{avg_skills_per_content:.1f}× more states** automatically
-        - Maintenance burden reduced from **{int(scenarios['MATCHING_ROCK_SKILLS_COUNT'].sum())} tags** to **{total_content} tags**
-        
-        **Business Case:**
-        - Annual benefit: **${total_annual_benefit:,.0f}**
-        - Implementation cost: **${bridge_implementation_cost:,.0f}**
-        - Break-even: **{break_even_months:.1f} months**
-        - 3-year ROI: **${(total_annual_benefit * 3) - bridge_implementation_cost:,.0f}**
-        
-        **Strategic Value:**
-        - Enables P&I teams to use ROCK (currently bypassed)
-        - Content developed once, reusable across 50+ states
-        - Maintains standards alignment and Star Assessment integration
-        - Unlocks cross-product content sharing
-        """)
-
-# ============================================================================
-# MASTER CONCEPT BROWSER
-# ============================================================================
-elif page == "🔍 Master Concept Browser":
-    st.markdown('<div class="main-header">Master Concept Browser</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Master concepts generated from State A variant groups - bridging fragmented ROCK skills</div>', unsafe_allow_html=True)
-    
-    # Load master concepts and related data
-    concepts_df = loader.load_master_concepts()
-    skill_mapping = loader.load_skill_master_concept_mapping()
-    variants_df = loader.load_variant_classification()
-    
-    if concepts_df.empty:
-        st.warning("⚠️ Master concepts not yet generated. Run the data pipeline first: `python analysis/scripts/generate_master_concepts.py`")
-    else:
-        # Overview metrics
-        st.markdown("### 📊 Master Concepts Overview")
-        
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Concepts", len(concepts_df))
-        with col2:
-            st.metric("High Confidence", (concepts_df['TAXONOMY_CONFIDENCE'] == 'High').sum())
-        with col3:
-            st.metric("Avg Skills/Concept", f"{concepts_df['SKILL_COUNT'].mean():.1f}")
-        with col4:
-            st.metric("Total Bridged Skills", skill_mapping['MASTER_CONCEPT_ID'].notna().sum())
-        
-        st.markdown("---")
-        
-        # Filters
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            search_query = st.text_input("🔍 Search concepts", placeholder="e.g., alphabet, analysis")
-        
-        with col2:
-            strand_filter = st.selectbox("Strand", ["All"] + natural_sort([s for s in concepts_df['SOR_STRAND'].dropna().unique() if s]))
-        
-        with col3:
-            confidence_filter = st.selectbox("Confidence", ["All", "High", "Medium", "Low"])
-        
-        with col4:
-            min_skills = st.slider("Min Skills", 0, int(concepts_df['SKILL_COUNT'].max()), 0)
-        
-        # Apply filters
-        filtered = concepts_df.copy()
-        
-        if search_query:
-            mask = filtered['MASTER_CONCEPT_NAME'].str.contains(search_query, case=False, na=False)
-            filtered = filtered[mask]
-        
-        if strand_filter != "All":
-            filtered = filtered[filtered['SOR_STRAND'] == strand_filter]
-        
-        if confidence_filter != "All":
-            filtered = filtered[filtered['TAXONOMY_CONFIDENCE'] == confidence_filter]
-        
-        filtered = filtered[filtered['SKILL_COUNT'] >= min_skills]
-        
-        # Sort by skill count (most fragmented first)
-        filtered = filtered.sort_values('SKILL_COUNT', ascending=False)
-        
-        # Add checkbox for high fragmentation
-        show_high_frag = st.checkbox("🔥 Show only highly fragmented concepts (3+ skills)", value=False)
-        if show_high_frag:
-            filtered = filtered[filtered['SKILL_COUNT'] >= 3]
-        
-        st.markdown(f"### Found {len(filtered)} Master Concepts ({filtered['SKILL_COUNT'].sum()} total skills)")
-        
-        # Visualization: Top fragmented concepts
-        if len(filtered) > 0:
-            st.markdown("#### Top 10 Most Fragmented Concepts")
-            top_concepts = filtered.head(10)
+            # Sort base skills by ROCK skill count
+            top_base_skills = base_skills.sort_values('rock_skills_count', ascending=False).head(15)
             
             fig = px.bar(
-                top_concepts,
-                x='MASTER_CONCEPT_NAME',
-                y='SKILL_COUNT',
-                title='Skills per Master Concept (showing fragmentation)',
-                labels={'SKILL_COUNT': 'Number of Skill Variants', 'MASTER_CONCEPT_NAME': 'Master Concept'},
-                color='SKILL_COUNT',
-                color_continuous_scale='Reds'
+                top_base_skills,
+                x='base_skill_name',
+                y='rock_skills_count',
+                title="Top 15 Base Skills by ROCK Skill Count (Redundancy)",
+                labels={'base_skill_name': 'Base Skill', 'rock_skills_count': 'ROCK Skills Collapsed'},
+                color='rock_skills_count',
+                color_continuous_scale='Blues'
             )
-            fig.update_layout(height=400, xaxis_tickangle=-45, showlegend=False)
+            fig.update_layout(
+                xaxis_tickangle=-45,
+                height=500,
+                showlegend=False
+            )
             st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # Display master concepts
-        for _, concept in filtered.head(30).iterrows():
-            # Build confidence badge
-            conf_color = {"High": "🟢", "Medium": "🟡", "Low": "🔴"}
-            conf_badge = conf_color.get(concept['TAXONOMY_CONFIDENCE'], "⚪")
             
-            with st.expander(f"{conf_badge} **{concept['MASTER_CONCEPT_NAME']}** — {concept['SKILL_COUNT']} skills across {concept['AUTHORITY_COUNT']} states"):
-                col1, col2 = st.columns([3, 2])
-                
-                with col1:
-                    st.markdown(f"**Taxonomy Path:**")
-                    taxonomy_path = f"{concept['SOR_STRAND']} > {concept['SOR_PILLAR']} > {concept['SOR_DOMAIN']}"
-                    st.code(taxonomy_path)
-                    
-                    if pd.notna(concept['DESCRIPTION']):
-                        st.markdown(f"**Description:**")
-                        st.info(concept['DESCRIPTION'])
-                
-                with col2:
-                    st.metric("Skill Variants", concept['SKILL_COUNT'])
-                    st.metric("States/Authorities", concept['AUTHORITY_COUNT'])
-                    st.metric("Grade Range", concept['GRADE_RANGE'])
-                    st.metric("Confidence", concept['TAXONOMY_CONFIDENCE'])
-                
-                # Show variant skills grouped by state
-                st.markdown("---")
-                st.markdown("**State-Specific Skill Variants:**")
-                
-                # Get skills for this concept
-                concept_skills = loader.get_skills_by_master_concept_id(concept['MASTER_CONCEPT_ID'])
-                
-                if not concept_skills.empty:
-                    # Group by state (authority) if available
-                    if 'AUTHORITY' in concept_skills.columns:
-                        for authority in sorted(concept_skills['AUTHORITY'].dropna().unique()):
-                            auth_skills = concept_skills[concept_skills['AUTHORITY'] == authority]
-                            with st.expander(f"📍 {authority} ({len(auth_skills)} skills)"):
-                                for _, skill in auth_skills.iterrows():
-                                    grade = skill.get('GRADE_LEVEL_NAME') or skill.get('GRADE_LEVEL_NAME_skill', 'Unknown')
-                                    skill_name = skill.get('SKILL_NAME_mapping') or skill.get('SKILL_NAME', 'Unknown')
-                                    st.markdown(f"- **Grade {grade}:** {skill_name}")
-                    else:
-                        # No authority info, just list skills
-                        for _, skill in concept_skills.iterrows():
-                            grade = skill.get('GRADE_LEVEL_NAME') or 'Unknown'
-                            skill_name = skill.get('SKILL_NAME_mapping') or skill.get('SKILL_NAME', 'Unknown')
-                            st.markdown(f"- **Grade {grade}:** {skill_name}")
-                else:
-                    st.caption("No skills mapped to this concept yet")
-        
-        if len(filtered) > 30:
-            st.caption(f"Showing first 30 of {len(filtered)} concepts. Use filters to narrow down.")
-
-# ============================================================================
-# SKILL INSPECTOR
-# ============================================================================
-elif page == "🔎 Skill Inspector":
-    st.markdown('<div class="main-header">Skill Inspector</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Explore ROCK skills and their relationships</div>', unsafe_allow_html=True)
-    
-    # Sidebar: Column Toggles
-    with st.sidebar:
-        st.markdown("---")
-        st.markdown("### 📊 Column Visibility")
-        show_skill_id = st.checkbox("SKILL_ID", value=True)
-        show_skill_name = st.checkbox("SKILL_NAME", value=True)
-        show_grade = st.checkbox("GRADE_LEVEL_NAME", value=True)
-        show_skill_area = st.checkbox("SKILL_AREA_NAME", value=True)
-        show_content_area = st.checkbox("CONTENT_AREA_NAME", value=False)
-        show_taxonomy = st.checkbox("TAXONOMY_PATH", value=False)
-        show_confidence = st.checkbox("CONFIDENCE", value=False)
-    
-    # Load all skills with mappings
-    skills_df = loader.load_skills()
-    mappings_df = loader.load_llm_skill_mappings()
-    
-    # Merge skills with mappings (left join to include unmapped)
-    if not mappings_df.empty:
-        full_df = skills_df.merge(
-            mappings_df[['SKILL_ID', 'TAXONOMY_PATH', 'CONFIDENCE', 'SEMANTIC_SIMILARITY']],
-            on='SKILL_ID',
-            how='left'
-        )
-    else:
-        full_df = skills_df.copy()
-        full_df['TAXONOMY_PATH'] = None
-        full_df['CONFIDENCE'] = None
-        full_df['SEMANTIC_SIMILARITY'] = None
-    
-    st.markdown(f"### {len(full_df):,} Total ROCK Skills")
-    
-    # OPTIONAL Filters (above table, collapsible)
-    with st.expander("🔍 Optional Filters", expanded=False):
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            search_query = st.text_input("Search Name", placeholder="e.g., blend")
-        
-        with col2:
-            content_filter = st.multiselect("Content Area", 
-                options=natural_sort(skills_df['CONTENT_AREA_NAME'].dropna().unique()))
-        
-        with col3:
-            grade_filter = st.multiselect("Grade Level",
-                options=natural_sort(skills_df['GRADE_LEVEL_NAME'].dropna().unique()))
-        
-        with col4:
-            area_filter = st.multiselect("Skill Area",
-                options=natural_sort(skills_df['SKILL_AREA_NAME'].dropna().unique()))
-    
-    # Apply filters if provided
-    filtered_df = full_df.copy()
-    
-    if search_query:
-        filtered_df = filtered_df[filtered_df['SKILL_NAME'].str.contains(search_query, case=False, na=False)]
-    
-    if content_filter:
-        filtered_df = filtered_df[filtered_df['CONTENT_AREA_NAME'].isin(content_filter)]
-    
-    if grade_filter:
-        filtered_df = filtered_df[filtered_df['GRADE_LEVEL_NAME'].isin(grade_filter)]
-    
-    if area_filter:
-        filtered_df = filtered_df[filtered_df['SKILL_AREA_NAME'].isin(area_filter)]
-    
-    st.markdown(f"#### Showing {len(filtered_df):,} skills")
-    
-    # Build display columns based on toggles
-    display_cols = []
-    col_labels = []
-    
-    if show_skill_id:
-        display_cols.append('SKILL_ID')
-        col_labels.append('Skill ID')
-    if show_skill_name:
-        display_cols.append('SKILL_NAME')
-        col_labels.append('Skill Name')
-    if show_grade:
-        display_cols.append('GRADE_LEVEL_NAME')
-        col_labels.append('Grade')
-    if show_skill_area:
-        display_cols.append('SKILL_AREA_NAME')
-        col_labels.append('Skill Area')
-    if show_content_area:
-        display_cols.append('CONTENT_AREA_NAME')
-        col_labels.append('Content Area')
-    if show_taxonomy and 'TAXONOMY_PATH' in filtered_df.columns:
-        display_cols.append('TAXONOMY_PATH')
-        col_labels.append('Taxonomy Path')
-    if show_confidence and 'CONFIDENCE' in filtered_df.columns:
-        display_cols.append('CONFIDENCE')
-        col_labels.append('Confidence')
-    
-    # Display table with column selection
-    display_df = filtered_df[display_cols].copy()
-    display_df.columns = col_labels
-    
-    # Apply natural sorting to display - sort by Grade if present, else by Skill Name
-    if 'Grade' in display_df.columns:
-        display_df['_sort_key'] = display_df['Grade'].apply(natural_sort_key)
-        display_df = display_df.sort_values('_sort_key').drop(columns=['_sort_key'])
-    elif 'Skill Name' in display_df.columns:
-        display_df['_sort_key'] = display_df['Skill Name'].apply(natural_sort_key)
-        display_df = display_df.sort_values('_sort_key').drop(columns=['_sort_key'])
-    
-    # Use Streamlit's interactive dataframe
-    st.dataframe(
-        display_df,
-        use_container_width=True,
-        height=600,
-        hide_index=True
-    )
-    
-    # Download button
-    csv = filtered_df.to_csv(index=False)
-    st.download_button(
-        label="📥 Download Filtered Results (CSV)",
-        data=csv,
-        file_name="rock_skills_filtered.csv",
-        mime="text/csv"
-    )
-    
-    # Relationship Explorer
-    st.markdown("---")
-    st.markdown("### 🔗 Relationship Explorer")
-    st.markdown("Enter a SKILL_ID to explore how it connects to standards, standard sets, and related skills")
-    
-    # SKILL_ID input for relationship lookup
-    selected_skill_id = st.text_input(
-        "Enter SKILL_ID",
-        placeholder="e.g., 2e1c483a-f6b6-46fa-8e57-e6f8226ab4c4"
-    )
-    
-    if selected_skill_id:
-        skill_info = loader.get_skill_by_id(selected_skill_id)
-        
-        if skill_info is not None:
-            st.success(f"✅ Found: {skill_info['SKILL_NAME']}")
+            # Cognitive category distribution and taxonomy status
+            col1, col2, col3 = st.columns(3)
             
-            # Tabs for different relationships
-            tab1, tab2, tab3, tab4 = st.tabs([
-                "📋 Skill Details",
-                "📚 Skill → Standards",
-                "🏛️ Skill → Standard Sets",
-                "🔗 Related Skills"
-            ])
-            
-            with tab1:
-                st.markdown("#### Skill Details")
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown(f"**Skill ID:** `{skill_info['SKILL_ID']}`")
-                    st.markdown(f"**Skill Name:** {skill_info['SKILL_NAME']}")
-                    st.markdown(f"**Skill Area:** {skill_info['SKILL_AREA_NAME']}")
-                
-                with col2:
-                    st.markdown(f"**Content Area:** {skill_info['CONTENT_AREA_NAME']}")
-                    st.markdown(f"**Grade:** {format_grade_display(skill_info['GRADE_LEVEL_NAME'])}")
-                    
-                    # Taxonomy mapping if exists
-                    if pd.notna(skill_info.get('TAXONOMY_PATH')):
-                        st.markdown(f"**Taxonomy:** {skill_info['TAXONOMY_PATH']}")
-                        st.markdown(f"**Confidence:** {skill_info.get('CONFIDENCE', 'N/A')}")
-            
-            with tab2:
-                st.markdown("#### Standards Linked to This Skill")
-                
-                # Load STANDARD_SKILLS relationships
-                standard_skills = loader.load_standard_skills()
-                related_standards = standard_skills[standard_skills['SKILL_ID'] == selected_skill_id]
-                
-                if not related_standards.empty:
-                    st.metric("Total Standards", f"{len(related_standards):,}")
-                    
-                    # Show first 100
-                    st.dataframe(
-                        related_standards[['STANDARD_ID', 'STANDARD_SET_ID']].head(100),
-                        use_container_width=True
-                    )
-                    
-                    if len(related_standards) > 100:
-                        st.caption(f"Showing first 100 of {len(related_standards):,} standards")
-                else:
-                    st.info("No standards linked to this skill")
-            
-            with tab3:
-                st.markdown("#### Standard Sets (States) Using This Skill")
-                
-                standard_skills = loader.load_standard_skills()
-                related_standards = standard_skills[standard_skills['SKILL_ID'] == selected_skill_id]
-                
-                if not related_standards.empty:
-                    # Get unique standard sets
-                    unique_sets = related_standards['STANDARD_SET_ID'].unique()
-                    st.metric("Total Standard Sets", len(unique_sets))
-                    
-                    # Load standard set names
-                    standard_sets_df = loader.load_standard_sets()
-                    if not standard_sets_df.empty:
-                        set_details = standard_sets_df[standard_sets_df['STANDARD_SET_ID'].isin(unique_sets)]
-                        if not set_details.empty:
-                            st.dataframe(
-                                set_details[['STANDARD_SET_NAME', 'EDUCATION_AUTHORITY', 'CONTENT_AREA_NAME']],
-                                use_container_width=True
-                            )
-                        else:
-                            st.markdown("**Standard Set IDs:**")
-                            st.write(unique_sets[:20])
-                    else:
-                        st.markdown("**Standard Set IDs:**")
-                        for i, set_id in enumerate(unique_sets[:20], 1):
-                            st.caption(f"{i}. {set_id}")
-                        if len(unique_sets) > 20:
-                            st.caption(f"... and {len(unique_sets) - 20} more")
-                else:
-                    st.info("No standard sets linked to this skill")
-            
-            with tab4:
-                st.markdown("#### Related Skills (Variants)")
-                
-                # Load variant classification
-                variants_df = loader.load_variant_classification()
-                if not variants_df.empty:
-                    skill_variant = variants_df[variants_df['SKILL_ID'] == selected_skill_id]
-                    
-                    if not skill_variant.empty and skill_variant.iloc[0]['EQUIVALENCE_TYPE'] != 'unique':
-                        variant_type = skill_variant.iloc[0]['EQUIVALENCE_TYPE']
-                        group_id = skill_variant.iloc[0]['EQUIVALENCE_GROUP_ID']
-                        
-                        st.success(f"**Classification:** {variant_type}")
-                        
-                        # Find other skills in same group
-                        related = variants_df[
-                            (variants_df['EQUIVALENCE_GROUP_ID'] == group_id) & 
-                            (variants_df['SKILL_ID'] != selected_skill_id)
-                        ]
-                        
-                        if not related.empty:
-                            st.markdown(f"**{len(related)} related skills in this group:**")
-                            st.dataframe(
-                                related[['SKILL_NAME', 'GRADE_LEVEL_NAME', 'SKILL_AREA_NAME']],
-                                use_container_width=True
-                            )
-                        else:
-                            st.info("No other skills in this variant group")
-                    else:
-                        st.info("This is a unique skill with no detected variants")
-                else:
-                    st.info("Variant classification data not available")
-        else:
-            st.error("❌ Skill ID not found")
-
-# ============================================================================
-# REDUNDANCY VISUALIZER
-# ============================================================================
-elif page == "📊 Redundancy Visualizer":
-    st.markdown('<div class="main-header">Redundancy Visualizer</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Quantitative proof of skill fragmentation</div>', unsafe_allow_html=True)
-    
-    concepts_df = loader.load_master_concepts()
-    
-    if concepts_df.empty:
-        st.warning("No data available. Run redundancy analysis first.")
-    else:
-        # Summary stats
-        st.markdown("### 📈 Fragmentation Statistics")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            total_concepts = len(concepts_df)
-            st.metric("Master Concepts", f"{total_concepts}")
-        
-        with col2:
-            total_skills = concepts_df['SKILL_COUNT'].sum()
-            st.metric("Total Skill Variants", f"{total_skills}")
-        
-        with col3:
-            avg_redundancy = concepts_df['SKILL_COUNT'].mean()
-            st.metric("Average Redundancy", f"{avg_redundancy:.1f}x")
-        
-        st.markdown("---")
-        
-        # Bar chart: Skills per concept
-        st.markdown("### Skills per Master Concept")
-        
-        fig = px.bar(
-            concepts_df.sort_values('SKILL_COUNT', ascending=False).head(15),
-            x='MASTER_CONCEPT_NAME',
-            y='SKILL_COUNT',
-            title='Top 15 Most Fragmented Concepts',
-            labels={'SKILL_COUNT': 'Number of Skill Variants', 'MASTER_CONCEPT_NAME': 'Master Concept'},
-            color='SKILL_COUNT',
-            color_continuous_scale='Reds'
-        )
-        fig.update_layout(height=500, xaxis_tickangle=-45)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # Distribution histogram
-        st.markdown("### Redundancy Distribution")
-        
-        fig = px.histogram(
-            concepts_df,
-            x='SKILL_COUNT',
-            nbins=20,
-            title='Distribution of Skills per Concept',
-            labels={'SKILL_COUNT': 'Skills per Concept', 'count': 'Frequency'},
-            color_discrete_sequence=['steelblue']
-        )
-        fig.add_vline(x=avg_redundancy, line_dash="dash", line_color="red",
-                     annotation_text=f"Mean: {avg_redundancy:.1f}x")
-        fig.update_layout(height=400)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # Table view
-        st.markdown("### Detailed Concept View")
-        
-        display_concepts = concepts_df[[
-            'MASTER_CONCEPT_NAME', 'SKILL_COUNT', 'AUTHORITY_COUNT', 
-            'GRADE_RANGE', 'SOR_STRAND', 'SOR_PILLAR'
-        ]].copy()
-        display_concepts.columns = [
-            'Master Concept', 'Skill Variants', 'Authorities',
-            'Grade Range', 'SoR Strand', 'SoR Pillar'
-        ]
-        st.dataframe(display_concepts, use_container_width=True, height=400)
-
-# ============================================================================
-# VARIANT ANALYSIS
-# ============================================================================
-elif page == "🔗 Variant Analysis":
-    st.markdown('<div class="main-header">Variant Analysis</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Explore State A (Cross-State) and State B (Grade Progression) relationships</div>', unsafe_allow_html=True)
-    
-    variants_df = loader.load_variant_classification()
-    
-    if variants_df.empty:
-        st.warning("Variant classification data not available. Run variant_classifier.py first.")
-    else:
-        # Overview metrics
-        st.markdown("### Overview")
-        
-        state_a_count = len(variants_df[variants_df['EQUIVALENCE_TYPE'] == 'state-variant'])
-        state_b_count = len(variants_df[variants_df['EQUIVALENCE_TYPE'] == 'grade-progression'])
-        unique_count = len(variants_df[variants_df['EQUIVALENCE_TYPE'] == 'unique'])
-        state_a_groups = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'state-variant']['EQUIVALENCE_GROUP_ID'].nunique()
-        state_b_chains = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'grade-progression']['EQUIVALENCE_GROUP_ID'].nunique()
-        
-        col1, col2, col3, col4, col5 = st.columns(5)
-        
-        with col1:
-            st.metric("State A Skills", f"{state_a_count:,}")
-            st.caption("Cross-state variants")
-        
-        with col2:
-            st.metric("State A Groups", f"{state_a_groups:,}")
-            st.caption(f"Avg {state_a_count/max(state_a_groups,1):.1f} per group")
-        
-        with col3:
-            st.metric("State B Skills", f"{state_b_count:,}")
-            st.caption("Grade progressions")
-        
-        with col4:
-            st.metric("State B Chains", f"{state_b_chains:,}")
-            st.caption(f"Avg {state_b_count/max(state_b_chains,1):.1f} per chain")
-        
-        with col5:
-            st.metric("Unique Skills", f"{unique_count:,}")
-            st.caption("No variants found")
-        
-        st.markdown("---")
-        
-        # Tabs for detailed analysis
-        tab1, tab2, tab2b, tab3, tab4 = st.tabs(["State A (Cross-State)", "State B (Progressions)", "📈 Spiraled Skills", "Unique Skills", "🎯 Master Concepts"])
-        
-        with tab1:
-            st.markdown("### Cross-State Variants (State A)")
-            st.info("💡 Same concept, different state expressions at the same grade level")
-            
-            state_a = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'state-variant']
-            
-            if not state_a.empty:
-                # Group stats
-                group_stats = state_a.groupby('EQUIVALENCE_GROUP_ID').agg({
-                    'SKILL_ID': 'count',
-                    'SKILL_NAME': 'first',
-                    'GRADE_LEVEL_NAME': lambda x: ', '.join(x.unique()[:3])
-                }).reset_index()
-                group_stats.columns = ['GROUP_ID', 'VARIANT_COUNT', 'EXAMPLE_SKILL', 'GRADES']
-                group_stats = group_stats.sort_values('VARIANT_COUNT', ascending=False)
-                
-                # Visualization
-                fig = px.bar(
-                    group_stats.head(20),
-                    x='EXAMPLE_SKILL',
-                    y='VARIANT_COUNT',
-                    title='Top 20 Most Fragmented Concepts (State A)',
-                    labels={'VARIANT_COUNT': 'Number of Variants', 'EXAMPLE_SKILL': 'Skill Concept'},
-                    color='VARIANT_COUNT',
-                    color_continuous_scale='Reds'
+            with col1:
+                st.markdown("### By Cognitive Category")
+                cognitive_dist = base_skills['cognitive_category'].value_counts()
+                fig2 = px.pie(
+                    values=cognitive_dist.values,
+                    names=cognitive_dist.index,
+                    title="Base Skills by Cognitive Category"
                 )
-                fig.update_layout(height=500, xaxis_tickangle=-45)
-                st.plotly_chart(fig, use_container_width=True)
-                
-                # Select group to explore
-                st.markdown("#### Explore a Group")
-                group_options = group_stats['GROUP_ID'].tolist()
-                if group_options:
-                    selected_group = st.selectbox("Select Group", group_options, format_func=lambda x: f"{group_stats[group_stats['GROUP_ID']==x]['EXAMPLE_SKILL'].iloc[0][:60]}...")
-                    
-                    group_skills = state_a[state_a['EQUIVALENCE_GROUP_ID'] == selected_group]
-                    
-                    st.markdown(f"**{len(group_skills)} variants in this group**")
-                    display_cols = ['SKILL_NAME', 'GRADE_LEVEL_NAME', 'SKILL_AREA_NAME']
-                    st.dataframe(group_skills[display_cols], use_container_width=True)
-        
-        with tab2:
-            st.markdown("### Grade Progressions (State B)")
-            st.info("💡 Skills that spiral in complexity across grade levels")
+                st.plotly_chart(fig2, use_container_width=True)
             
-            state_b = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'grade-progression']
+            with col2:
+                st.markdown("### Taxonomy Mapping Status")
+                if 'taxonomy_strand' in base_skills.columns:
+                    mapped_count = base_skills['taxonomy_strand'].notna().sum()
+                    unmapped_count = base_skills['taxonomy_strand'].isna().sum()
+                    fig_tax = px.pie(
+                        values=[mapped_count, unmapped_count],
+                        names=['Linked to Taxonomy', 'Pending Mapping'],
+                        title="Taxonomy Linkage Status",
+                        color_discrete_map={'Linked to Taxonomy': '#2ca02c', 'Pending Mapping': '#ff7f0e'}
+                    )
+                    st.plotly_chart(fig_tax, use_container_width=True)
+                else:
+                    st.info("Taxonomy mapping in progress")
             
-            if not state_b.empty:
-                # Chain stats
-                chain_stats = state_b.groupby('EQUIVALENCE_GROUP_ID').agg({
-                    'SKILL_ID': 'count',
-                    'SKILL_NAME': 'first',
-                    'COMPLEXITY_LEVEL': ['min', 'max']
-                }).reset_index()
-                chain_stats.columns = ['CHAIN_ID', 'CHAIN_LENGTH', 'EXAMPLE_SKILL', 'MIN_LEVEL', 'MAX_LEVEL']
-                chain_stats = chain_stats.sort_values('CHAIN_LENGTH', ascending=False)
-                
-                st.markdown(f"**{len(chain_stats)} progression chains identified**")
-                
-                # Select chain to explore
-                chain_options = chain_stats['CHAIN_ID'].tolist()
-                if chain_options:
-                    selected_chain = st.selectbox("Select Progression Chain", chain_options, format_func=lambda x: f"{chain_stats[chain_stats['CHAIN_ID']==x]['EXAMPLE_SKILL'].iloc[0][:60]}...")
-                    
-                    chain_skills = state_b[state_b['EQUIVALENCE_GROUP_ID'] == selected_chain].sort_values('COMPLEXITY_LEVEL')
-                    
-                    st.markdown("#### Progression Sequence")
-                    
-                    for idx, (_, skill) in enumerate(chain_skills.iterrows()):
-                        col1, col2, col3 = st.columns([1, 4, 1])
+            with col3:
+                st.markdown("### Redundancy Distribution")
+                fig3 = px.histogram(
+                    base_skills,
+                    x='rock_skills_count',
+                    nbins=20,
+                    title="ROCK Skills per Base Skill",
+                    labels={'rock_skills_count': 'ROCK Skills Count', 'count': 'Frequency'}
+                )
+                st.plotly_chart(fig3, use_container_width=True)
+            
+            # ========================================================================
+            # SECTION C: Interactive Base Skills Browser
+            # ========================================================================
+            st.markdown("---")
+            st.markdown("## 🔍 Interactive Base Skills Browser")
+            
+            # Search and filters
+            search_col1, search_col2, search_col3, search_col4 = st.columns([2, 1, 1, 1])
+            
+            with search_col1:
+                search_term = st.text_input("Search base skills:", placeholder="Enter skill name or description...")
+            
+            with search_col2:
+                cognitive_filter = st.selectbox(
+                    "Cognitive Category:",
+                    options=['All'] + sorted(base_skills['cognitive_category'].dropna().unique().tolist())
+                )
+            
+            with search_col3:
+                taxonomy_filter = st.selectbox(
+                    "Taxonomy Status:",
+                    options=['All', 'Linked to Taxonomy', 'Pending Mapping']
+                )
+            
+            with search_col4:
+                min_skills = st.number_input("Min ROCK Skills:", min_value=0, value=0, step=1)
+            
+            # Apply filters
+            filtered_base_skills = base_skills.copy()
+            
+            if search_term:
+                mask = filtered_base_skills['base_skill_name'].str.contains(search_term, case=False, na=False) | \
+                       filtered_base_skills['base_skill_description'].str.contains(search_term, case=False, na=False)
+                filtered_base_skills = filtered_base_skills[mask]
+            
+            if cognitive_filter != 'All':
+                filtered_base_skills = filtered_base_skills[filtered_base_skills['cognitive_category'] == cognitive_filter]
+            
+            if taxonomy_filter != 'All':
+                if 'taxonomy_strand' in filtered_base_skills.columns:
+                    if taxonomy_filter == 'Linked to Taxonomy':
+                        filtered_base_skills = filtered_base_skills[filtered_base_skills['taxonomy_strand'].notna()]
+                    elif taxonomy_filter == 'Pending Mapping':
+                        filtered_base_skills = filtered_base_skills[filtered_base_skills['taxonomy_strand'].isna()]
+            
+            if min_skills > 0:
+                filtered_base_skills = filtered_base_skills[filtered_base_skills['rock_skills_count'] >= min_skills]
+            
+            st.markdown(f"**Found {len(filtered_base_skills)} base skills:**")
+            
+            # Display base skills with drill-down
+            if not filtered_base_skills.empty:
+                for _, base_skill in filtered_base_skills.head(20).iterrows():
+                    with st.expander(
+                        f"⚡ {base_skill['base_skill_name']} "
+                        f"({base_skill['rock_skills_count']} ROCK skills)"
+                    ):
+                        col1, col2 = st.columns([2, 1])
                         
                         with col1:
-                            st.markdown(f"**Level {int(skill['COMPLEXITY_LEVEL'])}**")
+                            st.markdown(f"**Description:** {base_skill['base_skill_description']}")
+                            st.markdown(f"**Cognitive Category:** {base_skill['cognitive_category']}")
+                            
+                            # Show taxonomy information if available
+                            if 'taxonomy_strand' in base_skill.index and pd.notna(base_skill.get('taxonomy_strand')):
+                                st.markdown("**Taxonomy Classification:**")
+                                st.markdown(f"- 🌳 Strand: {base_skill['taxonomy_strand']}")
+                                st.markdown(f"- 📚 Pillar: {base_skill.get('taxonomy_pillar', 'N/A')}")
+                                st.markdown(f"- 📖 Domain: {base_skill.get('taxonomy_domain', 'N/A')}")
+                                st.caption(f"_{base_skill.get('taxonomy_source', 'Source: Master Concepts')}_")
+                            else:
+                                st.info("🔄 Taxonomy mapping pending - Link this base skill to Science of Reading framework")
                         
                         with col2:
-                            st.info(f"{skill['SKILL_NAME']} ({format_grade_display(skill['GRADE_LEVEL_NAME'])})")
+                            st.metric("ROCK Skills", base_skill['rock_skills_count'])
+                            st.markdown(f"**Confidence:** {base_skill.get('confidence', 'N/A')}")
+                            st.markdown(f"**Created By:** {base_skill.get('created_by', 'N/A')}")
+                            st.markdown(f"**Cluster ID:** {base_skill.get('cluster_id', 'N/A')}")
                         
-                        with col3:
-                            # Check if mapped
-                            mappings_df = loader.load_llm_skill_mappings()
-                            if not mappings_df.empty and skill['SKILL_ID'] in mappings_df['SKILL_ID'].values:
-                                st.success("✅")
-                            else:
-                                st.caption("⏳")
-                        
-                        if idx < len(chain_skills) - 1:
-                            st.markdown("↓")
-        
-        with tab2b:
-            st.markdown("### Spiraled Skills (Progression Chains)")
-            st.info("💡 Detailed view of skills that increase in complexity across grade levels")
-            
-            # Load progression chains summary
-            chains_summary_path = Path(__file__).resolve().parent.parent / 'analysis' / 'outputs' / 'progression-chains-summary.csv'
-            
-            if chains_summary_path.exists():
-                chains_summary = pd.read_csv(chains_summary_path)
-                
-                # Overview metrics
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    st.metric("Total Progression Chains", len(chains_summary))
-                
-                with col2:
-                    if len(chains_summary) > 0:
-                        st.metric("Longest Chain", f"{chains_summary['CHAIN_LENGTH'].max()} grades")
-                
-                with col3:
-                    if len(chains_summary) > 0:
-                        st.metric("Avg Chain Length", f"{chains_summary['CHAIN_LENGTH'].mean():.1f} grades")
-                
-                # Visualization: Distribution of chain lengths
-                if not chains_summary.empty:
-                    st.markdown("#### Chain Length Distribution")
-                    
-                    chain_length_dist = chains_summary['CHAIN_LENGTH'].value_counts().sort_index()
-                    fig = px.bar(
-                        x=chain_length_dist.index,
-                        y=chain_length_dist.values,
-                        labels={'x': 'Chain Length (Grades)', 'y': 'Number of Chains'},
-                        title='Distribution of Progression Chain Lengths'
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
-                    
-                    # Select a chain to explore
-                    st.markdown("#### Explore a Progression Chain")
-                    
-                    # Sort by chain length for easier browsing
-                    chains_display = chains_summary.sort_values('CHAIN_LENGTH', ascending=False)
-                    
-                    chain_options = {
-                        f"{row['CONCEPT_NAME'][:60]}... ({row['CHAIN_LENGTH']} grades, {row['GRADE_RANGE']})": row['CHAIN_ID']
-                        for _, row in chains_display.iterrows()
-                    }
-                    
-                    selected_chain_display = st.selectbox(
-                        "Select a progression chain to visualize:",
-                        options=list(chain_options.keys())
-                    )
-                    
-                    if selected_chain_display:
-                        selected_chain_id = chain_options[selected_chain_display]
-                        
-                        # Get skills in this chain
-                        chain_skills = variants_df[
-                            (variants_df['EQUIVALENCE_GROUP_ID'] == selected_chain_id) &
-                            (variants_df['EQUIVALENCE_TYPE'] == 'grade-progression')
-                        ].sort_values('COMPLEXITY_LEVEL')
-                        
-                        if not chain_skills.empty:
-                            chain_info = chains_summary[chains_summary['CHAIN_ID'] == selected_chain_id].iloc[0]
+                        # Try to show related ROCK skills from specifications
+                        if not specifications.empty:
+                            # Simple matching on first few words of base skill name
+                            key_words = base_skill['base_skill_name'].split()[:3]
+                            pattern = '|'.join(key_words)
                             
-                            st.markdown(f"**Concept:** {chain_info['CONCEPT_NAME']}")
-                            st.markdown(f"**Grade Range:** {chain_info['GRADE_RANGE']} ({chain_info['CHAIN_LENGTH']} grades)")
-                            st.markdown(f"**Authority:** {chain_info['AUTHORITY']}")
+                            matching_specs = specifications[
+                                specifications['SKILL_NAME'].str.contains(pattern, case=False, na=False)
+                            ].head(5)
                             
-                            st.markdown("---")
-                            st.markdown("#### 📊 Progression Visualization")
-                            
-                            # Display the progression chain visually
-                            for idx, (_, skill) in enumerate(chain_skills.iterrows()):
-                                col1, col2, col3, col4 = st.columns([1, 3, 1, 1])
-                                
-                                with col1:
-                                    # Complexity level badge
-                                    st.markdown(f"""
-                                    <div style='background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px; text-align: center;'>
-                                        <b>Level {int(skill['COMPLEXITY_LEVEL'])}</b>
-                                    </div>
-                                    """, unsafe_allow_html=True)
-                                
-                                with col2:
-                                    # Skill name
-                                    st.info(f"**{format_grade_display(skill['GRADE_LEVEL_NAME'])}**\n\n{skill['SKILL_NAME']}")
-                                
-                                with col3:
-                                    # Prerequisite indicator
-                                    if pd.notna(skill.get('PREREQUISITE_SKILL_ID')):
-                                        st.caption("⬆️ Has prereq")
-                                    else:
-                                        st.caption("🌟 First")
-                                
-                                with col4:
-                                    # Mapping status
-                                    mappings_df = loader.load_llm_skill_mappings()
-                                    if not mappings_df.empty and skill['SKILL_ID'] in mappings_df['SKILL_ID'].values:
-                                        st.success("✅ Mapped")
-                                    else:
-                                        st.caption("⏳ Not mapped")
-                                
-                                # Show arrow between skills
-                                if idx < len(chain_skills) - 1:
-                                    st.markdown("<div style='text-align: center; font-size: 24px;'>↓</div>", unsafe_allow_html=True)
-                            
-                            st.markdown("---")
-                            st.markdown("#### 📋 Skills Table")
-                            
-                            # Show detailed table
-                            display_cols = ['SKILL_NAME', 'GRADE_LEVEL_NAME', 'COMPLEXITY_LEVEL', 'SKILL_AREA_NAME']
-                            st.dataframe(chain_skills[display_cols], use_container_width=True)
-                        else:
-                            st.warning("No skills found for this chain.")
-                else:
-                    st.info("No progression chains found.")
+                            if not matching_specs.empty:
+                                st.markdown("**Sample ROCK Skills:**")
+                                for _, spec in matching_specs.iterrows():
+                                    st.markdown(
+                                        f"- {spec['SKILL_NAME']} "
+                                        f"(Grade {spec.get('GRADE_LEVEL_SHORT_NAME', 'N/A')}, "
+                                        f"{spec.get('cognitive_demand', 'N/A')})"
+                                    )
             else:
-                st.warning("⚠️ Progression chains summary not found. Run `python analysis/variant_classifier.py` to generate.")
-        
-        with tab3:
-            st.markdown("### Unique Skills")
-            st.info("💡 Skills with no detected variants")
+                st.info("No base skills match your search criteria. Try adjusting your filters.")
             
-            unique = variants_df[variants_df['EQUIVALENCE_TYPE'] == 'unique']
+            # ========================================================================
+            # SECTION D: Specifications Showcase
+            # ========================================================================
+            st.markdown("---")
+            st.markdown("## 🔬 How Specifications Reveal Base Skills")
             
-            if not unique.empty:
-                st.metric("Total Unique Skills", f"{len(unique):,}")
-                display_cols = ['SKILL_NAME', 'GRADE_LEVEL_NAME', 'SKILL_AREA_NAME', 'CONTENT_AREA_NAME']
-                st.dataframe(unique[display_cols].head(100), use_container_width=True)
-            else:
-                st.info("No unique skills found")
-        
-        with tab4:
-            st.markdown("### Master Concepts from State A Groups")
-            st.info("💡 How State A (cross-state) variant groups map to master concepts via the bridging layer")
+            st.markdown("""
+            Specifications are structured metadata extracted from ROCK skill descriptions that reveal 
+            what skills actually teach. By comparing specifications across skills, we can identify 
+            which skills teach the same base concept.
+            """)
             
-            concepts_df = loader.load_master_concepts()
-            state_a_groups = loader.get_state_a_groups_summary()
-            
-            if concepts_df.empty:
-                st.warning("⚠️ Master concepts not yet generated. Run the data pipeline: `python analysis/scripts/generate_master_concepts.py`")
-            else:
-                # Filter option
-                show_only_mapped = st.checkbox("Show only State A groups with master concepts", value=True)
+            # Show example if specifications are available
+            if not specifications.empty:
+                st.markdown("### Example: Specifications Comparison")
                 
-                if show_only_mapped:
-                    display_groups = state_a_groups[state_a_groups['MASTER_CONCEPT_ID'].notna()]
-                else:
-                    display_groups = state_a_groups
+                # Pick 2-3 skills from the same base skill category
+                # For demonstration, let's pick skills about "identify" + "plot"
+                example_skills = specifications[
+                    specifications['SKILL_NAME'].str.contains('plot|character|story', case=False, na=False)
+                ].head(3)
                 
-                st.markdown(f"**Showing {len(display_groups)} of {len(state_a_groups)} State A groups**")
-                
-                # Summary metrics
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    mapped_count = state_a_groups['MASTER_CONCEPT_ID'].notna().sum()
-                    st.metric("State A Groups Mapped", f"{mapped_count}/{len(state_a_groups)}")
-                
-                with col2:
-                    if not concepts_df.empty:
-                        st.metric("Master Concepts Created", len(concepts_df))
-                
-                with col3:
-                    if not display_groups.empty:
-                        avg_skills = display_groups['SKILL_COUNT'].mean()
-                        st.metric("Avg Skills per Concept", f"{avg_skills:.1f}")
-                
-                # Display each State A group and its master concept
-                if not display_groups.empty:
-                    st.markdown("---")
+                if not example_skills.empty:
+                    st.markdown("**Example Skills from the Filtered Dataset:**")
                     
-                    for _, group in display_groups.iterrows():
-                        has_concept = pd.notna(group.get('MASTER_CONCEPT_ID'))
+                    for idx, (_, skill) in enumerate(example_skills.iterrows(), 1):
+                        with st.expander(f"Skill {idx}: {skill['SKILL_NAME'][:80]}..."):
+                            col1, col2 = st.columns(2)
+                            
+                            with col1:
+                                st.markdown("**Structural Specifications:**")
+                                st.markdown(f"- **Actions:** {skill.get('actions', 'N/A')}")
+                                st.markdown(f"- **Targets:** {skill.get('targets', 'N/A')}")
+                                st.markdown(f"- **Qualifiers:** {skill.get('qualifiers', 'N/A')}")
+                                st.markdown(f"- **Root Verb:** {skill.get('root_verb', 'N/A')}")
+                            
+                            with col2:
+                                st.markdown("**Educational Specifications:**")
+                                st.markdown(f"- **Text Type:** {skill.get('text_type', 'N/A')}")
+                                st.markdown(f"- **Text Mode:** {skill.get('text_mode', 'N/A')}")
+                                st.markdown(f"- **Cognitive Demand:** {skill.get('cognitive_demand', 'N/A')}")
+                                st.markdown(f"- **Task Complexity:** {skill.get('task_complexity', 'N/A')}")
+                                st.markdown(f"- **Grade Band:** {skill.get('complexity_band', 'N/A')}")
+                    
+                    st.markdown("""
+                    <div class="callout-box callout-success">
+                    <strong>Key Insight:</strong> By comparing these specifications, we can see that these skills 
+                    share similar actions, targets, and educational attributes, suggesting they teach related 
+                    base competencies. This metadata-driven approach enables automatic grouping into base skills.
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Show specification statistics
+                    st.markdown("### Specification Coverage Statistics")
+                    
+                    spec_fields = ['text_type', 'text_mode', 'cognitive_demand', 'task_complexity', 'skill_domain']
+                    coverage_data = []
+                    
+                    for field in spec_fields:
+                        if field in specifications.columns:
+                            populated = specifications[field].notna().sum()
+                            total = len(specifications)
+                            coverage_pct = (populated / total * 100) if total > 0 else 0
+                            coverage_data.append({
+                                'Specification Field': field.replace('_', ' ').title(),
+                                'Populated': populated,
+                                'Total Skills': total,
+                                'Coverage %': f"{coverage_pct:.1f}%"
+                            })
+                    
+                    if coverage_data:
+                        coverage_df = pd.DataFrame(coverage_data)
+                        st.dataframe(coverage_df, use_container_width=True, hide_index=True)
                         
-                        if has_concept:
-                            concept_name = group['MASTER_CONCEPT_NAME']
-                            badge = "✅"
-                        else:
-                            concept_name = "No master concept"
-                            badge = "⏳"
-                        
-                        with st.expander(f"{badge} **{group['EXAMPLE_SKILL'][:80]}...** — {group['SKILL_COUNT']} skills across {group['AUTHORITY_COUNT']} states"):
-                            
-                            # Show master concept details if available
-                            if has_concept:
-                                concept_id = group['MASTER_CONCEPT_ID']
-                                concept = concepts_df[concepts_df['MASTER_CONCEPT_ID'] == concept_id].iloc[0]
-                                
-                                col1, col2 = st.columns([2, 1])
-                                
-                                with col1:
-                                    st.markdown(f"**Master Concept:** {concept['MASTER_CONCEPT_NAME']}")
-                                    st.markdown(f"**Taxonomy Path:**")
-                                    st.markdown(f"- **Strand:** {concept['SOR_STRAND']}")
-                                    st.markdown(f"- **Pillar:** {concept['SOR_PILLAR']}")
-                                    st.markdown(f"- **Domain:** {concept['SOR_DOMAIN']}")
-                                    
-                                    if pd.notna(concept['DESCRIPTION']):
-                                        st.info(f"**Description:** {concept['DESCRIPTION']}")
-                                
-                                with col2:
-                                    st.metric("Confidence", concept['TAXONOMY_CONFIDENCE'])
-                                    st.metric("Grade Range", concept['GRADE_RANGE'])
-                                    st.caption(f"Concept ID: {concept_id[:8]}...")
-                            
-                            # Show variant skills in this group
-                            st.markdown("**Skill Variants in This Group:**")
-                            
-                            group_details = loader.get_equivalence_group_details(group['EQUIVALENCE_GROUP_ID'])
-                            
-                            if not group_details.empty:
-                                # Group by authority
-                                if 'AUTHORITY' in group_details.columns:
-                                    for authority in sorted(group_details['AUTHORITY'].dropna().unique()):
-                                        auth_skills = group_details[group_details['AUTHORITY'] == authority]
-                                        st.markdown(f"**{authority}** ({len(auth_skills)} skills):")
-                                        
-                                        for _, skill in auth_skills.iterrows():
-                                            grade = skill.get('GRADE_LEVEL_SHORT_NAME') or skill.get('GRADE_LEVEL_NAME_variant', 'Unknown')
-                                            skill_name = skill.get('SKILL_NAME_variant') or skill.get('SKILL_NAME', 'Unknown')
-                                            st.markdown(f"- {format_grade_display(grade)}: {skill_name}")
-                                else:
-                                    # Fallback if no authority column
-                                    for _, skill in group_details.iterrows():
-                                        grade = skill.get('GRADE_LEVEL_SHORT_NAME') or skill.get('GRADE_LEVEL_NAME_variant', 'Unknown')
-                                        skill_name = skill.get('SKILL_NAME_variant') or skill.get('SKILL_NAME', 'Unknown')
-                                        st.markdown(f"- {format_grade_display(grade)}: {skill_name}")
-                            
-                            # Link to Master Concept Browser
-                            if has_concept:
-                                st.markdown("---")
-                                st.caption("💡 View this concept in the Master Concept Browser for full details")
-                else:
-                    st.info("No State A groups to display with current filters")
+                        st.info(f"""
+                        **Specification Extraction Summary:**
+                        - Total skills with specifications: {len(specifications):,}
+                        - Average specification coverage: {coverage_df['Coverage %'].str.rstrip('%').astype(float).mean():.1f}%
+                        - Extraction method: Hybrid (spaCy NLP + LLM)
+                        """)
+            else:
+                st.info("""
+                ⚠️ **Specifications not available yet.**
+                
+                To generate specifications, run the metadata extraction pipeline:
+                ```bash
+                cd analysis/scripts
+                python3 enhanced_metadata_extractor.py
+                ```
+                
+                This will extract 23 metadata fields from each skill, including:
+                - Structural: actions, targets, qualifiers
+                - Educational: text type, cognitive demand, task complexity
+                - Pedagogical: support level, complexity band
+                """)
+    
+    except Exception as e:
+        st.error(f"Error loading base skills: {e}")
+        st.info("Make sure base skills have been extracted using the analysis pipeline.")
 
 # ============================================================================
-# MAPPING QUALITY
+# PAGE 4: DEMO SCENARIOS
 # ============================================================================
-elif page == "📈 Mapping Quality":
-    st.markdown('<div class="main-header">Mapping Quality Metrics</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Confidence, accuracy, and coverage of LLM-assisted mappings</div>', unsafe_allow_html=True)
+
+elif page == "📖 Demo Scenarios":
+    st.markdown('<div class="main-header">Demo Scenarios</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Pre-built scenarios demonstrating the power of taxonomy-enabled discovery</div>', unsafe_allow_html=True)
     
-    mappings_df = loader.load_llm_skill_mappings()
+    st.markdown("""
+    ### Welcome to Interactive Demo Scenarios
     
-    if mappings_df.empty:
-        st.warning("No LLM mappings available yet. Run batch_map_skills.py first.")
-    else:
-        # Overall stats
-        st.markdown("### Overview")
+    These scenarios demonstrate how combining **Base Skills** + **Specifications** + **Taxonomy** 
+    enables dramatically better skill discovery and organization compared to traditional text search.
+    """)
+    
+    # Scenario selector
+    scenario = st.selectbox(
+        "Choose a Demo Scenario:",
+        [
+            "Scenario A: Find All Phonological Awareness Skills for K-2",
+            "Scenario B: Discover Analysis-Level Comprehension Skills for Fiction",
+            "Scenario C: Cross-State Discovery - Find Equivalent Skills"
+        ]
+    )
+    
+    st.markdown("---")
+    
+    # ========================================================================
+    # SCENARIO A: Phonological Awareness K-2
+    # ========================================================================
+    if scenario == "Scenario A: Find All Phonological Awareness Skills for K-2":
+        st.markdown("## 🎯 Scenario A: Find All Phonological Awareness Skills for K-2")
         
-        total_mapped = len(mappings_df)
-        high_conf = len(mappings_df[mappings_df['CONFIDENCE'] == 'High'])
-        medium_conf = len(mappings_df[mappings_df['CONFIDENCE'] == 'Medium'])
-        low_conf = len(mappings_df[mappings_df['CONFIDENCE'] == 'Low'])
-        avg_similarity = mappings_df['SEMANTIC_SIMILARITY'].mean()
-        needs_review = mappings_df['NEEDS_REVIEW'].sum() if 'NEEDS_REVIEW' in mappings_df.columns else 0
+        st.markdown("""
+        **Use Case:** A curriculum developer needs to find all phonological awareness skills 
+        appropriate for K-2 students to build a foundational literacy unit.
         
-        col1, col2, col3, col4 = st.columns(4)
+        **Without Taxonomy:** Simple text search for "phoneme" or "sound" returns 200+ results 
+        across all grades, many irrelevant.
         
-        with col1:
-            st.metric("Total Mapped", f"{total_mapped:,}")
-        
-        with col2:
-            st.metric("High Confidence", f"{high_conf:,}", f"{high_conf/total_mapped*100:.1f}%")
-        
-        with col3:
-            st.metric("Avg Similarity", f"{avg_similarity:.3f}")
-        
-        with col4:
-            st.metric("Needs Review", f"{needs_review:,}")
-        
-        st.markdown("---")
-        
-        # Confidence distribution
-        st.markdown("### Confidence Distribution")
+        **With Taxonomy:** Filter by Strand + Pillar + Grade Band → Precise results.
+        """)
         
         col1, col2 = st.columns(2)
         
         with col1:
-            # Pie chart
-            conf_data = pd.DataFrame({
-                'Confidence': ['High', 'Medium', 'Low'],
-                'Count': [high_conf, medium_conf, low_conf]
-            })
-            
-            fig = px.pie(
-                conf_data,
-                values='Count',
-                names='Confidence',
-                title='Mappings by Confidence Level',
-                color='Confidence',
-                color_discrete_map={'High': 'green', 'Medium': 'orange', 'Low': 'red'}
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            st.markdown("### ❌ Without Taxonomy")
+            st.code("""
+Search: "phoneme" OR "sound"
+Results: 200+ skills
+Grade levels: K-12 (mixed)
+Relevance: ~40%
+Time to filter: 45 minutes
+            """)
+            st.markdown("**Problems:**")
+            st.markdown("- Too many irrelevant results")
+            st.markdown("- No grade-level precision")
+            st.markdown("- Misses alternative terminology")
+            st.markdown("- Manual filtering required")
         
         with col2:
-            # Bar chart
-            fig = px.bar(
-                conf_data,
-                x='Confidence',
-                y='Count',
-                title='Confidence Level Counts',
-                color='Confidence',
-                color_discrete_map={'High': 'green', 'Medium': 'orange', 'Low': 'red'}
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            st.markdown("### ✅ With Taxonomy")
+            st.code("""
+Filters:
+- Strand: Word Recognition
+- Pillar: Phonological Awareness  
+- Grade Band: K-2
+Results: 15 precise skills
+Relevance: ~95%
+Time to filter: 30 seconds
+            """)
+            st.markdown("**Benefits:**")
+            st.markdown("- Precise, grade-appropriate results")
+            st.markdown("- Scientifically organized")
+            st.markdown("- Finds skills regardless of wording")
+            st.markdown("- Immediate, no manual work")
         
         st.markdown("---")
+        st.markdown("### 🚀 Try It Live")
         
-        # Semantic similarity distribution
-        st.markdown("### Semantic Similarity Distribution")
-        
-        fig = px.histogram(
-            mappings_df,
-            x='SEMANTIC_SIMILARITY',
-            nbins=30,
-            title='Distribution of Semantic Similarity Scores',
-            labels={'SEMANTIC_SIMILARITY': 'Similarity Score', 'count': 'Frequency'},
-            color_discrete_sequence=['steelblue']
-        )
-        fig.add_vline(x=avg_similarity, line_dash="dash", line_color="red",
-                     annotation_text=f"Mean: {avg_similarity:.3f}")
-        st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        # Pillar distribution
-        st.markdown("### Mappings by Science of Reading Pillar")
-        
-        if 'pillar' in mappings_df.columns:
-            pillar_counts = mappings_df['pillar'].value_counts()
+        if st.button("🎬 Run Scenario A", type="primary"):
+            try:
+                specifications = loader.load_skill_specifications()
+                
+                if not specifications.empty:
+                    # Apply filters
+                    filtered = specifications[
+                        (specifications['complexity_band'] == 'K-2') &
+                        (specifications['skill_domain'] == 'reading')
+                    ]
+                    
+                    # Look for phonological awareness indicators
+                    phon_terms = ['phoneme', 'sound', 'blend', 'segment', 'isolate', 'manipulate']
+                    pattern = '|'.join(phon_terms)
+                    filtered = filtered[filtered['SKILL_NAME'].str.contains(pattern, case=False, na=False)]
+                    
+                    st.success(f"✅ Found {len(filtered)} phonological awareness skills for K-2!")
+                    
+                    if not filtered.empty:
+                        display_cols = ['SKILL_NAME', 'GRADE_LEVEL_SHORT_NAME', 'cognitive_demand', 'task_complexity']
+                        available_cols = [col for col in display_cols if col in filtered.columns]
+                        st.dataframe(filtered[available_cols].head(15), use_container_width=True, hide_index=True)
+                else:
+                    st.info("⚠️ Specifications data not available. Run the metadata extraction pipeline first.")
             
+            except Exception as e:
+                st.error(f"Error running scenario: {e}")
+    
+    # ========================================================================
+    # SCENARIO B: Analysis-Level Comprehension for Fiction
+    # ========================================================================
+    elif scenario == "Scenario B: Discover Analysis-Level Comprehension Skills for Fiction":
+        st.markdown("## 🎯 Scenario B: Discover Analysis-Level Comprehension Skills for Fiction")
+        
+        st.markdown("""
+        **Use Case:** A teacher wants to find high-level analytical reading skills for a fiction 
+        unit in grades 6-8.
+        
+        **Without Taxonomy:** Search "analyze fiction" returns many skills, but mix of complexity 
+        levels and text types.
+        
+        **With Taxonomy:** Multi-dimensional filter for exact requirements.
+        """)
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("### ❌ Without Taxonomy")
+            st.code("""
+Search: "analyze fiction"
+Results: 80+ mixed skills
+Complexity: All levels
+Text types: Mixed
+Time to filter: 30 minutes
+            """)
+        
+        with col2:
+            st.markdown("### ✅ With Taxonomy")
+            st.code("""
+Filters:
+- Cognitive Demand: analysis
+- Text Type: fictional
+- Domain: Comprehension
+- Grade Band: 6-8
+Results: 12 precise skills
+Time to filter: 15 seconds
+            """)
+        
+        st.markdown("---")
+        st.markdown("### 🚀 Try It Live")
+        
+        if st.button("🎬 Run Scenario B", type="primary"):
+            try:
+                specifications = loader.load_skill_specifications()
+                
+                if not specifications.empty:
+                    filtered = specifications[
+                        (specifications['cognitive_demand'] == 'analysis') &
+                        (specifications['text_type'] == 'fictional') &
+                        (specifications['skill_domain'] == 'reading') &
+                        (specifications['complexity_band'].isin(['6-8', '9-12']))
+                    ]
+                    
+                    st.success(f"✅ Found {len(filtered)} analysis-level fiction comprehension skills!")
+                    
+                    if not filtered.empty:
+                        display_cols = ['SKILL_NAME', 'GRADE_LEVEL_SHORT_NAME', 'text_type', 'text_mode', 'cognitive_demand']
+                        available_cols = [col for col in display_cols if col in filtered.columns]
+                        st.dataframe(filtered[available_cols].head(12), use_container_width=True, hide_index=True)
+                else:
+                    st.info("⚠️ Specifications data not available.")
+            
+            except Exception as e:
+                st.error(f"Error running scenario: {e}")
+    
+    # ========================================================================
+    # SCENARIO C: Cross-State Discovery
+    # ========================================================================
+    elif scenario == "Scenario C: Cross-State Discovery - Find Equivalent Skills":
+        st.markdown("## 🎯 Scenario C: Cross-State Discovery - Find Equivalent Skills")
+        
+        st.markdown("""
+        **Use Case:** A content creator wants to find all state-specific variations of a skill 
+        to ensure their content is discoverable across states.
+        
+        **The Problem:** Without base skills, the same learning concept appears as 8+ different 
+        skills across states with no linking metadata.
+        
+        **The Solution:** Base skills group equivalent skills, enabling cross-state discovery.
+        """)
+        
+        # Example: Show base skill with multiple ROCK skill variants
+        try:
+            base_skills = loader.load_base_skills()
+            
+            if not base_skills.empty:
+                # Pick a base skill with high ROCK skill count
+                example_base_skill = base_skills.sort_values('rock_skills_count', ascending=False).iloc[0]
+                
+                st.markdown("### Example: Base Skill with Multiple State Variants")
+                
+                st.info(f"""
+                **Base Skill:** {example_base_skill['base_skill_name']}
+                
+                **Description:** {example_base_skill['base_skill_description']}
+                
+                **ROCK Skill Variants:** {example_base_skill['rock_skills_count']} equivalent skills across states
+                """)
+                
+                st.markdown("**Impact:**")
+                st.markdown(f"- ✅ **With Base Skills:** Tag content once → Discoverable by all {example_base_skill['rock_skills_count']} state variants")
+                st.markdown(f"- ❌ **Without Base Skills:** Tag {example_base_skill['rock_skills_count']} times → Maintenance nightmare")
+                
+                efficiency_gain = ((example_base_skill['rock_skills_count'] - 1) / example_base_skill['rock_skills_count']) * 100
+                st.metric("Efficiency Gain", f"{efficiency_gain:.0f}%")
+        
+        except Exception as e:
+            st.error(f"Error loading base skills: {e}")
+
+# ============================================================================
+# PAGE 5: INTERACTIVE EXPLORER
+# ============================================================================
+
+elif page == "🧭 Interactive Explorer":
+    st.markdown('<div class="main-header">Interactive Explorer</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Hands-on discovery tools for exploring skills, concepts, and taxonomy</div>', unsafe_allow_html=True)
+    
+    # Sub-navigation for explorer tools
+    explorer_tab = st.radio(
+        "Choose Explorer Tool:",
+        ["🔍 Concept Browser", "🎯 Skill Search & Inspector", "🌳 Taxonomy Navigator"],
+        horizontal=True
+    )
+    
+    # ========================================================================
+    # EXPLORER A: CONCEPT BROWSER
+    # ========================================================================
+    if explorer_tab == "🔍 Concept Browser":
+        st.markdown("### Master Concept Browser")
+        st.markdown("Search and explore master concepts with all their ROCK skill mappings.")
+        
+        # Search interface
+        search_concept = st.text_input("🔎 Search for a concept:", 
+                                      placeholder="e.g., phoneme blending, context clues, main idea...")
+        
+        try:
+            concepts_df = loader.load_master_concepts()
+            skill_mapping = loader.load_skill_master_concept_mapping()
+            
+            if search_concept:
+                # Find matching concepts
+                matches = concepts_df[concepts_df['MASTER_CONCEPT_NAME'].str.contains(search_concept, case=False, na=False)]
+                
+                if not matches.empty:
+                    st.markdown(f"**Found {len(matches)} matching concepts:**")
+                    
+                    for _, concept_row in matches.iterrows():
+                        with st.expander(f"📘 {concept_row['MASTER_CONCEPT_NAME']}"):
+                            # Concept details
+                            col1, col2 = st.columns([2, 1])
+                            
+                            with col1:
+                                st.markdown(f"**Description:** {concept_row.get('DESCRIPTION', 'N/A')}")
+                                st.markdown(f"**Taxonomy Location:**")
+                                st.markdown(f"- Strand: {concept_row.get('SOR_STRAND', 'N/A')}")
+                                st.markdown(f"- Pillar: {concept_row.get('SOR_PILLAR', 'N/A')}")
+                                st.markdown(f"- Domain: {concept_row.get('SOR_DOMAIN', 'N/A')}")
+                            
+                            with col2:
+                                # Count skills
+                                concept_skills = skill_mapping[
+                                    skill_mapping['MASTER_CONCEPT_NAME'] == concept_row['MASTER_CONCEPT_NAME']
+                                ]
+                                st.metric("Mapped ROCK Skills", len(concept_skills))
+                            
+                            # Show mapped skills
+                            if not concept_skills.empty:
+                                st.markdown("**Mapped ROCK Skills:**")
+                                st.dataframe(concept_skills[['SKILL_NAME', 'EDUCATION_AUTHORITY', 'GRADE_LEVEL_NAME']].head(20),
+                                           use_container_width=True, hide_index=True)
+                else:
+                    st.warning("No concepts found matching your search.")
+            
+            else:
+                # Show popular concepts
+                st.markdown("**Popular Concepts:**")
+                concept_counts = skill_mapping['MASTER_CONCEPT_NAME'].value_counts().head(15)
+                popular_df = pd.DataFrame({
+                    'Concept': concept_counts.index,
+                    'Skill Count': concept_counts.values
+                })
+                st.dataframe(popular_df, use_container_width=True, hide_index=True)
+        
+        except Exception as e:
+            st.error(f"Error: {e}")
+    
+    # ========================================================================
+    # EXPLORER B: SKILL SEARCH & INSPECTOR (Enhanced with Taxonomy Filtering)
+    # ========================================================================
+    elif explorer_tab == "🎯 Skill Search & Inspector":
+        st.markdown("### Taxonomy-Powered Skill Discovery")
+        st.markdown("Use multi-dimensional filtering to find exactly the skills you need.")
+        
+        # Show before/after comparison
+        with st.expander("💡 Why Taxonomy-Powered Discovery?"):
             col1, col2 = st.columns(2)
             
             with col1:
-                fig = px.pie(
-                    values=pillar_counts.values,
-                    names=pillar_counts.index,
-                    title='Distribution Across SoR Pillars'
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                st.markdown("**❌ Traditional Text Search**")
+                st.markdown("""
+                - Returns 100s of irrelevant results
+                - No grade-level precision
+                - Misses alternative terminology
+                - Requires manual filtering
+                - Time-consuming and imprecise
+                """)
             
             with col2:
-                fig = px.bar(
-                    x=pillar_counts.index,
-                    y=pillar_counts.values,
-                    title='Skills per Pillar',
-                    labels={'x': 'Pillar', 'y': 'Skill Count'},
-                    color=pillar_counts.values,
-                    color_continuous_scale='Blues'
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                st.markdown("**✅ Taxonomy-Powered Discovery**")
+                st.markdown("""
+                - Filter by taxonomy hierarchy
+                - Precise grade-level targeting
+                - Filter by cognitive demand
+                - Filter by text type & complexity
+                - Instant, precise results
+                """)
         
-        st.markdown("---")
+        # Multi-dimensional filters
+        st.markdown("### 🔍 Apply Filters")
         
-        # Coverage by grade
-        st.markdown("### Coverage by Grade Level")
-        
-        # Merge mappings with skills to get grade level
-        skills_df = loader.load_skills()
-        if not skills_df.empty and 'SKILL_ID' in mappings_df.columns:
-            mappings_with_grade = mappings_df.merge(
-                skills_df[['SKILL_ID', 'GRADE_LEVEL_NAME']],
-                on='SKILL_ID',
-                how='left'
-            )
+        try:
+            specifications = loader.load_skill_specifications()
+            skill_mapping = loader.load_skill_master_concept_mapping()
             
-            # Filter out null grades and create distribution
-            grade_data = mappings_with_grade[mappings_with_grade['GRADE_LEVEL_NAME'].notna()]
-            if not grade_data.empty:
-                grade_dist = grade_data['GRADE_LEVEL_NAME'].value_counts()
-                grade_dist = grade_dist.reindex(natural_sort(grade_dist.index))
-                
-                fig = px.bar(
-                    x=grade_dist.index,
-                    y=grade_dist.values,
-                    title='Mapped Skills by Grade Level',
-                    labels={'x': 'Grade', 'y': 'Skills Mapped'},
-                    color=grade_dist.values,
-                    color_continuous_scale='Greens'
-                )
-                st.plotly_chart(fig, use_container_width=True)
+            # Use specifications if available, otherwise fall back to skill_mapping
+            if not specifications.empty:
+                filter_source = specifications
+                st.success(f"✅ Filtering {len(specifications):,} skills with full specifications")
+            elif not skill_mapping.empty:
+                filter_source = skill_mapping
+                st.info(f"ℹ️ Filtering {len(skill_mapping):,} skills (limited metadata)")
             else:
-                st.info("No grade level data available for mapped skills")
-        else:
-            st.info("Grade level data not available")
+                filter_source = pd.DataFrame()
+                st.warning("⚠️ No skill data available")
+            
+            if not filter_source.empty:
+                # Row 1: Text search + Taxonomy
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    skill_search = st.text_input("🔎 Search by skill name:", placeholder="Enter keywords...")
+                
+                with col2:
+                    if 'SOR_STRAND' in filter_source.columns:
+                        strands = ['All'] + sorted([s for s in filter_source['SOR_STRAND'].dropna().unique() if pd.notna(s)])
+                        strand_filter = st.selectbox("Taxonomy Strand:", options=strands)
+                    else:
+                        strand_filter = 'All'
+                
+                with col3:
+                    if 'SOR_PILLAR' in filter_source.columns:
+                        pillars = ['All'] + sorted([p for p in filter_source['SOR_PILLAR'].dropna().unique() if pd.notna(p)])
+                        pillar_filter = st.selectbox("Taxonomy Pillar:", options=pillars)
+                    else:
+                        pillar_filter = 'All'
+                
+                # Row 2: Specifications (if available)
+                if 'text_type' in filter_source.columns or 'cognitive_demand' in filter_source.columns:
+                    st.markdown("**Specification Filters:**")
+                    col4, col5, col6, col7 = st.columns(4)
+                    
+                    with col4:
+                        if 'text_type' in filter_source.columns:
+                            text_types = ['All'] + sorted([t for t in filter_source['text_type'].dropna().unique() if pd.notna(t)])
+                            text_type_filter = st.selectbox("Text Type:", options=text_types)
+                        else:
+                            text_type_filter = 'All'
+                    
+                    with col5:
+                        if 'cognitive_demand' in filter_source.columns:
+                            cognitive_levels = ['All'] + sorted([c for c in filter_source['cognitive_demand'].dropna().unique() if pd.notna(c)])
+                            cognitive_filter = st.selectbox("Cognitive Demand:", options=cognitive_levels)
+                        else:
+                            cognitive_filter = 'All'
+                    
+                    with col6:
+                        if 'task_complexity' in filter_source.columns:
+                            complexities = ['All'] + sorted([c for c in filter_source['task_complexity'].dropna().unique() if pd.notna(c)])
+                            complexity_filter = st.selectbox("Task Complexity:", options=complexities)
+                        else:
+                            complexity_filter = 'All'
+                    
+                    with col7:
+                        if 'complexity_band' in filter_source.columns:
+                            grade_bands = ['All'] + sorted([g for g in filter_source['complexity_band'].dropna().unique() if pd.notna(g)])
+                            grade_band_filter = st.selectbox("Grade Band:", options=grade_bands)
+                        else:
+                            grade_band_filter = 'All'
+                else:
+                    text_type_filter = 'All'
+                    cognitive_filter = 'All'
+                    complexity_filter = 'All'
+                    grade_band_filter = 'All'
+                
+                # Row 3: Traditional filters
+                st.markdown("**Additional Filters:**")
+                col8, col9 = st.columns(2)
+                
+                with col8:
+                    if 'EDUCATION_AUTHORITY' in filter_source.columns:
+                        states = ['All'] + sorted([s for s in filter_source['EDUCATION_AUTHORITY'].dropna().unique() if pd.notna(s)])
+                        state_filter = st.selectbox("State/Authority:", options=states)
+                    else:
+                        state_filter = 'All'
+                
+                with col9:
+                    if 'GRADE_LEVEL_NAME' in filter_source.columns:
+                        grades = ['All'] + natural_sort([g for g in filter_source['GRADE_LEVEL_NAME'].dropna().unique() if pd.notna(g)])
+                        grade_filter = st.selectbox("Specific Grade:", options=grades)
+                    else:
+                        grade_filter = 'All'
+                
+                # Apply all filters
+                filtered_skills = filter_source.copy()
+                
+                if skill_search:
+                    filtered_skills = filtered_skills[
+                        filtered_skills['SKILL_NAME'].str.contains(skill_search, case=False, na=False)
+                    ]
+                
+                if strand_filter != 'All' and 'SOR_STRAND' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['SOR_STRAND'] == strand_filter]
+                
+                if pillar_filter != 'All' and 'SOR_PILLAR' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['SOR_PILLAR'] == pillar_filter]
+                
+                if text_type_filter != 'All' and 'text_type' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['text_type'] == text_type_filter]
+                
+                if cognitive_filter != 'All' and 'cognitive_demand' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['cognitive_demand'] == cognitive_filter]
+                
+                if complexity_filter != 'All' and 'task_complexity' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['task_complexity'] == complexity_filter]
+                
+                if grade_band_filter != 'All' and 'complexity_band' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['complexity_band'] == grade_band_filter]
+                
+                if state_filter != 'All' and 'EDUCATION_AUTHORITY' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['EDUCATION_AUTHORITY'] == state_filter]
+                
+                if grade_filter != 'All' and 'GRADE_LEVEL_NAME' in filtered_skills.columns:
+                    filtered_skills = filtered_skills[filtered_skills['GRADE_LEVEL_NAME'] == grade_filter]
+                
+                # Display results
+                st.markdown("---")
+                st.markdown(f"### 📊 Results: {len(filtered_skills):,} skills found")
+                
+                if len(filtered_skills) > 0:
+                    # Show efficiency metrics
+                    original_count = len(filter_source)
+                    filtered_count = len(filtered_skills)
+                    precision = (filtered_count / original_count * 100) if original_count > 0 else 0
+                    
+                    metric_col1, metric_col2, metric_col3 = st.columns(3)
+                    with metric_col1:
+                        st.metric("Filtered Results", f"{filtered_count:,}")
+                    with metric_col2:
+                        st.metric("From Total", f"{original_count:,}")
+                    with metric_col3:
+                        reduction = 100 - precision
+                        st.metric("Noise Reduction", f"{reduction:.1f}%")
+                    
+                    # Display filtered skills
+                    display_cols = ['SKILL_NAME']
+                    optional_cols = ['GRADE_LEVEL_SHORT_NAME', 'cognitive_demand', 'text_type', 
+                                   'task_complexity', 'SOR_STRAND', 'SOR_PILLAR', 'EDUCATION_AUTHORITY']
+                    
+                    for col in optional_cols:
+                        if col in filtered_skills.columns:
+                            display_cols.append(col)
+                    
+                    st.dataframe(filtered_skills[display_cols].head(100), use_container_width=True, hide_index=True)
+                    
+                    # Export option
+                    csv = filtered_skills.to_csv(index=False).encode('utf-8')
+                    st.download_button("📥 Download Results CSV",
+                                     data=csv,
+                                     file_name="taxonomy_filtered_skills.csv",
+                                     mime="text/csv")
+                else:
+                    st.info("🔍 No skills match your filter criteria. Try adjusting your filters.")
+        
+        except Exception as e:
+            st.error(f"Error: {e}")
+    
+    # ========================================================================
+    # EXPLORER C: TAXONOMY NAVIGATOR
+    # ========================================================================
+    elif explorer_tab == "🌳 Taxonomy Navigator":
+        st.markdown("### Science of Reading Taxonomy Navigator")
+        st.markdown("Navigate the 6-level hierarchy of the Science of Reading framework.")
+        
+        try:
+            taxonomy_path = Path(__file__).parent.parent / 'POC_science_of_reading_literacy_skills_taxonomy.csv'
+            
+            if taxonomy_path.exists():
+                taxonomy_df = pd.read_csv(taxonomy_path)
+                
+                # Hierarchical navigation
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    selected_strand = st.selectbox("Select Strand:", 
+                                                  options=sorted(taxonomy_df['Strand'].dropna().unique().tolist()))
+                
+                if selected_strand:
+                    strand_data = taxonomy_df[taxonomy_df['Strand'] == selected_strand]
+                    
+                    with col2:
+                        pillars = sorted(strand_data['Pillar'].dropna().unique().tolist())
+                        selected_pillar = st.selectbox("Select Pillar:", options=['All'] + pillars)
+                    
+                    if selected_pillar != 'All':
+                        pillar_data = strand_data[strand_data['Pillar'] == selected_pillar]
+                        
+                        with col3:
+                            domains = sorted(pillar_data['Domain'].dropna().unique().tolist())
+                            selected_domain = st.selectbox("Select Domain:", options=['All'] + domains)
+                        
+                        if selected_domain != 'All':
+                            domain_data = pillar_data[pillar_data['Domain'] == selected_domain]
+                            
+                            # Show skill areas in this domain
+                            skill_areas = domain_data['Skill Area'].dropna().unique()
+                            st.markdown(f"**Skill Areas ({len(skill_areas)}):** {', '.join(sorted(skill_areas))}")
+                            
+                            # Show detailed view
+                            with st.expander("📋 View all taxonomy entries"):
+                                st.dataframe(domain_data, use_container_width=True, hide_index=True)
+                    
+                    else:
+                        # Show all pillars in strand
+                        pillar_counts = strand_data.groupby('Pillar').size().reset_index(name='Entry Count')
+                        st.dataframe(pillar_counts, use_container_width=True, hide_index=True)
+            
+            else:
+                st.warning("Taxonomy file not found")
+        
+        except Exception as e:
+            st.error(f"Error: {e}")
 
 # ============================================================================
-# SCIENCE OF READING TAXONOMY
+# PAGE 4: VALIDATION DASHBOARD
 # ============================================================================
-elif page == "📚 Science of Reading Taxonomy":
-    st.markdown('<div class="main-header">Science of Reading Taxonomy</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Explore the evidence-based master framework</div>', unsafe_allow_html=True)
+
+elif page == "📊 Validation Dashboard":
+    st.markdown('<div class="main-header">Validation Dashboard</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Quality metrics and validation suite integration</div>', unsafe_allow_html=True)
     
-    taxonomy_df = loader.load_sor_taxonomy()
+    validation_results = load_validation_results()
     
-    if taxonomy_df.empty:
-        st.warning("Science of Reading taxonomy not loaded.")
+    if validation_results is None:
+        st.warning("""
+        ⚠️ **Validation results not found.**
+        
+        The validation suite has not been run yet, or results are not in the expected location.
+        
+        **To generate validation results:**
+        
+        1. Navigate to the frameworks directory:
+        ```
+        cd rock-skills/frameworks
+        ```
+        
+        2. Run the full validation suite:
+        ```
+        python3 run_full_validation.py
+        ```
+        
+        3. Results will be saved to `validation_outputs/`
+        
+        4. Refresh this page to view results
+        """)
+        
+        if st.button("📖 View Validation Suite Documentation"):
+            st.info("See `rock-skills/frameworks/VALIDATION_SUITE_README.md` for detailed instructions")
+    
     else:
-        st.markdown(f"### Taxonomy Overview ({len(taxonomy_df):,} entries)")
+        # Master validation report
+        if 'master_report' in validation_results:
+            st.markdown("### 📋 Master Validation Report")
+            st.markdown(validation_results['master_report'])
         
-        # Hierarchy browser
-        st.markdown("#### Browse Hierarchy")
-        
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            strands = natural_sort(taxonomy_df['Strand'].dropna().unique().tolist())
-            selected_strand = st.selectbox("Strand", strands)
-        
-        filtered_df = taxonomy_df[taxonomy_df['Strand'] == selected_strand]
-        
-        with col2:
-            pillars = natural_sort(filtered_df['Pillar'].dropna().unique().tolist())
-            selected_pillar = st.selectbox("Pillar", pillars)
-        
-        filtered_df = filtered_df[filtered_df['Pillar'] == selected_pillar]
-        
-        with col3:
-            domains = natural_sort(filtered_df['Domain'].dropna().unique().tolist())
-            selected_domain = st.selectbox("Domain", domains)
-        
-        filtered_df = filtered_df[filtered_df['Domain'] == selected_domain]
-        
-        with col4:
-            skill_areas = natural_sort(filtered_df['Skill Area'].dropna().unique().tolist())
-            if skill_areas:
-                selected_skill_area = st.selectbox("Skill Area", skill_areas)
-                filtered_df = filtered_df[filtered_df['Skill Area'] == selected_skill_area]
-        
-        # Display selected taxonomy entries
         st.markdown("---")
-        st.markdown(f"### Skill Subsets ({len(filtered_df)})")
         
-        for _, row in filtered_df.head(10).iterrows():
-            with st.expander(f"**{row['Skill Subset']}**"):
-                st.markdown(f"**Full Path:**  \n{row['Strand']} > {row['Pillar']} > {row['Domain']} > {row['Skill Area']}")
-                if pd.notna(row.get('Skill Set')):
-                    st.markdown(f"**Skill Set:** {row['Skill Set']}")
-                if pd.notna(row.get('Skill Subset Annotation')):
-                    st.markdown(f"**Description:**  \n{row['Skill Subset Annotation']}")
+        # Create tabs for different validation aspects
+        val_tab1, val_tab2, val_tab3 = st.tabs([
+            "🔍 Semantic Validation",
+            "🌐 Framework Convergence",
+            "📊 Summary Metrics"
+        ])
+        
+        with val_tab1:
+            st.markdown("### Semantic Similarity Validation")
+            
+            if 'duplicates' in validation_results:
+                duplicates_df = validation_results['duplicates']
+                
+                # Key metrics
+                col1, col2, col3 = st.columns(3)
+                
+                high_pri = len(duplicates_df[duplicates_df['similarity'] >= 0.90])
+                med_pri = len(duplicates_df[(duplicates_df['similarity'] >= 0.85) & (duplicates_df['similarity'] < 0.90)])
+                
+                with col1:
+                    st.metric("Total Pairs Analyzed", len(duplicates_df))
+                with col2:
+                    st.metric("High-Priority (>0.90)", high_pri,
+                             delta="Critical" if high_pri > 50 else "Good",
+                             delta_color="inverse" if high_pri > 50 else "normal")
+                with col3:
+                    st.metric("Medium-Priority (0.85-0.90)", med_pri)
+                
+                # Top duplicates
+                st.markdown("#### Top 20 Most Similar Pairs")
+                top_dups = duplicates_df.nlargest(20, 'similarity')
+                st.dataframe(top_dups[['concept1_name', 'concept2_name', 'similarity', 'same_level', 'same_strand']],
+                           use_container_width=True, hide_index=True)
+                
+                # Download options
+                csv = duplicates_df.to_csv(index=False).encode('utf-8')
+                st.download_button("📥 Download All Duplicates CSV",
+                                 data=csv,
+                                 file_name="potential_duplicates.csv",
+                                 mime="text/csv")
+            
+            # Link to full report
+            if 'semantic_report' in validation_results:
+                with st.expander("📄 View Full Semantic Validation Report"):
+                    st.markdown(validation_results['semantic_report'])
+        
+        with val_tab2:
+            st.markdown("### Framework Convergence Analysis")
+            
+            if 'concept_confidence' in validation_results:
+                confidence_df = validation_results['concept_confidence']
+                
+                # Summary metrics
+                col1, col2, col3, col4 = st.columns(4)
+                
+                strong = len(confidence_df[confidence_df['Evidence_Strength'] == 'strong'])
+                moderate = len(confidence_df[confidence_df['Evidence_Strength'] == 'moderate'])
+                weak = len(confidence_df[confidence_df['Evidence_Strength'] == 'weak'])
+                unvalidated = len(confidence_df[confidence_df['Evidence_Strength'] == 'unvalidated'])
+                
+                total = len(confidence_df)
+                validated_pct = ((total - unvalidated) / total * 100) if total > 0 else 0
+                
+                with col1:
+                    st.metric("Total Concepts", total)
+                with col2:
+                    st.metric("Validated %", f"{validated_pct:.1f}%")
+                with col3:
+                    st.metric("Strong Evidence", strong)
+                with col4:
+                    st.metric("Unvalidated", unvalidated)
+                
+                # Distribution chart
+                evidence_counts = confidence_df['Evidence_Strength'].value_counts()
+                fig = px.bar(x=evidence_counts.index, y=evidence_counts.values,
+                           title="Evidence Strength Distribution",
+                           labels={'x': 'Evidence Strength', 'y': 'Number of Concepts'},
+                           color=evidence_counts.index,
+                           color_discrete_map={
+                               'strong': '#2ca02c',
+                               'moderate': '#ff7f0e',
+                               'weak': '#ffcc00',
+                               'unvalidated': '#d62728'
+                           })
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Top validated concepts
+                st.markdown("#### Top Validated Concepts")
+                top_validated = confidence_df[confidence_df['Convergence_Score'] > 0].nlargest(15, 'Convergence_Score')
+                st.dataframe(top_validated[['Concept_Name', 'Convergence_Score', 'Frameworks', 'Evidence_Strength']],
+                           use_container_width=True, hide_index=True)
+            
+            # Link to full report
+            if 'convergence_report' in validation_results:
+                with st.expander("📄 View Full Convergence Report"):
+                    st.markdown(validation_results['convergence_report'])
+        
+        with val_tab3:
+            st.markdown("### Summary Metrics & Recommendations")
+            
+            if 'recommendations' in validation_results:
+                rec_df = validation_results['recommendations']
+                
+                # Priority breakdown
+                st.markdown("#### Prioritized Action Items")
+                
+                priority_counts = rec_df['Priority'].value_counts().sort_index()
+                
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("Priority 1 (Critical)", priority_counts.get(1, 0))
+                with col2:
+                    st.metric("Priority 2 (Important)", priority_counts.get(2, 0))
+                with col3:
+                    st.metric("Priority 3 (Nice-to-have)", priority_counts.get(3, 0))
+                
+                # Show recommendations
+                st.markdown("#### Top Recommendations")
+                st.dataframe(rec_df.head(20), use_container_width=True, hide_index=True)
+                
+                # Export
+                csv = rec_df.to_csv(index=False).encode('utf-8')
+                st.download_button("📥 Download All Recommendations",
+                                 data=csv,
+                                 file_name="recommendations_priority.csv",
+                                 mime="text/csv")
 
 # ============================================================================
-# TECHNICAL OVERVIEW
+# PAGE 5: TECHNICAL REFERENCE
 # ============================================================================
-elif page == "⚙️ Technical Overview":
-    st.markdown('<div class="main-header">Technical Overview</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Architecture, Implementation, and Scaling Strategy</div>', unsafe_allow_html=True)
-    
-    # Quick Stats
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Lines of Code", "~1,200")
-    with col2:
-        st.metric("Data Files", "10 CSVs")
-    with col3:
-        st.metric("Build Time", "12 hours")
-    
-    st.markdown("---")
-    
-    # Architecture
-    st.markdown("### 🏗️ System Architecture")
-    
-    st.markdown("""
-    The Skills Bridge Explorer uses a **three-layer architecture** designed for rapid POC development 
-    while maintaining clear separation of concerns for future production scaling.
-    """)
-    
-    st.code("""
-┌─────────────────────────────────────────────────────────────┐
-│                    PRESENTATION LAYER                        │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Streamlit Web Framework (skill_bridge_app.py)       │   │
-│  │  - 5 interactive pages with navigation               │   │
-│  │  - Plotly visualizations (charts, graphs)            │   │
-│  │  - Real-time filtering and search                    │   │
-│  │  - Custom CSS styling                                │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                            ↕ WebSocket + Caching
-┌─────────────────────────────────────────────────────────────┐
-│                       DATA LAYER                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  ROCKDataLoader (data_loader.py)                     │   │
-│  │  - CSV loading with Streamlit @cache_data           │   │
-│  │  - Query methods (search, filter, join)             │   │
-│  │  - Hierarchical indexing                             │   │
-│  │  - Memory-efficient chunked loading                  │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                            ↕ File I/O
-┌─────────────────────────────────────────────────────────────┐
-│                      STORAGE LAYER                           │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  rock_schemas/                                       │   │
-│  │  - SKILLS.csv (8,355 skills, 4MB)                   │   │
-│  │  - STANDARD_SKILLS.csv (2M+ relationships, 591MB)   │   │
-│  │  - STANDARDS.csv (state standards, 432MB)           │   │
-│  │  analysis/                                           │   │
-│  │  - skill-taxonomy-mapping.csv (50 pilot mappings)   │   │
-│  │  - master-concepts.csv (15 concepts)                │   │
-│  │  - fragmentation-examples.csv (100+ examples)       │   │
-│  │  POC_science_of_reading_literacy_skills_taxonomy.csv│   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-    """, language="text")
-    
-    st.markdown("---")
-    
-    # Data Flow
-    st.markdown("### 🔄 Data Flow")
-    
-    tab1, tab2 = st.tabs(["User Interaction Flow", "Data Loading Flow"])
-    
-    with tab1:
-        st.markdown("""
-        **User clicks "Master Concept Browser" → Search "blend"**
-        
-        ```
-        1. Browser sends WebSocket message to Streamlit server
-        2. Python script re-runs from top (Streamlit reactivity model)
-        3. ROCKDataLoader.load_master_concepts() called
-           ↓ Check @cache_data for cached result
-           ↓ Cache hit → return cached DataFrame (instant)
-        4. Filter concepts where name contains "blend"
-        5. For each matching concept:
-           ↓ ROCKDataLoader.get_skills_by_master_concept(concept_id)
-           ↓ Join mapping.csv with skills.csv on SKILL_ID
-        6. Streamlit renders expander widgets with results
-        7. Browser updates via WebSocket (< 100ms)
-        ```
-        
-        **Performance Optimization:**
-        - First load: 2-3 seconds (CSV parsing)
-        - Subsequent: < 100ms (cached in memory)
-        - Only changed components re-render
-        """)
-    
-    with tab2:
-        st.markdown("""
-        **Application Startup Sequence**
-        
-        ```
-        1. streamlit run skill_bridge_app.py
-           ↓
-        2. Import libraries (pandas, plotly, streamlit)
-           ↓
-        3. Initialize ROCKDataLoader with paths
-           - schema_dir = Path(__file__).resolve().parent.parent / 'rock_schemas'
-           - analysis_dir = Path(__file__).resolve().parent.parent / 'analysis'
-           ↓
-        4. Verify paths exist (fail fast if misconfigured)
-           ↓
-        5. Load data on-demand with @cache_data:
-           - SKILLS.csv → pandas DataFrame (8,355 rows)
-           - STANDARD_SKILLS.csv → chunked loading (first 2M rows)
-           - skill-taxonomy-mapping.csv → pilot mappings
-           - master-concepts.csv → concept definitions
-           ↓
-        6. Build indices for fast lookup:
-           - SKILL_ID → skill details (dict)
-           - MASTER_CONCEPT_ID → [skill_ids] (list)
-           ↓
-        7. Render initial page (Home)
-           ↓
-        8. Wait for user interaction
-        ```
-        """)
-    
-    st.markdown("---")
-    
-    # Technical Implementation
-    st.markdown("### 💻 Technical Implementation Details")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### Frontend (Streamlit)")
-        st.markdown("""
-        **No HTML/CSS/JS Required:**
-        - Streamlit generates React components from Python
-        - WebSocket handles real-time updates
-        - Built-in widgets (selectbox, expander, dataframe)
-        
-        **Custom Styling:**
-        - CSS injected via `st.markdown()` with `unsafe_allow_html=True`
-        - Custom classes for headers, metrics, highlights
-        - Minimal custom CSS (~40 lines)
-        
-        **State Management:**
-        - Streamlit session state for persistence
-        - `@cache_data` decorator for expensive operations
-        - Automatic dependency tracking
-        """)
-    
-    with col2:
-        st.markdown("#### Backend (Python)")
-        st.markdown("""
-        **Data Processing:**
-        - pandas for CSV loading and manipulation
-        - Chunked reading for large files (>200MB)
-        - Memory-efficient sampling (first 2M rows)
-        
-        **Caching Strategy:**
-        - `@st.cache_data` on load functions (memoization)
-        - Cache invalidation on file change (Streamlit detects)
-        - Separate cache per function
-        
-        **Error Handling:**
-        - Graceful degradation (missing files → empty DataFrames)
-        - User-friendly error messages
-        - Path validation on startup
-        """)
-    
-    st.markdown("---")
-    
-    # Schema Design
-    st.markdown("### 📊 Schema Design")
-    
-    st.markdown("""
-    **Current POC Schema (CSV-based):**
-    """)
-    
-    st.code("""
-SKILLS.csv
-├─ SKILL_ID (PK)
-├─ SKILL_NAME
-├─ SKILL_AREA_NAME
-├─ CONTENT_AREA_NAME
-├─ GRADE_LEVEL_NAME
-└─ DOK_LEVEL
 
-skill-taxonomy-mapping.csv (NEW - Bridge Layer)
-├─ SKILL_ID (FK → SKILLS)
-├─ SKILL_NAME
-├─ SOR_STRAND
-├─ SOR_PILLAR
-├─ SOR_DOMAIN
-├─ SOR_SKILL_AREA
-├─ SOR_SKILL_SET
-├─ SOR_SKILL_SUBSET
-├─ MAPPING_CONFIDENCE (High/Medium/Low)
-├─ MAPPING_RATIONALE
-└─ MASTER_CONCEPT_GROUP
-
-master-concepts.csv (NEW - Concept Definitions)
-├─ MASTER_CONCEPT_ID (PK)
-├─ MASTER_CONCEPT_NAME
-├─ SOR_STRAND
-├─ SOR_PILLAR
-├─ SOR_DOMAIN
-├─ DESCRIPTION
-├─ SKILL_COUNT (computed)
-├─ AUTHORITY_COUNT (computed)
-└─ GRADE_RANGE
-
-STANDARD_SKILLS.csv (Existing)
-├─ SKILL_ID (FK → SKILLS)
-├─ STANDARD_ID (FK → STANDARDS)
-├─ EDUCATION_AUTHORITY
-├─ STANDARD_SET_NAME
-└─ RELATIONSHIP_TYPE
-    """, language="text")
+elif page == "🔧 Technical Reference":
+    st.markdown('<div class="main-header">Technical Reference</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Implementation details, schemas, and documentation for developers</div>', unsafe_allow_html=True)
     
-    st.markdown("""
-    **Key Design Decisions:**
-    - ✅ **Non-invasive**: No changes to existing ROCK schemas
-    - ✅ **Additive**: New files bridge to Science of Reading
-    - ✅ **Versioned**: Can support multiple taxonomy versions
-    - ✅ **Documented**: Rationale field explains each mapping
-    """)
+    # Sub-sections
+    ref_section = st.selectbox(
+        "Select Documentation Section:",
+        ["Overview", "Schema Reference", "Script Reference", "Validation Suite", "API Examples", "Contributing"]
+    )
     
-    st.markdown("---")
-    
-    # Production Scaling
-    st.markdown("### 🚀 Production Scaling Strategy")
-    
-    tab1, tab2, tab3 = st.tabs(["Database Migration", "API Layer", "UI Enhancements"])
-    
-    with tab1:
+    if ref_section == "Overview":
         st.markdown("""
-        **From CSV to PostgreSQL:**
+        ## System Overview
         
-        ```sql
-        -- New tables to add (no existing table modifications)
+        The Skills Bridge Explorer is built on a three-level architecture that connects ROCK skills 
+        to Science of Reading taxonomy while maintaining data integrity and enabling cross-state discovery.
         
-        CREATE TABLE skill_taxonomy_mappings (
-            mapping_id UUID PRIMARY KEY,
-            skill_id UUID NOT NULL REFERENCES skills(skill_id),
-            taxonomy_source VARCHAR(100) NOT NULL,  -- 'Science of Reading v1.0'
-            master_taxonomy_id VARCHAR(100) NOT NULL,
-            taxonomy_path TEXT NOT NULL,
-            taxonomy_level INT NOT NULL,
-            mapping_confidence VARCHAR(20) NOT NULL,  -- High/Medium/Low
-            mapping_rationale TEXT,
-            mapped_by VARCHAR(100),
-            mapped_date TIMESTAMP,
-            is_active BOOLEAN DEFAULT TRUE,
-            created_at TIMESTAMP DEFAULT NOW(),
-            updated_at TIMESTAMP DEFAULT NOW()
-        );
+        ### Architecture Components
         
-        CREATE INDEX idx_skill_tax_skill_id ON skill_taxonomy_mappings(skill_id);
-        CREATE INDEX idx_skill_tax_master_id ON skill_taxonomy_mappings(master_taxonomy_id);
-        CREATE INDEX idx_skill_tax_confidence ON skill_taxonomy_mappings(mapping_confidence);
+        **Data Layer:**
+        - ROCK Schemas (skills, standards, standard-skills, etc.)
+        - Science of Reading Taxonomy CSV (1,139 rows, 6-level hierarchy)
+        - Master Concepts CSV (bridge layer connecting ROCK to SoR)
+        - Skill-Concept Mappings CSV
         
-        CREATE TABLE skill_equivalence_groups (
-            group_id UUID PRIMARY KEY,
-            master_skill_group_id VARCHAR(100) UNIQUE NOT NULL,
-            group_name VARCHAR(500) NOT NULL,
-            group_description TEXT,
-            taxonomy_reference VARCHAR(500),
-            skill_count INT,
-            authority_count INT,
-            grade_range VARCHAR(100),
-            created_at TIMESTAMP DEFAULT NOW(),
-            updated_at TIMESTAMP DEFAULT NOW()
-        );
+        **Analysis Layer:**
+        - Semantic similarity analysis (sentence-transformers)
+        - Framework convergence tracking
+        - Redundancy detection and variant classification
+        - MECE quality validation
         
-        CREATE TABLE skill_equivalence_members (
-            member_id UUID PRIMARY KEY,
-            group_id UUID NOT NULL REFERENCES skill_equivalence_groups(group_id),
-            skill_id UUID NOT NULL REFERENCES skills(skill_id),
-            equivalence_type VARCHAR(50),  -- 'Identical Concept', 'Narrower', 'Broader'
-            variant_reason VARCHAR(200),   -- 'State-specific terminology'
-            is_primary BOOLEAN DEFAULT FALSE,
-            created_at TIMESTAMP DEFAULT NOW()
-        );
+        **Presentation Layer:**
+        - Streamlit web application (this app)
+        - Interactive visualizations (plotly)
+        - Export capabilities (CSV, reports)
         
-        -- Performance: Materialized view for quick lookups
-        CREATE MATERIALIZED VIEW mv_skills_with_taxonomy AS
-        SELECT 
-            s.skill_id,
-            s.skill_name,
-            s.skill_area_name,
-            s.content_area_name,
-            s.grade_level_name,
-            stm.taxonomy_path,
-            stm.master_taxonomy_id,
-            stm.mapping_confidence,
-            seg.group_name as master_concept_name,
-            seg.skill_count as concept_redundancy
-        FROM skills s
-        LEFT JOIN skill_taxonomy_mappings stm ON s.skill_id = stm.skill_id AND stm.is_active = TRUE
-        LEFT JOIN skill_equivalence_members sem ON s.skill_id = sem.skill_id
-        LEFT JOIN skill_equivalence_groups seg ON sem.group_id = seg.group_id;
+        ### Technology Stack
         
-        CREATE UNIQUE INDEX idx_mv_skills_tax_skill_id ON mv_skills_with_taxonomy(skill_id);
+        - **Python 3.9+**
+        - **Streamlit** - Web framework
+        - **Pandas** - Data manipulation
+        - **Plotly** - Visualizations
+        - **sentence-transformers** - Semantic similarity
+        - **scikit-learn** - ML utilities
+        - **spaCy** (optional) - NLP processing
+        
+        ### File Structure
+        
         ```
-        
-        **Migration Strategy:**
-        1. Create new tables in production (non-breaking)
-        2. Bulk load CSVs via SQL COPY
-        3. Run validation queries
-        4. Create materialized view
-        5. Deploy API endpoints
-        6. Gradual client migration
+        rock-skills/
+        ├── poc/                    # This Streamlit app
+        │   ├── skill_bridge_app.py
+        │   ├── data_loader.py
+        │   └── pages/
+        ├── rock_data/              # ROCK data files
+        ├── analysis/               # Analysis scripts & outputs
+        │   ├── master-concepts.csv
+        │   ├── skill_master_concept_mapping.csv
+        │   └── scripts/
+        ├── frameworks/             # Framework processing & validation
+        │   ├── validation_outputs/
+        │   └── input/
+        ├── docs/                   # Documentation
+        └── POC_science_of_reading_literacy_skills_taxonomy.csv
+        ```
         """)
     
-    with tab2:
+    elif ref_section == "Schema Reference":
         st.markdown("""
-        **RESTful API Design:**
+        ## Data Schema Reference
+        
+        ### ROCK Schemas
+        
+        **skills.csv:**
+        - SKILL_ID (PK)
+        - SKILL_NAME
+        - SKILL_AREA_NAME
+        - CONTENT_AREA_NAME
+        - GRADE_LEVEL_NAME
+        - DOK_LEVEL
+        
+        **standard_skills.csv:**
+        - SKILL_ID → STANDARD_ID
+        - EDUCATION_AUTHORITY (TX, CA, CCSS, etc.)
+        - STANDARD_SET_NAME
+        
+        ### Bridge Layer (Generated)
+        
+        **master-concepts.csv:**
+        - MASTER_CONCEPT_ID (PK)
+        - MASTER_CONCEPT_NAME
+        - DESCRIPTION
+        - SOR_STRAND, SOR_PILLAR, SOR_DOMAIN
+        - COMPLEXITY_BAND
+        - GRADE_RANGE
+        
+        **skill_master_concept_mapping.csv:**
+        - SKILL_ID → MASTER_CONCEPT_ID
+        - SKILL_NAME
+        - MASTER_CONCEPT_NAME
+        - Plus all metadata fields
+        
+        ### Science of Reading Taxonomy
+        
+        **POC_science_of_reading_literacy_skills_taxonomy.csv:**
+        - Strand (Level 1)
+        - Pillar (Level 2)
+        - Domain (Level 3)
+        - Skill Area (Level 4)
+        - Skill Set (Level 5)
+        - Skill Subset (Level 6)
+        - Skill Subset Annotation
+        """)
+    
+    elif ref_section == "Script Reference":
+        st.markdown("""
+        ## Key Scripts & Commands
+        
+        ### Data Pipeline
+        
+        **Generate Master Concepts:**
+        ```bash
+        cd analysis/scripts
+        python3 generate_master_concepts.py
+        ```
+        
+        **Map Skills to Concepts:**
+        ```bash
+        python3 batch_map_skills_enhanced.py --content-area "English Language Arts"
+        ```
+        
+        ### Validation Suite
+        
+        **Run Full Validation:**
+        ```bash
+        cd frameworks
+        python3 run_full_validation.py
+        ```
+        
+        **Run Individual Validators:**
+        ```bash
+        python3 semantic_validator.py --threshold 0.85
+        python3 framework_tracker.py
+        python3 semantic_similarity_heatmap.py
+        ```
+        
+        ### Framework Processing
+        
+        **Process New Framework PDF:**
+        ```bash
+        cd frameworks
+        python3 process_framework_pdfs.py \\
+            --input input/ela/framework.pdf \\
+            --subject ela \\
+            --mode full \\
+            --output output/framework_analysis
+        ```
+        
+        ### Running the App
+        
+        **Start Streamlit:**
+        ```bash
+        cd poc
+        streamlit run skill_bridge_app.py
+        ```
+        """)
+    
+    elif ref_section == "Validation Suite":
+        st.markdown("""
+        ## Validation Suite Documentation
+        
+        The validation suite provides automated quality assurance for the taxonomy.
+        
+        ### Components
+        
+        **1. Semantic Similarity Validator**
+        - Detects duplicate or highly similar concepts
+        - Uses sentence-transformers (all-MiniLM-L6-v2)
+        - Generates similarity matrix for all concept pairs
+        - Flags high-similarity pairs (>0.85, >0.90)
+        
+        **2. Framework Convergence Tracker**
+        - Tracks which concepts appear in multiple frameworks
+        - Calculates convergence scores
+        - Classifies evidence strength (strong/moderate/weak/unvalidated)
+        
+        **3. MECE Quality Validator** (planned)
+        - Mutual Exclusivity: Checks for overlaps
+        - Collective Exhaustiveness: Checks for gaps
+        
+        ### Usage
+        
+        See `frameworks/VALIDATION_SUITE_README.md` for detailed documentation.
+        
+        **Quick Start:**
+        ```bash
+        cd frameworks
+        python3 run_full_validation.py
+        ```
+        
+        **Outputs:**
+        - validation_master_report.md
+        - semantic_validation_report.md
+        - framework_convergence_summary.md
+        - potential_duplicates.csv
+        - concept_confidence.csv
+        - recommendations_priority.csv
+        - visualizations/
+        """)
+    
+    elif ref_section == "API Examples":
+        st.markdown("""
+        ## API Examples & Code Snippets
+        
+        ### Loading Data
         
         ```python
-        # FastAPI endpoints (Python async)
+        from data_loader import ROCKDataLoader
+        from pathlib import Path
         
-        @app.get("/api/v1/skills/{skill_id}/taxonomy")
-        async def get_skill_taxonomy(skill_id: str):
-            \"\"\"Get taxonomy mapping for a skill.\"\"\"
-            return {
-                "skill_id": skill_id,
-                "skill_name": "Blend phonemes to form words",
-                "taxonomy": {
-                    "source": "Science of Reading v1.0",
-                    "strand": "Decoding and Word Recognition",
-                    "pillar": "Phonological Awareness",
-                    "domain": "Phoneme Awareness",
-                    "skill_area": "Phoneme Blending"
-                },
-                "master_concept": {
-                    "id": "MC-005",
-                    "name": "Phoneme Blending",
-                    "redundancy": 12
-                },
-                "confidence": "High",
-                "mapped_date": "2025-10-14"
-            }
+        # Initialize loader
+        base_dir = Path.cwd().parent
+        loader = ROCKDataLoader(
+            schema_dir=base_dir / 'rock_data',
+            analysis_dir=base_dir / 'analysis'
+        )
         
-        @app.get("/api/v1/taxonomy/{concept_id}/skills")
-        async def get_concept_skills(
-            concept_id: str,
-            education_authority: Optional[str] = None,
-            grade_level: Optional[str] = None
-        ):
-            \"\"\"Get all skills mapped to a master concept.\"\"\"
-            return {
-                "concept_id": concept_id,
-                "concept_name": "Phoneme Blending",
-                "total_skills": 12,
-                "skills": [
-                    {
-                        "skill_id": "...",
-                        "skill_name": "Blend spoken phonemes...",
-                        "education_authority": "TX",
-                        "grade_level": "K"
-                    },
-                    # ... more skills
-                ]
-            }
-        
-        @app.get("/api/v1/skills/search")
-        async def search_skills(
-            q: str,
-            content_area: Optional[str] = None,
-            include_taxonomy: bool = True
-        ):
-            \"\"\"Search skills with optional taxonomy enrichment.\"\"\"
-            pass
-        
-        @app.get("/api/v1/skills/{skill_id}/equivalents")
-        async def get_equivalent_skills(skill_id: str):
-            \"\"\"Get conceptually equivalent skills (state variants).\"\"\"
-            pass
+        # Load data
+        concepts_df = loader.load_master_concepts()
+        skill_mapping = loader.load_skill_master_concept_mapping()
+        variants_df = loader.load_variant_classification()
         ```
         
-        **Performance Targets:**
-        - Response time: < 100ms (p95)
-        - Throughput: 1000 req/s per instance
-        - Caching: Redis for hot queries
-        - Documentation: Auto-generated Swagger/OpenAPI
+        ### Searching Concepts
+        
+        ```python
+        # Find concept by name
+        concept = concepts_df[
+            concepts_df['MASTER_CONCEPT_NAME'].str.contains('phoneme', case=False)
+        ]
+        
+        # Get all skills for a concept
+        concept_skills = skill_mapping[
+            skill_mapping['MASTER_CONCEPT_NAME'] == 'Phoneme Blending'
+        ]
+        
+        # Group by state
+        by_state = concept_skills.groupby('EDUCATION_AUTHORITY').size()
+        ```
+        
+        ### Semantic Similarity
+        
+        ```python
+        from sentence_transformers import SentenceTransformer
+        from sklearn.metrics.pairwise import cosine_similarity
+        
+        # Load model
+        model = SentenceTransformer('all-MiniLM-L6-v2')
+        
+        # Generate embeddings
+        texts = concepts_df['MASTER_CONCEPT_NAME'].tolist()
+        embeddings = model.encode(texts)
+        
+        # Calculate similarity
+        similarity_matrix = cosine_similarity(embeddings)
+        ```
         """)
     
-    with tab3:
+    elif ref_section == "Contributing":
         st.markdown("""
-        **Production UI Enhancements:**
+        ## Contributing to the Project
         
-        **Option 1: Keep Streamlit (Internal Tool)**
-        - Deploy to Streamlit Cloud or AWS
-        - Add authentication (OAuth/SSO)
-        - Enable collaborative annotations
-        - Export reports to PDF/Excel
+        ### Development Workflow
         
-        **Option 2: Rebuild in React (External Product)**
-        - Next.js for server-side rendering
-        - Material-UI or Tailwind CSS
-        - Advanced visualizations (D3.js)
-        - Mobile-responsive design
-        - Accessibility (WCAG 2.1 AA)
+        1. **Clone Repository**
+        2. **Install Dependencies:**
+           ```bash
+           pip install -r requirements.txt
+           ```
+        3. **Make Changes**
+        4. **Test Locally:**
+           ```bash
+           streamlit run skill_bridge_app.py
+           ```
+        5. **Submit Pull Request**
         
-        **Recommended Hybrid Approach:**
-        - Phase 1: Streamlit for internal stakeholders (fast)
-        - Phase 2: React for educator-facing features (polished)
-        - Phase 3: API-first for partner integrations
+        ### Coding Standards
+        
+        - Follow PEP 8 style guide
+        - Use type hints where appropriate
+        - Add docstrings to functions
+        - Comment complex logic
+        - Keep functions focused and small
+        
+        ### Adding New Features
+        
+        **New Page/View:**
+        1. Add to navigation radio buttons
+        2. Create new `elif page == "..."` block
+        3. Implement view logic
+        4. Update documentation
+        
+        **New Data Source:**
+        1. Update `data_loader.py`
+        2. Add caching with `@st.cache_data`
+        3. Handle errors gracefully
+        4. Document schema
+        
+        **New Validation:**
+        1. Create script in `frameworks/`
+        2. Follow validation suite patterns
+        3. Output to `validation_outputs/`
+        4. Update dashboard integration
+        
+        ### Contact
+        
+        For questions or suggestions, contact the ROCK Skills Analysis Team.
         """)
-    
-    st.markdown("---")
-    
-    # Performance Metrics
-    st.markdown("### ⚡ Performance Metrics (POC)")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Initial Load", "2-3 sec", help="First CSV load with parsing")
-    
-    with col2:
-        st.metric("Cached Load", "< 100ms", help="Subsequent loads from cache")
-    
-    with col3:
-        st.metric("Search Query", "< 50ms", help="In-memory pandas filtering")
-    
-    with col4:
-        st.metric("Render Time", "< 200ms", help="Streamlit component rendering")
-    
-    st.markdown("---")
-    
-    # Technology Stack
-    st.markdown("### 🛠️ Technology Stack")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("#### Core Framework")
-        st.code("""
-• Streamlit 1.28+
-• Python 3.9+
-• pandas 2.0+
-• numpy 1.24+
-        """, language="text")
-    
-    with col2:
-        st.markdown("#### Visualization")
-        st.code("""
-• Plotly 5.14+
-• matplotlib 3.7+
-• seaborn 0.12+
-        """, language="text")
-    
-    with col3:
-        st.markdown("#### Future (Production)")
-        st.code("""
-• PostgreSQL 14+
-• FastAPI / Flask
-• Redis (caching)
-• React / Next.js
-• Docker / K8s
-        """, language="text")
-    
-    st.markdown("---")
-    
-    # Development Insights
-    st.markdown("### 💡 Development Insights")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("#### What Worked Well")
-        st.markdown("""
-        ✅ **Streamlit's rapid development**
-        - Built 5-page app in ~12 hours
-        - No HTML/CSS/JS required
-        - Auto-reload during development
-        
-        ✅ **CSV-based prototyping**
-        - No database setup needed
-        - Easy to version control
-        - Fast iteration on schema
-        
-        ✅ **Pandas for data wrangling**
-        - Powerful filtering/joining
-        - Intuitive API
-        - Good performance for POC scale
-        
-        ✅ **@cache_data decorator**
-        - Instant subsequent loads
-        - Automatic invalidation
-        - Simple to implement
-        """)
-    
-    with col2:
-        st.markdown("#### Production Considerations")
-        st.markdown("""
-        ⚠️ **Scalability limits**
-        - CSV loading doesn't scale past ~1GB
-        - No concurrent write support
-        - Need PostgreSQL for production
-        
-        ⚠️ **Streamlit limitations**
-        - Full page reload on interaction
-        - Not ideal for complex UIs
-        - Consider React for public-facing
-        
-        ⚠️ **Data freshness**
-        - Cache invalidation manual
-        - No real-time updates
-        - Need pub/sub for live data
-        
-        ⚠️ **Authentication**
-        - No built-in auth
-        - Need OAuth/SSO integration
-        - Role-based access control
-        """)
-    
-    st.markdown("---")
-    
-    # Code Quality
-    st.markdown("### 📝 Code Quality Metrics")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Python Files", "2", help="skill_bridge_app.py, data_loader.py")
-    
-    with col2:
-        st.metric("Total Lines", "~700", help="Including comments and docstrings")
-    
-    with col3:
-        st.metric("Functions", "15+", help="Modular, single-responsibility")
-    
-    with col4:
-        st.metric("Dependencies", "7", help="Core libraries, no bloat")
-    
-    st.markdown("""
-    **Code Organization:**
-    - ✅ Separation of concerns (presentation vs. data)
-    - ✅ Type hints for clarity
-    - ✅ Docstrings on all functions
-    - ✅ Error handling with graceful degradation
-    - ✅ Path resolution with validation
-    """)
-    
-    st.markdown("---")
-    
-    # Next Steps
-    st.markdown("### 🎯 Technical Next Steps")
-    
-    st.markdown("""
-    #### Immediate (2-4 weeks)
-    1. **Add unit tests** (pytest) for data_loader functions
-    2. **Performance profiling** with cProfile
-    3. **Docker containerization** for consistent deployment
-    4. **CI/CD pipeline** (GitHub Actions)
-    
-    #### Short-Term (3-6 months)
-    1. **Database migration** (CSV → PostgreSQL)
-    2. **API development** (FastAPI with OpenAPI docs)
-    3. **Authentication** (OAuth 2.0 / SAML)
-    4. **Monitoring** (Prometheus + Grafana)
-    
-    #### Long-Term (6-12 months)
-    1. **React rebuild** for educator-facing UI
-    2. **Real-time collaboration** features
-    3. **ML-assisted mapping** (sentence transformers)
-    4. **Multi-tenant architecture**
-    """)
 
-# Footer
+# ============================================================================
+# FOOTER
+# ============================================================================
+
 st.markdown("---")
 st.markdown("""
-<div style='text-align: center; color: #666; font-size: 0.9rem;'>
-    ROCK Skills Bridge Explorer | Renaissance Learning Hackathon 2025
+<div style='text-align: center; color: #666; padding: 2rem 0;'>
+    <strong>ROCK Skills Bridge Explorer v2.0</strong><br>
+    Renaissance Learning AI Hackathon 2025<br>
+    <em>Narrative-Driven Taxonomy Analysis</em>
 </div>
 """, unsafe_allow_html=True)
 

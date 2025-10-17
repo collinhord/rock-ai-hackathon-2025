@@ -1,0 +1,153 @@
+# ROCK Skills Taxonomy - System Configuration
+# This file controls all major processing settings
+
+# ============================================================
+# DATA SOURCES
+# ============================================================
+data:
+  # Primary ROCK skills source
+  source_skills: "rock_schemas/SKILLS.csv"
+  
+  # Scientific framework for mapping
+  source_framework: "POC_science_of_reading_literacy_skills_taxonomy.csv"
+  
+  # Additional data sources
+  skill_areas: "rock_schemas/SKILL_AREAS.csv"
+  standards: "rock_schemas/STANDARDS.csv"
+  standard_skills: "rock_schemas/STANDARD_SKILLS.csv"
+
+# ============================================================
+# EXTRACTION SETTINGS
+# ============================================================
+extraction:
+  # Use LLM for extraction (true = better quality, $$ | false = free, faster)
+  use_llm: true
+  
+  # AWS Bedrock model
+  llm_model: "anthropic.claude-sonnet-4-20250514-v1:0"
+  aws_region: "us-west-2"
+  
+  # Processing settings
+  checkpoint_interval: 50
+  batch_size: 10
+  
+  # spaCy settings
+  spacy_model: "en_core_web_lg"
+  use_dependency_parsing: true
+  use_ner: true
+  
+  # Semantic similarity settings
+  similarity_model: "all-MiniLM-L6-v2"
+  similarity_threshold: 0.75
+
+# ============================================================
+# VALIDATION SETTINGS
+# ============================================================
+validation:
+  # MECE validation threshold (0.0-1.0)
+  mece_threshold: 0.90
+  
+  # Similarity threshold for conflict detection
+  similarity_threshold: 0.75
+  
+  # Minimum base skill frequency (how many ROCK skills must map to it)
+  min_base_skill_frequency: 2
+  
+  # Confidence thresholds
+  high_confidence_threshold: 0.85
+  medium_confidence_threshold: 0.65
+
+# ============================================================
+# DATABASE SETTINGS
+# ============================================================
+database:
+  # SQLite database path
+  path: "taxonomy.db"
+  
+  # Auto-backup before major operations
+  auto_backup: true
+  
+  # Backup directory
+  backup_dir: "backups"
+  
+  # Keep last N backups
+  max_backups: 10
+
+# ============================================================
+# OUTPUT SETTINGS
+# ============================================================
+outputs:
+  # Base directory for all outputs
+  base_dir: "taxonomy"
+  
+  # Subdirectories
+  base_skills_dir: "taxonomy/base_skills"
+  specifications_dir: "taxonomy/specifications"
+  mappings_dir: "taxonomy/mappings"
+  frameworks_dir: "taxonomy/frameworks"
+  reports_dir: "analysis/reports"
+  
+  # Temporary/working directory
+  temp_dir: "taxonomy/temp"
+
+# ============================================================
+# PROCESSING MODES
+# ============================================================
+modes:
+  # Test mode (process limited subset)
+  test:
+    enabled: false
+    limit: 100
+    use_llm: false
+  
+  # Incremental mode (only new skills)
+  incremental:
+    enabled: false
+    since_date: null  # YYYY-MM-DD format
+  
+  # Full refresh mode
+  full_refresh:
+    clear_existing: true
+    regenerate_all: true
+
+# ============================================================
+# CONTENT AREA SETTINGS
+# ============================================================
+content_areas:
+  # Specify which content areas to process (empty = all)
+  include:
+    - "English Language Arts"
+    # - "Mathematics"
+    # - "Science"
+  
+  # Content areas to exclude
+  exclude: []
+
+# ============================================================
+# LOGGING & MONITORING
+# ============================================================
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+  
+  # Log file location
+  file: "analysis/pipeline.log"
+  
+  # Console output
+  console: true
+  
+  # Progress indicators
+  show_progress: true
+
+# ============================================================
+# COST ESTIMATION
+# ============================================================
+cost:
+  # AWS Bedrock pricing (per million tokens)
+  claude_input_token_cost: 0.003   # $3 per 1M input tokens
+  claude_output_token_cost: 0.015  # $15 per 1M output tokens
+  
+  # Average tokens per skill (for estimation)
+  avg_input_tokens: 200
+  avg_output_tokens: 50
+

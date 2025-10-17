@@ -1,0 +1,40 @@
+# ROCK AI Hackathon 2025 - Development Requirements
+# Installation: pip install -r requirements.txt -r requirements-dev.txt
+
+# ============================================================
+# TESTING
+# ============================================================
+pytest>=7.4.0
+pytest-cov>=4.1.0  # Coverage reporting
+pytest-mock>=3.11.0  # Mocking utilities
+
+# ============================================================
+# CODE QUALITY
+# ============================================================
+black>=23.7.0  # Code formatting
+isort>=5.12.0  # Import sorting
+flake8>=6.1.0  # Linting
+pylint>=2.17.0  # Additional linting
+mypy>=1.5.0  # Type checking
+
+# ============================================================
+# DOCUMENTATION
+# ============================================================
+sphinx>=7.1.0  # Documentation generation
+sphinx-rtd-theme>=1.3.0  # ReadTheDocs theme
+mkdocs>=1.5.0  # Alternative docs framework
+mkdocs-material>=9.2.0  # Material theme for MkDocs
+
+# ============================================================
+# DEVELOPMENT TOOLS
+# ============================================================
+ipython>=8.15.0  # Enhanced Python shell
+ipdb>=0.13.13  # IPython debugger
+pre-commit>=3.3.0  # Git hooks
+
+# ============================================================
+# PERFORMANCE PROFILING
+# ============================================================
+memory-profiler>=0.61.0
+line-profiler>=4.1.0
+

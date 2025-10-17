@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Base Skill Schema",
+  "description": "Schema for defining a base skill (core competency) in the ROCK taxonomy",
+  "type": "object",
+  "properties": {
+    "base_skill_id": {
+      "type": "string",
+      "pattern": "^BS-[0-9]{3,}$",
+      "description": "Unique identifier for the base skill (e.g., BS-001)"
+    },
+    "base_skill_name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 200,
+      "description": "Human-readable name of the base skill"
+    },
+    "base_skill_description": {
+      "type": "string",
+      "description": "Detailed description of what the skill entails"
+    },
+    "skill_family": {
+      "type": "string",
+      "enum": [
+        "Comprehension",
+        "Decoding",
+        "Fluency",
+        "Vocabulary",
+        "Writing",
+        "Speaking",
+        "Listening",
+        "Language Conventions",
+        "Phonological Awareness",
+        "Phonics"
+      ],
+      "description": "High-level category of the skill"
+    },
+    "cognitive_category": {
+      "type": "string",
+      "enum": [
+        "recall",
+        "comprehension",
+        "application",
+        "analysis",
+        "synthesis",
+        "evaluation"
+      ],
+      "description": "Bloom's Taxonomy cognitive level"
+    },
+    "scientific_framework_alignment": {
+      "type": "object",
+      "properties": {
+        "science_of_reading": {
+          "type": "object",
+          "properties": {
+            "strand": {"type": "string"},
+            "pillar": {"type": "string"},
+            "domain": {"type": "string"},
+            "skill_set": {"type": "string"}
+          }
+        }
+      },
+      "description": "Mapping to scientific frameworks"
+    },
+    "prerequisite_base_skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^BS-[0-9]{3,}$"
+      },
+      "description": "Base skills that should be mastered before this one"
+    },
+    "related_base_skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^BS-[0-9]{3,}$"
+      },
+      "description": "Base skills that are conceptually related"
+    },
+    "rock_skills_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of ROCK skills mapped to this base skill"
+    },
+    "created_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string",
+      "enum": ["human", "llm", "hybrid"],
+      "description": "How this base skill was created"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": ["pending", "validated", "flagged", "rejected"],
+      "description": "Human validation status"
+    }
+  },
+  "required": [
+    "base_skill_id",
+    "base_skill_name",
+    "base_skill_description",
+    "skill_family",
+    "cognitive_category"
+  ]
+}
+

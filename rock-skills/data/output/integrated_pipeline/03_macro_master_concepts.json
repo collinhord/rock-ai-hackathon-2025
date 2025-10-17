@@ -1,0 +1,2627 @@
+{
+  "total_master_concepts": 254,
+  "grouped_concepts": 53,
+  "individual_concepts": 201,
+  "total_rock_skills": 333,
+  "master_concepts": [
+    {
+      "master_concept_id": "MC-001",
+      "base_skill_name": "ELA - Character and Plot",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "1210f61e-e69f-e311-9503-005056801da1",
+        "1410f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-001",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-002",
+      "base_skill_name": "ELA - Consonants, Blends, Digraphs",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "9c314c9c-a69f-e311-9503-005056801da1",
+        "d90ff61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-002",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-003",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "0ba81555-5e32-48bf-83cd-cbbed33c2612",
+        "1380d921-53c3-4c89-82d8-24bf2f082431",
+        "49addd3f-1aa8-48c4-8caf-3a9a567fd014"
+      ],
+      "variant_group_id": "RED-003",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-004",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "2716e1b1-5870-432d-bbe8-cc2fedf4be33",
+        "299e223b-8b4c-43dc-ab4a-6993564eb1e9"
+      ],
+      "variant_group_id": "RED-004",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-005",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "276274a5-5d9e-4abe-bf62-e4ddcba8f9ca",
+        "e2f4d211-5f21-4bfc-b897-fafe0f00a74e"
+      ],
+      "variant_group_id": "RED-005",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-006",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "6d31e8c1-926b-463f-bcae-84d4c4a9a174",
+        "b24e6593-bb73-4a71-82ad-588aea209df2"
+      ],
+      "variant_group_id": "RED-006",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-007",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "7efbc99c-f800-493b-b998-851dcf90b1e8",
+        "950d2184-81cf-4adf-b512-316a433deefd"
+      ],
+      "variant_group_id": "RED-007",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-008",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "a072d817-17d7-491e-81b2-f23fdf9ab821",
+        "ef7b3141-0b79-4ad0-9a98-4c644ff925a9"
+      ],
+      "variant_group_id": "RED-008",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-009",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "05931362-6d45-4773-9cb6-4cc4569adbdd",
+        "ce60c209-67eb-4741-8849-831a9573b70a",
+        "ef0b6ac3-ddcf-4a54-9362-da39b5ff709a"
+      ],
+      "variant_group_id": "RED-009",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-010",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "1cd035ac-484d-4560-85e5-6dfa56cf3295",
+        "ba106fea-64d7-4219-8575-d96b1d1002e9"
+      ],
+      "variant_group_id": "RED-010",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-011",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "2c834838-74ec-46c6-a582-423e17437fa3",
+        "88dcca79-c412-4341-9932-57d0a2596c12"
+      ],
+      "variant_group_id": "RED-011",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-012",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "3885dffd-a47f-43ce-ace3-3e5a8f2e3544",
+        "43e12150-69ef-4beb-a799-9dbca036639d"
+      ],
+      "variant_group_id": "RED-012",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-013",
+      "base_skill_name": "ELA - Narrative Writing",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "60deaa83-2837-494b-89ce-23db61b85d60",
+        "b37804e5-0959-4592-8e3a-0f7ae126799a"
+      ],
+      "variant_group_id": "RED-013",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-014",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "1a2f6763-43b5-405a-9f42-2171e6d4e3aa",
+        "e7a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-014",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-015",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "460932aa-5c89-4482-ab7e-f84ce6d770de",
+        "e719a235-3d04-4fba-be4b-3c4a39ecff99"
+      ],
+      "variant_group_id": "RED-015",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-016",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "5cbcb862-476e-4ff3-b929-ba8a7631465d",
+        "911e448a-5875-4ac7-83f1-7c4c8e2e9807"
+      ],
+      "variant_group_id": "RED-016",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-017",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 5,
+      "rock_skill_mappings": [
+        "98117de8-1e18-4dca-8838-a4d2b4eb978f",
+        "cee82c62-86c3-437d-a1a8-aa75a229fbfd",
+        "f4bdc51a-a39f-e311-9503-005056801da1",
+        "f7bdc51a-a39f-e311-9503-005056801da1",
+        "fabdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-017",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-018",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "b25a00f4-468a-484d-973d-16d56ef78edf",
+        "f2bdc51a-a39f-e311-9503-005056801da1",
+        "f8bdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-018",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-019",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "24247029-47c9-4f98-aa35-485f99b746c7",
+        "fef8d552-a177-490a-aa1a-a1a845337050"
+      ],
+      "variant_group_id": "RED-019",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-020",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "7d01802d-7444-42bd-81aa-f0863bf8e1e8",
+        "a6458c8e-6426-49f9-b3d6-1857f2bc458f"
+      ],
+      "variant_group_id": "RED-020",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-021",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "b07e63d8-2400-e411-9e54-005056801da1",
+        "b27e63d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": "RED-021",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-022",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "39bec51a-a39f-e311-9503-005056801da1",
+        "3cbec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-022",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-023",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "3abec51a-a39f-e311-9503-005056801da1",
+        "3bbec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-023",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-024",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "40bec51a-a39f-e311-9503-005056801da1",
+        "41bec51a-a39f-e311-9503-005056801da1",
+        "42bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-024",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-025",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "1f0ea6ae-a39c-41b2-a78e-a4f68172ccc6",
+        "51009dd8-27c3-429f-b4af-7ce9c4f0cc68"
+      ],
+      "variant_group_id": "RED-025",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-026",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "47bec51a-a39f-e311-9503-005056801da1",
+        "48bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-026",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-027",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "4bbec51a-a39f-e311-9503-005056801da1",
+        "558c10db-6b9f-491d-a8ee-236525ed7959"
+      ],
+      "variant_group_id": "RED-027",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-028",
+      "base_skill_name": "Math - Data Representation and Analysis",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "90a5bfaa-479d-e311-b77c-005056801da1",
+        "91a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-028",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-029",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "0299a3e5-09b7-42c7-aaa2-a7d3e23aa26e",
+        "05433989-9af4-4942-a1a9-2372f9191cf4",
+        "7fc1662f-dbe5-487a-9fa9-fa16fcb86094"
+      ],
+      "variant_group_id": "RED-029",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-030",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 4,
+      "rock_skill_mappings": [
+        "08f33e9f-2cc6-41a9-942b-2d485631ecae",
+        "343b5e75-b88a-41d1-abef-2c377daec27c",
+        "6a354e80-188a-4392-9111-d5cec537f247",
+        "e4cc5ab7-d4cc-48d9-86c2-c71303d7ba0f"
+      ],
+      "variant_group_id": "RED-030",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-031",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "090e3de8-9d3f-4f9a-81e6-0fb992b655d3",
+        "ffa42a4f-c57f-461a-9f71-a6e3df4206b4"
+      ],
+      "variant_group_id": "RED-031",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-032",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "248063d8-2400-e411-9e54-005056801da1",
+        "297d63d8-2400-e411-9e54-005056801da1",
+        "398063d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": "RED-032",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-033",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "28a3bfaa-479d-e311-b77c-005056801da1",
+        "29a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-033",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-034",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "2aa3bfaa-479d-e311-b77c-005056801da1",
+        "9243babc-3d83-43e2-ae93-298a3f8470e0"
+      ],
+      "variant_group_id": "RED-034",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-035",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "4e9858e9-9d72-4250-a6c5-a8486d621541",
+        "c83c677f-8708-47f4-a6ea-92c908ef7fc2"
+      ],
+      "variant_group_id": "RED-035",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-036",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "4f1d0e48-d344-487c-966f-ac41d727c8df",
+        "b7e3216a-1040-491e-bbb3-7d0aa36407a0"
+      ],
+      "variant_group_id": "RED-036",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-037",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 4,
+      "rock_skill_mappings": [
+        "6dbac51a-a39f-e311-9503-005056801da1",
+        "71bac51a-a39f-e311-9503-005056801da1",
+        "74bac51a-a39f-e311-9503-005056801da1",
+        "e11113b1-d04b-4dd0-bea6-3bacc665e890"
+      ],
+      "variant_group_id": "RED-037",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-038",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "7ba3bfaa-479d-e311-b77c-005056801da1",
+        "7ca3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-038",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-039",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 5,
+      "rock_skill_mappings": [
+        "1aefea77-8247-42ba-a439-107f4fee981d",
+        "a4a3bfaa-479d-e311-b77c-005056801da1",
+        "a5bac51a-a39f-e311-9503-005056801da1",
+        "b690bc43-0230-4feb-999a-97ddcb1a30cf",
+        "dda3108b-5fbf-4c28-afd1-fec18e021e7a"
+      ],
+      "variant_group_id": "RED-039",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-040",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "38a3bfaa-479d-e311-b77c-005056801da1",
+        "96a3bfaa-479d-e311-b77c-005056801da1",
+        "ac8044be-ed1e-4da3-bce4-fb9fd9b060c8"
+      ],
+      "variant_group_id": "RED-040",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-041",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "39a3bfaa-479d-e311-b77c-005056801da1",
+        "97a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-041",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-042",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "3ba3bfaa-479d-e311-b77c-005056801da1",
+        "cd43f9b1-f59b-49e8-9e62-06a29285a9a8"
+      ],
+      "variant_group_id": "RED-042",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-043",
+      "base_skill_name": "Math - Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "9fa3bfaa-479d-e311-b77c-005056801da1",
+        "a0a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-043",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-044",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "02222033-a285-4834-93e6-aa8077b7e3ca",
+        "78a3bfaa-479d-e311-b77c-005056801da1",
+        "80edef6a-0fe8-4125-b6de-2c6a2610f593"
+      ],
+      "variant_group_id": "RED-044",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-045",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 6,
+      "rock_skill_mappings": [
+        "18d24a48-7a27-4de4-afe3-00dfb74955f4",
+        "57bac51a-a39f-e311-9503-005056801da1",
+        "6ddd8073-4902-47ca-8129-2b82f12126b4",
+        "72a3bfaa-479d-e311-b77c-005056801da1",
+        "8b46578e-1fb2-476b-a596-999768dd4122",
+        "a7ca3027-9a2c-4a18-98d6-c7bb8c940c9c"
+      ],
+      "variant_group_id": "RED-045",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-046",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "39cb7aa0-0fa1-4065-8b32-2eb6d865f515",
+        "a72a3ff1-bf4e-4e5e-bf05-8eb2fe6fd7ed"
+      ],
+      "variant_group_id": "RED-046",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-047",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "659f17d3-0c16-4425-9073-ec0e4ca4a55f",
+        "6a5c06d4-9a40-4214-b598-a96924f543e1"
+      ],
+      "variant_group_id": "RED-047",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-048",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "8cf92e8c-a20f-4fc5-88e6-1b044e4aaa30",
+        "b89a9aa7-6192-4619-b5d7-975f9caa9176"
+      ],
+      "variant_group_id": "RED-048",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-049",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "2696c879-7374-4a1f-b7db-69cbc9114fe2",
+        "3aa3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": "RED-049",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-050",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "3aebd0e3-c1e8-41a5-a758-a6b2cf7b99a5",
+        "bdba0954-428c-45f9-9ac6-c3f437c645e6"
+      ],
+      "variant_group_id": "RED-050",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-051",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 2,
+      "rock_skill_mappings": [
+        "64845b77-96fe-4c46-a03f-2acc8e95a1fd",
+        "98bac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": "RED-051",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-052",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 3,
+      "rock_skill_mappings": [
+        "8aa3bfaa-479d-e311-b77c-005056801da1",
+        "e00ba8a1-6b9e-4641-afd1-5a951e577bd6",
+        "f61b8ae0-f622-4a10-93b3-8708500b5fb3"
+      ],
+      "variant_group_id": "RED-052",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-053",
+      "base_skill_name": "Math - Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 5,
+      "rock_skill_mappings": [
+        "8ba3bfaa-479d-e311-b77c-005056801da1",
+        "91114caa-3492-40a4-8d5a-8e4fccfd40f3",
+        "cbe93259-7f9d-4adc-a83e-e795ba5be7b2",
+        "ee919dbc-5396-45f6-8242-819b4410f4a1",
+        "f1811172-abc8-4167-8f28-c81b32ddd634"
+      ],
+      "variant_group_id": "RED-053",
+      "concept_type": "grouped"
+    },
+    {
+      "master_concept_id": "MC-054",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "11334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-055",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "365aef20-ccdd-4fdc-863e-5ae4cacb43ee"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-056",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "ec11a127-6c46-47f0-ae39-640623fff792"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-057",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1710f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-058",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1810f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-059",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1910f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-060",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8cfb7bbb-a671-40cd-9e9b-1abbc2cdfe7c"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-061",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1c69e0a8-f867-443b-b8be-b931adcb2070"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-062",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3b10f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-063",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3c10f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-064",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3e10f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-065",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "45334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-066",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "46334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-067",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "806de533-b3b6-4c8f-a55b-a8f9817beb51"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-068",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4410f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-069",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4510f61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-070",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "50334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-071",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "52334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-072",
+      "base_skill_name": "ELA: Character and Plot",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "58334c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-073",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "82314c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-074",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8b314c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-075",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c50ff61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-076",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c60ff61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-077",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c70ff61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-078",
+      "base_skill_name": "ELA: Consonants, Blends, Digraphs",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "64d91921-f72f-491f-9926-2e8a4830de39"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-079",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "19547681-0298-46e0-b2cd-de36e2e733b6"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-080",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1b1a295a-edd0-432c-860f-6c9f6e95c559"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-081",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c03dd8db-1289-44ee-804b-42e474566a31"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-082",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c1d97f7b-684f-4921-91f3-9f7ff30279f4"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-083",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f72459b6-0171-421e-8965-4e69d802a7a6"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-084",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "0eaba9dd-ec3f-4117-9de0-7f9834c371ab"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-085",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "26f97b52-25d6-4c94-8eaa-f1c56346c628"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-086",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "92d7d03c-e87d-40ce-b421-6ef7ebb2f035"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-087",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7512e48c-578a-40ce-b90d-0d974e075ed9"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-088",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "863dc4aa-5ab1-4972-88db-dcb4666bacd7"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-089",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "9fedf7e5-d566-4acb-ac10-59be82be7b17"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-090",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "ec694b5e-0d21-4b67-a92b-54a14d8ae87e"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-091",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "0913e480-f95c-4e70-9ec2-35871a079d7d"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-092",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "297fe757-9096-431a-aa5a-6f31b0d532ad"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-093",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "bd9e3723-f10f-4d8b-a747-971934495242"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-094",
+      "base_skill_name": "ELA: Narrative Writing",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e4f69ba5-9d42-404d-8a6c-0aa17f7594b9"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-095",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3f9acf75-d2c8-40cc-9180-96ed33e36fca"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-096",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7d314c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-097",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8c314c9c-a69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-098",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8fba8dde-cac2-45fe-aeaf-70fbc6bf3d93"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-099",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "b90ff61e-e69f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-100",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "d398c2c5-e297-4270-b1bf-97563aee9a66"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-101",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "402005a1-faaf-4b23-b9c5-cf3d242c8fd9"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-102",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "48895bfe-deed-424c-9763-9da902319c58"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-103",
+      "base_skill_name": "ELA: Phonemes",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4a07df90-de09-4706-8b44-2a0e22a4ad12"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-104",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "00b80d5b-d322-4806-9d78-2629961e9aef"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-105",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "175f65db-8c6c-4ad6-8103-5ec4788ed964"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-106",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3874b948-f876-4d8c-8d20-f0e5014547cb"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-107",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3c896d45-967c-4cd0-8e16-c388d1e46b69"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-108",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a17f63d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-109",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "d0621e75-10c7-4116-934f-f7df2a411bf0"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-110",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e8a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-111",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "eebdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-112",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "efbdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-113",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f1bdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-114",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f5bdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-115",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "00bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-116",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "01bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-117",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "02bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-118",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "03bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-119",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1e82a717-e686-4637-9f3e-d889c1634578"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-120",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3c7f63d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-121",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "47d1499b-ca4b-416c-9557-170a03ad19cb"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-122",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "6cfdf5d6-8957-4bdd-bb9a-d3e30dafd463"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-123",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7ca4912b-6987-425c-aa51-1aaf8a31e3a7"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-124",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8e8fa04e-a6da-4780-a6ff-e24cfc1f56ea"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-125",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a443e0ac-cc84-4dfa-8e94-d2dcb7e37175"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-126",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a93ddeb5-0c45-4e1b-bbd2-fab693ac42f0"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-127",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f9a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-128",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "faa3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-129",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fbbdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-130",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fcbdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-131",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fdbdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-132",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "febdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-133",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "ffbdc51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-134",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2fc3470f-e07e-4bc9-9e45-66af627f810b"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-135",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "44bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-136",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "5ce2e9b4-c62f-465a-b0b8-cc0a3ae57fce"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-137",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "72a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-138",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "73a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-139",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "74a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-140",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "75a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-141",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "76a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-142",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "77a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-143",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "78a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-144",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "79a5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-145",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "836d910d-6374-4683-8f4b-477e3db73d31"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-146",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "92fc4926-c12f-445b-a5d8-7d3c5f50051d"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-147",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "9950489c-5309-400b-818d-f6550aa6effc"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-148",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "b1b59cf9-022e-411c-9340-a24ddad577b0"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-149",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c18dcf1a-891f-4d18-9a19-486089987230"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-150",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c316e7ce-9512-4016-8285-34915f81afd4"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-151",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "cbc71c98-61c1-4c24-8e0d-0280f21651da"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-152",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "cca17ebe-6fed-473e-8114-2a130a086075"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-153",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "cd07f69b-d3ec-4791-9042-b6acebaaba28"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-154",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "cd7d63d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-155",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "d2d09b3f-ae61-4043-af57-cf5e25febed8"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-156",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f3c87ca9-6fbf-4788-8a7b-049988432c62"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-157",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fb4c8205-838e-4190-aa1b-828498298f29"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-158",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fd0309ef-6694-4a20-847d-eda7e058a5b8"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-159",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "239e703a-b045-445e-a727-191ed7a95b8b"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-160",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2cce6827-25f2-4bc9-ae50-59eeb4b5ba93"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-161",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3fce26f4-f4c4-4c99-be83-5af4c1629d35"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-162",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "49bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-163",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4dbec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-164",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "58bec51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-165",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "6d8c3026-c167-4eff-8375-d7684e7e0069"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-166",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "736d2c79-19cc-482f-9ba3-397502fbc65f"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-167",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "79698f6a-ca18-4396-96b2-dfdf1d1df077"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-168",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7d8bc720-5b3d-4a9d-bd4c-aa1f9bdd5329"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-169",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "821ebecf-9809-459d-be69-4296430699fe"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-170",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8546b91a-52e4-4324-8d8b-efd23fa7d085"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-171",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8ba5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-172",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8ca5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-173",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8da5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-174",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8ea5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-175",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8fa5bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-176",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a0f3d040-0044-4e69-81ed-2d7dd2739c3d"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-177",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "b2c9193d-0a48-478f-80c6-131cea59731e"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-178",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c0a6c1cd-3442-48a0-adf0-be7eee273966"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-179",
+      "base_skill_name": "Math: Data Representation and Analysis",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e7cabcca-1970-4e7b-a39e-f91cb1eb2aac"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-180",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "20a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-181",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2214e901-9330-4f01-9537-5839342ca8cb"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-182",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "277a7469-c612-4755-be19-49cc34a72137"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-183",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2896a10c-ceab-4f96-b73f-c504bc76fa26"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-184",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "35a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-185",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "36a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-186",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "37a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-187",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4c66ef8c-a516-4a27-8f28-c0548a75bee4"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-188",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "585f6a1b-7201-48f8-841f-1cab1e6dd627"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-189",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "5c532567-129b-406d-b98d-5c593dd694ae"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-190",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "5f30c9be-77eb-44fa-954b-638f35b9dfac"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-191",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "6aab3d5d-1e1d-4647-96eb-28032ae829d0"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-192",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "747106ff-c902-4c0b-a962-be41b069f54c"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-193",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "78bac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-194",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7b2ad215-7b31-4fd3-8881-86f491e79aba"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-195",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7b8b4352-b53d-4f87-be85-3590342a99b0"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-196",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7bbac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-197",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "81a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-198",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "82bac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-199",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "83a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-200",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "89a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-201",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a20d7cf7-e2f2-4281-b503-930836184a2d"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-202",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "bf24a02c-15f4-4c82-9f90-0e0a566a58c3"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-203",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e08063d8-2400-e411-9e54-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-204",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f4d8401a-86b6-47e6-91b8-4a9f22e70646"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-205",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "0ae02b76-e42f-41e3-a70a-41d2cd44dd45"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-206",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "22f51b07-292e-4488-91b8-5a8108275b60"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-207",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2421fe16-aa89-4bb6-a12d-611be1a3ded5"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-208",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3ca3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-209",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3cdf9938-683e-41f6-b673-db8ca07e2f51"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-210",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "3ea3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-211",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "4af74b76-37f4-46cb-8e85-4d368c66c71b"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-212",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "681c56f8-10d8-40b7-a7ba-f8f82377c503"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-213",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "71acbbfa-bd28-4348-b0ac-319aff6e0578"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-214",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "83e060cf-2750-4fdf-bd5d-c236d6d85afa"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-215",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "90c70afa-6b05-4f27-9070-5c76c79371e6"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-216",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "98a6bd57-66cd-45f2-a2cf-4cf0b620b911"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-217",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "9ea3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-218",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "9fbac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-219",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a1a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-220",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a5a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-221",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a69f111f-8cd4-4a55-93c1-b1093565306f"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-222",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "a6a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-223",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "c5875a7d-6d96-4a63-8ffa-d52a07b8f5f1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-224",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f4a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-225",
+      "base_skill_name": "Math: Whole Numbers: Addition and Subtraction",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f665155f-aee2-4acb-8799-2c694d3acf3c"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-226",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "085dd1c1-1ce2-4c99-a07a-64fe1acbe700"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-227",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "18e838aa-25b5-4540-83f9-76ae9bbcbc8f"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-228",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "27e8a21b-f8a0-44af-bb25-65d918b3725a"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-229",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "45b3ccbd-6f92-475e-a863-d119a12b408e"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-230",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "5fbac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-231",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "60bac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-232",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "61bac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-233",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "6fa3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-234",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "73a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-235",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "79a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-236",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "7d35969e-a1ec-e311-b64a-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-237",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "925ca753-d30f-49fb-b25b-edd2fa670103"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-238",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e27a9740-f532-421c-b9f7-1ba68c651d60"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-239",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e91646ab-ab1f-42cf-a8dc-4810545c7bd5"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-240",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "fbe67d74-ea41-461f-88c6-af3aa7c873b2"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-241",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "0c959849-2229-4f8b-9b93-b65f8a1af4ee"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-242",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "0fc4dbbc-dccf-4cb9-8136-9207383362bb"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-243",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "1a28e861-6c5f-4407-ad9b-56f753edb75e"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-244",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "2eebe459-806a-4d27-b57c-6aa363a7eae7"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-245",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "8ebac51a-a39f-e311-9503-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-246",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "95a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-247",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "9735969e-a1ec-e311-b64a-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-248",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "996c6bd8-3024-46e3-8c61-b7c5518e0526"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-249",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "bb84fae2-1400-4dc6-bf58-e50140f0c660"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-250",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "be83f4bd-106a-4158-8dbe-4f2041817bbf"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-251",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "cf4f7940-2322-47b8-b5fe-ed4367eac882"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-252",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "dc1a10a2-8cae-4e59-92c9-81e2e029793d"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-253",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "e96615ed-b850-4756-921e-e52cbe46c0e7"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    },
+    {
+      "master_concept_id": "MC-254",
+      "base_skill_name": "Math: Whole Numbers: Counting, Comparing, and Ordering",
+      "rock_skill_count": 1,
+      "rock_skill_mappings": [
+        "f2a3bfaa-479d-e311-b77c-005056801da1"
+      ],
+      "variant_group_id": null,
+      "concept_type": "individual"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "pipeline_version": "1.0",
+  "timestamp": "2025-10-16T14:22:42.724831",
+  "input_file": "../../rock_schemas/skill_list_filtered_data_set.csv",
+  "output_dir": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/integrated_pipeline",
+  "levels_completed": [
+    "MICRO",
+    "MID",
+    "MACRO"
+  ],
+  "input_skills": 333,
+  "micro": {
+    "level": "MICRO",
+    "total_processed": 333,
+    "actions_extracted": 318,
+    "targets_extracted": 324,
+    "qualifiers_extracted": 278,
+    "extraction_rates": {
+      "actions": "95.5%",
+      "targets": "97.3%",
+      "qualifiers": "83.5%"
+    },
+    "errors": 0,
+    "processing_time_seconds": 2.41,
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/integrated_pipeline/01_micro_enriched_skills.csv"
+  },
+  "mid": {
+    "level": "MID",
+    "total_skills_analyzed": 333,
+    "redundancy_groups_found": 53,
+    "skills_in_groups": 132,
+    "unique_concepts_estimated": 254,
+    "redundancy_rate": "23.7%",
+    "processing_time_seconds": 0.29,
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/integrated_pipeline/02_mid_redundancy_groups.json"
+  },
+  "macro": {
+    "level": "MACRO",
+    "master_concepts_created": 254,
+    "grouped_concepts": 53,
+    "individual_concepts": 201,
+    "total_rock_skills_mapped": 333,
+    "reduction_ratio": "23.7%",
+    "processing_time_seconds": 0.01,
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/integrated_pipeline/03_macro_master_concepts.json"
+  }
+}

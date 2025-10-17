@@ -1,0 +1,225 @@
+# ROCK Skills Taxonomy - Git Ignore Rules
+
+# ============================================================
+# Generated Outputs (Can Be Regenerated)
+# ============================================================
+
+# Taxonomy database and generated files
+taxonomy.db
+taxonomy/base_skills/*.json
+taxonomy/specifications/*.json
+taxonomy/mappings/*.csv
+taxonomy/conflicts.json
+taxonomy/redundancies.json
+taxonomy/validation_report.json
+taxonomy/decisions.json
+taxonomy/update_summary.json
+
+# Analysis outputs
+analysis/outputs/
+analysis/reports/*.txt
+analysis/reports/*.json
+
+# Checkpoint files (except in specific output dirs)
+checkpoint_*.csv
+*_checkpoint_*.csv
+
+# ============================================================
+# Python
+# ============================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# ============================================================
+# IDEs and Editors
+# ============================================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================================
+# Operating System
+# ============================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+
+# Linux
+.directory
+.Trash-*
+
+# ============================================================
+# Temporary Files
+# ============================================================
+
+# General temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.backup
+*.old
+*_old
+*_backup
+*.orig
+
+# Streamlit
+.streamlit/
+
+# ============================================================
+# Archives (Keep Only Recent)
+# ============================================================
+
+# Archive directory (local only - not in git)
+.archive/
+
+# Old archive directory (if exists)
+archive/
+
+# Old backups
+backups/*.db
+!backups/.gitkeep
+
+# ============================================================
+# Large Data Files (Optional)
+# ============================================================
+
+# Large CSVs that can be regenerated
+# Uncomment if needed:
+# analysis/outputs/**/*.csv
+# !analysis/outputs/**/README.md
+
+# ============================================================
+# Environment & Secrets
+# ============================================================
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# AWS credentials
+.aws/
+
+# ============================================================
+# Auto-Generated Scripts
+# ============================================================
+
+# Scripts created dynamically by other scripts
+scripts/utils/apply_decisions.py
+
+# ============================================================
+# Exceptions (Always Keep)
+# ============================================================
+
+# Keep README files even in ignored directories
+!**/README.md
+
+# Keep gitkeep files
+!**/.gitkeep
+
+# Keep sample/example files
+!**/example_*.json
+!**/sample_*.csv
+

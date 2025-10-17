@@ -1,0 +1,90 @@
+SKILL_AREA_ID,SKILL_AREA_NAME,SKILL_AREA_STATUS,REPLACES_SKILL_AREA_ID,SKILL_AREA_CREATION_RATIONALE,SKILL_AREA_NOTES,CONTENT_AREA_ID,CONTENT_AREA_SHORT_NAME,CONTENT_AREA_NAME,LAST_CHANGE_TYPE,LAST_BATCH_NAME
+f7b876b1-479d-e311-b77c-005056801da1,Algebraic Thinking,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+36c2b6a5-a69f-e311-9503-005056801da1,Alphabetic Knowledge,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+c46d5228-e69f-e311-9503-005056801da1,Analysis and Comparison,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+02b976b1-479d-e311-b77c-005056801da1,"Angles, Segments, and Lines",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+d16d5228-e69f-e311-9503-005056801da1,Argumentation,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+269ce9ac-1265-4dab-a56a-50ecf79d4961,Argumentative Writing,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_01
+cf6d5228-e69f-e311-9503-005056801da1,Author's Purpose and Perspective,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+c16d5228-e69f-e311-9503-005056801da1,Author's Word Choice and Figurative Language,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+ab6d5228-e69f-e311-9503-005056801da1,Blending and Segmenting,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+237157d3-c7e5-4918-a775-9f569f89358e,Capitalization and Punctuation,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_01
+cc6d5228-e69f-e311-9503-005056801da1,Cause and Effect,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+2b6d6eae-b34e-48e3-9754-dce8361db2aa,Character and Plot,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+f5733314-b279-42b1-8c0b-5ab48f036cb7,Circles,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+10b976b1-479d-e311-b77c-005056801da1,Combinatorics and Probability,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+cb6d5228-e69f-e311-9503-005056801da1,Compare and Contrast,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+05b976b1-479d-e311-b77c-005056801da1,Congruence and Similarity,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+c26d5228-e69f-e311-9503-005056801da1,Connotation,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+3f6e3f3c-f87a-4de0-b0bb-71625afc8f18,"Consonants, Blends, Digraphs",Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+d46d5228-e69f-e311-9503-005056801da1,Context Clues,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+87cf391c-a8c5-4ed3-ac46-c64869bb21fe,Conventions and Range of Reading,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+07b976b1-479d-e311-b77c-005056801da1,Coordinate Geometry,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+00b976b1-479d-e311-b77c-005056801da1,Data Representation and Analysis,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+fab876b1-479d-e311-b77c-005056801da1,Decimal Concepts and Operations,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+2c78494a-cb28-4feb-872d-ccf7d2489009,Development of Independence,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+2c48413b-4007-4c50-85c5-4b9bb9ebf026,Exponential and Logarithmic Expressions and Functions,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+da6d5228-e69f-e311-9503-005056801da1,Figures of Speech,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+06b976b1-479d-e311-b77c-005056801da1,Fraction Concepts and Operations,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+04b976b1-479d-e311-b77c-005056801da1,Geometry: Three-Dimensional Shapes and Attributes,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+ffb876b1-479d-e311-b77c-005056801da1,Geometry: Two-Dimensional Shapes and Attributes,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+7951565d-3700-e411-9e54-005056801da1,Grapheme-phoneme Correspondences (GPCs),Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+bc6d5228-e69f-e311-9503-005056801da1,Inference and Evidence,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+b1900474-c030-4389-9b6b-8d737f4c9b02,Informative Writing,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_01
+573baca4-c3e4-4e83-8ace-6c341f8a3257,Irregular Spellings / High-Frequency and Exception Words,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+0db976b1-479d-e311-b77c-005056801da1,"Linear Expressions, Equations, and Inequalities",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+6abc2f54-92eb-464f-8bb4-f290cc9b668f,Logical Thinking and Proofs,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+c96d5228-e69f-e311-9503-005056801da1,Main Idea and Details,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+1a1796db-d778-4143-b44e-5e501aab7065,"Matrices, Vectors, and Complex Numbers",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+fcb876b1-479d-e311-b77c-005056801da1,Measurement,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+c36d5228-e69f-e311-9503-005056801da1,Modes of Representation,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+daafe8bf-a115-440c-a140-5acd91f3304f,Money and Time,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+d76d5228-e69f-e311-9503-005056801da1,Multiple-Meaning Words,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+b2513b37-cb2a-479d-ab76-0aa165ddb32c,Narrative Writing,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_01
+46290d78-dbff-e311-9e54-005056801da1,"Nonlinear Expressions, Equations, and Inequalities",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+347979b8-b6e4-4764-87af-bf6702e5400b,Numerical and Variable Expressions,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+8b939532-6aa3-4b56-8788-e0d2ec47baf4,Other Subject Areas,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+c342a195-97e4-48e2-bf90-be68d8637234,Parts of Speech,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_03
+8da62e93-3649-449b-9b70-ccef1c25598e,"Patterns, Sequences, and Series",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+0ab976b1-479d-e311-b77c-005056801da1,"Percents, Ratios, and Proportions",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+01b976b1-479d-e311-b77c-005056801da1,"Perimeter, Circumference, and Area",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+e59a80bd-c72a-4a3f-b542-c26044a42588,Phonemes,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+be6d5228-e69f-e311-9503-005056801da1,Point of View,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+1de57889-f5c4-4934-9596-c49c4d234e0f,Polygons,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+5d8c7024-3f2d-4397-969b-671876c11af2,Polynomial Expressions and Functions,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+3f18d6d6-c317-4afa-bf2d-ece47db0cb31,Positive and Negative Rational Numbers,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+fbb876b1-479d-e311-b77c-005056801da1,"Powers, Roots, and Radicals",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+c86d5228-e69f-e311-9503-005056801da1,Prediction,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+37c2b6a5-a69f-e311-9503-005056801da1,Print Concepts,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+7d51565d-3700-e411-9e54-005056801da1,Purpose for Reading,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+0eb976b1-479d-e311-b77c-005056801da1,"Quadratic Expressions, Equations, and Inequalities",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+f74fd135-e942-4ba5-ad2f-29b8ab3efb9e,Reading Rate and Fluency,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+d56d5228-e69f-e311-9503-005056801da1,Real-Life Word Connections and Applications,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+11b976b1-479d-e311-b77c-005056801da1,Relations and Functions,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+8051565d-3700-e411-9e54-005056801da1,Research Strategies,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+ecc809ce-35af-4d96-9fdc-2617784556c0,Response to Text,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+09b976b1-479d-e311-b77c-005056801da1,Right Triangles and Trigonometry,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+80f546fb-ab8b-4d3a-beec-06893740491d,Sentence Structure,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240823_03_01
+ca6d5228-e69f-e311-9503-005056801da1,Sequence,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+b96d5228-e69f-e311-9503-005056801da1,Setting,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+f4729178-2b0b-4f49-85ea-f0c589611035,Spelling,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+d36d5228-e69f-e311-9503-005056801da1,Structural Analysis,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+b4ec95bd-ed1e-4399-8f61-a075cc4596b7,Structure and Organization,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+bb6d5228-e69f-e311-9503-005056801da1,Summary,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+03b976b1-479d-e311-b77c-005056801da1,Surface Area and Volume,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+b36d5228-e69f-e311-9503-005056801da1,Syllables,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+5b6d6672-0e6d-4323-ab88-22e42d12d7e4,Synonyms and Antonyms,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+0fb976b1-479d-e311-b77c-005056801da1,Systems of Equations and Inequalities,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+ce6d5228-e69f-e311-9503-005056801da1,Text Features,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+bd6d5228-e69f-e311-9503-005056801da1,Theme,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+08b976b1-479d-e311-b77c-005056801da1,Transformations,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+d66d5228-e69f-e311-9503-005056801da1,Vocabulary in Context,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+1df26763-caf1-4061-8ef1-418c261bb4cb,Vowel Sounds,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+f5b876b1-479d-e311-b77c-005056801da1,Whole Numbers: Addition and Subtraction,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+f4b876b1-479d-e311-b77c-005056801da1,"Whole Numbers: Counting, Comparing, and Ordering",Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+f6b876b1-479d-e311-b77c-005056801da1,Whole Numbers: Multiplication and Division,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+f9b876b1-479d-e311-b77c-005056801da1,Whole Numbers: Place Value,Released,,,,2,Math,Mathematics,initial,RSLBASE_20240701
+52c2b6a5-a69f-e311-9503-005056801da1,Word Families/Rhyming,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+d3ffc223-1a76-4cf6-97a7-8f8d47ca60e0,Word Meaning and Reference Materials,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+d26d5228-e69f-e311-9503-005056801da1,Word Relationships,Released,,,,1,ELA,English Language Arts,initial,RSLBASE_20240701
+f4b86175-e388-4cd7-9d89-3f0ee105b16b,Writing Process,Development,,,,1,ELA,English Language Arts,addition,RSLCHANGE_ELA_20240816_01_01

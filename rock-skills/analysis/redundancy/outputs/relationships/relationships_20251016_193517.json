@@ -1,0 +1,52 @@
+[
+  {
+    "relationship_id": "REL-40bec51a-a39f-e311-9503-005056801da1-50334c9c-a69f-e311-9503-005056801da1",
+    "skill_a_id": "50334c9c-a69f-e311-9503-005056801da1",
+    "skill_b_id": "40bec51a-a39f-e311-9503-005056801da1",
+    "skill_a_name": "Determine the type of conflict present in a story (e.g., person vs. person/self/nature)",
+    "skill_b_name": "Determine the mean of a set of data",
+    "relationship_type": "DISTINCT",
+    "confidence": 0.9,
+    "similarity_scores": {
+      "structural": 0.6000000000000001,
+      "educational": 0.2,
+      "semantic": 0.0,
+      "contextual": 0.3,
+      "composite": 0.27
+    },
+    "similarity_explanation": {
+      "components": {
+        "structural": {
+          "action_match": 1.0,
+          "target_overlap": 0.0,
+          "concept_similarity": 1.0
+        },
+        "educational": {
+          "cognitive_demand_match": 0.0,
+          "task_complexity_match": 1.0,
+          "skill_domain_match": 0.0,
+          "text_type_match": 0.0
+        },
+        "contextual": {
+          "grade_compatibility": 0.0,
+          "scope_match": 0.0,
+          "support_compatibility": 1.0
+        }
+      },
+      "evidence": [
+        "\u2713 Matching actions: determine",
+        "\u26a0 Different grades: 8 vs 7"
+      ],
+      "weights": {
+        "structural": 0.3,
+        "educational": 0.3,
+        "semantic": 0.3,
+        "contextual": 0.1
+      }
+    },
+    "classification_method": "rule_based",
+    "rule_matched": "distinct",
+    "confidence_factors": {},
+    "metadata": {
+      "skill_a": {
+        "grade": 

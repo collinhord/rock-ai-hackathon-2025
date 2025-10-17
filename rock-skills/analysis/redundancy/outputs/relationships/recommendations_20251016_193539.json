@@ -1,0 +1,186 @@
+[
+  {
+    "relationship_id": "REL-1410f61e-e69f-e311-9503-005056801da1-1710f61e-e69f-e311-9503-005056801da1",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-9c314c9c-a69f-e311-9503-005056801da1-d90ff61e-e69f-e311-9503-005056801da1",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-19547681-0298-46e0-b2cd-de36e2e733b6-26f97b52-25d6-4c94-8eaa-f1c56346c628",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-1210f61e-e69f-e311-9503-005056801da1-1410f61e-e69f-e311-9503-005056801da1",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-19547681-0298-46e0-b2cd-de36e2e733b6-863dc4aa-5ab1-4972-88db-dcb4666bacd7",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-1210f61e-e69f-e311-9503-005056801da1-1710f61e-e69f-e311-9503-005056801da1",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-3c10f61e-e69f-e311-9503-005056801da1-3e10f61e-e69f-e311-9503-005056801da1",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  },
+  {
+    "relationship_id": "REL-19547681-0298-46e0-b2cd-de36e2e733b6-297fe757-9096-431a-aa5a-6f31b0d532ad",
+    "relationship_type": "COMPLEMENTARY",
+    "action": "CAPTURE_RELATIONSHIP",
+    "priority": "P3",
+    "priority_score": 0.393,
+    "rationale": "Related skills that support each other but remain distinct",
+    "specific_steps": [
+      "Create related_skill_ids field",
+      "Capture bidirectional relationship",
+      "Flag for co-teaching opportunities",
+      "Consider for content bundling"
+    ],
+    "impact": {
+      "impact_score": 0.5,
+      "estimated_states_affected": 2,
+      "estimated_content_affected": 10,
+      "migration_effort": "LOW"
+    },
+    "quality_comparison": null,
+    "suggested_base_skill_name": null,
+    "specification_tags": null
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-10-16T14:09:56.960010",
+  "input_file": "../rock_schemas/skill_list_filtered_data_set.csv",
+  "total_skills": 333,
+  "micro": {
+    "total_processed": 333,
+    "actions_extraction_rate": "95.5%",
+    "targets_extraction_rate": "97.3%",
+    "qualifiers_extraction_rate": "83.5%",
+    "errors": 0,
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/filtered_validation/filtered_metadata_extraction.csv"
+  },
+  "mid": {
+    "total_skills_analyzed": 333,
+    "redundancy_groups_found": 52,
+    "skills_in_groups": 119,
+    "unique_concepts_estimated": 266,
+    "redundancy_rate": "20.1%",
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/filtered_validation/filtered_redundancy_report.json"
+  },
+  "macro": {
+    "total_rock_skills": 333,
+    "master_concepts_identified": 266,
+    "grouped_concepts": 52,
+    "individual_concepts": 214,
+    "reduction_ratio": "20.1%",
+    "output_file": "/Users/collin.hord/Documents/GitHub/rock-ai-hackathon-2025/rock-skills/analysis/outputs/filtered_validation/filtered_master_concepts.json"
+  }
+}

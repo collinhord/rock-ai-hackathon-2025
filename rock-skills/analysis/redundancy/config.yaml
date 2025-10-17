@@ -1,0 +1,182 @@
+# Skill Redundancy System Configuration
+
+# Similarity Dimension Weights (must sum to 1.0)
+weights:
+  structural: 0.30  # spaCy-based action/target matching
+  educational: 0.30  # Cognitive demand, complexity, domain
+  semantic: 0.30     # Sentence-transformer embeddings
+  contextual: 0.10   # Grade, scope, support level
+
+# Adaptive weights for specific use cases
+adaptive_weights:
+  true_duplicate:
+    structural: 0.40
+    educational: 0.20
+    semantic: 0.40
+    contextual: 0.00
+  
+  specification_variant:
+    structural: 0.30
+    educational: 0.40
+    semantic: 0.20
+    contextual: 0.10
+  
+  prerequisite:
+    structural: 0.20
+    educational: 0.50
+    semantic: 0.10
+    contextual: 0.20
+
+# Relationship Classification Thresholds
+thresholds:
+  # TRUE_DUPLICATE: Nearly identical skills
+  true_duplicate:
+    composite_min: 0.90
+    structural_min: 0.85
+    educational_min: 0.80
+    confidence: 0.95
+  
+  # SPECIFICATION_VARIANT: Same base skill, different specs
+  specification_variant:
+    composite_min: 0.75
+    structural_min: 0.80
+    educational_min: 0.70
+    contextual_max: 0.60
+    confidence: 0.90
+  
+  # PREREQUISITE: One builds on the other
+  prerequisite:
+    composite_min: 0.60
+    composite_max: 0.75
+    educational_min: 0.60
+    grade_diff: 1  # Exactly 1 grade apart
+    confidence: 0.75
+  
+  # PROGRESSION: Learning pathway across grades
+  progression:
+    composite_min: 0.55
+    composite_max: 0.75
+    structural_min: 0.65
+    min_grade_diff: 1  # At least 1 grade apart
+    confidence: 0.80
+  
+  # COMPLEMENTARY: Related but distinct
+  complementary:
+    composite_min: 0.50
+    composite_max: 0.70
+    confidence: 0.70
+  
+  # AMBIGUOUS: Needs human/LLM review
+  ambiguous:
+    composite_min: 0.65
+    confidence_max: 0.70
+    confidence: 0.50
+  
+  # DISTINCT: Different skills
+  distinct:
+    composite_max: 0.50
+    confidence: 0.90
+
+# Structural Similarity Components (must sum to 1.0)
+structural_weights:
+  action_match: 0.40      # Jaccard on actions
+  target_overlap: 0.40    # Jaccard on targets
+  concept_similarity: 0.20 # Jaccard on key_concepts
+
+# Educational Similarity Components (must sum to 1.0)
+educational_weights:
+  cognitive_demand: 0.40   # Match on cognitive level
+  task_complexity: 0.20    # Match on complexity
+  skill_domain: 0.20       # Match on domain
+  text_type: 0.20          # Jaccard on text types
+
+# Contextual Similarity Components (must sum to 1.0)
+contextual_weights:
+  grade_compatibility: 0.40  # Distance-based
+  scope_match: 0.30          # Binary
+  support_compatibility: 0.30 # Compatibility-based
+
+# Priority Scoring Weights (must sum to 1.0)
+priority_weights:
+  confidence_score: 0.30
+  impact_score: 0.25
+  taxonomy_importance: 0.25
+  data_quality_concern: 0.20
+
+# Impact Score Components (must sum to 1.0)
+impact_weights:
+  states_affected: 0.40
+  student_reach: 0.30
+  content_tagged: 0.30
+
+# Taxonomy Importance Components (must sum to 1.0)
+taxonomy_importance_weights:
+  in_sor_taxonomy: 0.40
+  framework_convergence: 0.30
+  parent_of_others: 0.30
+
+# Priority Buckets
+priority_buckets:
+  P0: 0.80  # Critical
+  P1: 0.65  # High
+  P2: 0.50  # Medium
+  P3: 0.00  # Low
+
+# Cognitive Demand Levels (ordered for progression detection)
+cognitive_levels:
+  - recall
+  - comprehension
+  - application
+  - analysis
+  - synthesis
+  - evaluation
+
+# Task Complexity Levels (ordered)
+complexity_levels:
+  - basic
+  - intermediate
+  - advanced
+
+# Grade Level Mapping for Distance Calculation
+grade_mapping:
+  "Pre-K": 0
+  "K": 0
+  "Kindergarten": 0
+  "Grade 1": 1
+  "Grade 2": 2
+  "Grade 3": 3
+  "Grade 4": 4
+  "Grade 5": 5
+  "Grade 6": 6
+  "Grade 7": 7
+  "Grade 8": 8
+  "Grade 9": 9
+  "Grade 10": 10
+  "Grade 11": 11
+  "Grade 12": 12
+
+# Pre-filtering Settings
+prefilter:
+  structural_threshold: 0.50  # Only process pairs above this
+  max_pairs_per_skill: 20     # Limit candidates per skill
+
+# LLM Settings
+llm:
+  model: "anthropic.claude-sonnet-4-20250514"  # Claude Sonnet 4.5
+  region: "us-west-2"
+  max_tokens: 1000
+  temperature: 0.0
+  batch_size: 50
+  cost_limit_usd: 20.0
+
+# Batch Processing
+batch:
+  checkpoint_interval: 100
+  parallel_workers: 4
+
+# Output Settings
+output:
+  save_intermediate: true
+  include_explanations: true
+  export_format: "json"  # json, csv, or both
+

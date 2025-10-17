@@ -1,0 +1,80 @@
+Priority,Type,Concept_1,Concept_2,Issue,Recommendation,Complexity
+1,Semantic Duplicate,Note Taking,Note Taking,High similarity (0.991),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Pre-Reading Strategies,Setting Reading Purposes,High similarity (0.967),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Paraphrasing Information,Paraphrasing Oral Info,High similarity (0.965),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Symbolism and Imagery,Imagery,High similarity (0.965),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Narrative Techniques,Narrative Methods,High similarity (0.964),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Reading Interest-based Choice,Making Informed Choices,High similarity (0.964),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Decoding Unknown Words,Decoding Strategies,High similarity (0.964),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Goal Setting,Adjusting Goals,High similarity (0.963),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Inductive Reasoning,Applying Inductive Reasoning,High similarity (0.962),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Attention and Focus,Focus Routines,High similarity (0.962),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Emotion Regulation,Emotion Regulation Strategies,High similarity (0.962),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Common Irregular Words,Less Common Irregular Words,High similarity (0.967),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Irony and Sound Devices,Analyze Irony and Sound Devices,High similarity (0.962),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Rhetorical Strategies,Rhetorical Strategies,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Efficiency,Processing Efficiency,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Morphological Application in Reading,Applying Morphological Knowledge in Reading,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Goal Setting,Goal Creation,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,"Mood, Tone, and Atmosphere","Analyze Mood, Tone, and Atmosphere",High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Apply Common and Irregular Patterns in Spelling,Apply Common and Irregular Patterns in Spelling,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Making Informed Choices,Making Informed Choices,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Alphabetic Principle,Understanding Alphabetic Principle,High similarity (0.960),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Word-Level Accuracy,Word-Level Rate,High similarity (0.960),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Collaborative Discussion,Collaborative Discussion,High similarity (0.960),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Tone,Voice and Tone,High similarity (0.962),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Structured Formats,Structured Note Formats,High similarity (0.967),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Word Boundaries,Identifying Word Boundaries,High similarity (0.961),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Planning,Planning Writing,High similarity (0.968),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Contextual and Intertextual Understanding,Intertextuality,High similarity (0.967),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Listening,Listening,High similarity (0.985),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Capitalization and Punctuation,Punctuation and Capitalization,High similarity (0.985),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Speaking,Speaking,High similarity (0.984),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Text Features,Text Features,High similarity (0.983),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Attention Control,Attention and Focus,High similarity (0.982),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Electronic Texts,Electronic Texts,High similarity (0.979),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Integrating Evidence,Using Evidence,High similarity (0.976),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Summarizing and Paraphrasing,Summarizing and Paraphrasing,High similarity (0.976),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Phonemic Awareness,Advanced Phonemic Awareness,High similarity (0.975),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Using Evidence,Using Evidence Effectively,High similarity (0.974),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Managing Personal Reading Library,Managing Personal Reading Library,High similarity (0.980),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Editing,Editing Writing,High similarity (0.969),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Onset Recognition,Identifying Onsets,High similarity (0.974),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Study and Note-taking Strategies,Note Taking,High similarity (0.973),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Contextual and Intertextual Understanding,Contextual Understanding,High similarity (0.972),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Comprehension Monitoring,Monitoring Comprehension,High similarity (0.971),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Rime Recognition,Identifying Rimes,High similarity (0.970),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Initial Sound Isolation,Final Sound Isolation,High similarity (0.970),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Adaptive Strategy Deployment,Dynamic Adjustment of Strategies,High similarity (0.968),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Organized Presentation,Organizing Presentation,High similarity (0.968),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Symbolism and Imagery,Symbolism,High similarity (0.968),Review for consolidation or disambiguation,Medium
+1,Semantic Duplicate,Argumentation and Debate,Argumentation,High similarity (0.974),Review for consolidation or disambiguation,Medium
+2,Low Framework Support,Word Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Developing Automatic Word Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Multisyllabic Decoding,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Motivating Action,,Only 1 framework: Cambridge Mathematics,Seek additional framework validation,Low
+2,Low Framework Support,Word Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Word Structure,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Visual Word Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Phonological Awareness,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Recognizing Word Segmentation,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Sight Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Vocabulary Knowledge,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Decoding Contractions,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Analyzing Theme Development,,Only 1 framework: Cambridge Mathematics,Seek additional framework validation,Low
+2,Low Framework Support,Decoding Strategies,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Literacy Knowledge,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Language Structure,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Connecting to Background Knowledge,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Comprehension Strategies,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Comprehension,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Background Knowledge,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Language Comprehension,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Vocabulary Knowledge,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Balancing Decoding with Understanding,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Fluency,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Decoding Challenges,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Decoding Unknown Words,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Word Reading Fluency,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Verbal Reasoning,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low
+2,Low Framework Support,Sustaining Accurate Word Recognition,,Only 1 framework: Scarborough Reading Rope,Seek additional framework validation,Low

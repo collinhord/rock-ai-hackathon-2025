@@ -2,6 +2,14 @@
 
 This directory is for storing academic frameworks, pedagogical documents, and scientific literature that you want to analyze and compare against the Science of Reading taxonomy.
 
+**🆕 NEW: PDF Taxonomy Processor** - Extract taxonomies, generate master concepts, and integrate with batch mapping pipeline. See `README_PROCESSOR.md` for complete guide.
+
+## Quick Links
+
+- **[PDF Processor Guide](README_PROCESSOR.md)** - Extract taxonomies from PDFs (NEW!)
+- **[Quick Start](QUICK_START.md)** - Basic framework analysis
+- **[This Document](#)** - Framework organization and storage
+
 ## Directory Structure
 
 ```
@@ -271,6 +279,26 @@ python3 cli.py compare frameworks/input/general/webb_dok.pdf
 ```
 
 ## Getting Started
+
+### With PDF Taxonomy Processor (Recommended for Taxonomy Building)
+
+```bash
+# Extract structure and generate master concepts
+python process_framework_pdfs.py \
+  --input input/math/cambridge_mathematics_ontology.pdf \
+  --subject math \
+  --mode full
+
+# Or use the pipeline script for batch processing
+./pipeline_integration.sh \
+  --subject ela \
+  --process-all "input/ela/*.pdf" \
+  --batch-mapping
+```
+
+See **[README_PROCESSOR.md](README_PROCESSOR.md)** for complete guide.
+
+### With Basic Framework Analyzer
 
 1. **Download frameworks** you want to analyze
 2. **Place them** in the appropriate `input/` subdirectory

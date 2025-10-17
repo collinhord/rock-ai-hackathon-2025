@@ -1,0 +1,17 @@
+{
+  "total_relationships": 20,
+  "total_recommendations": 8,
+  "relationship_types": {
+    "DISTINCT": 12,
+    "COMPLEMENTARY": 8
+  },
+  "recommended_actions": {
+    "CAPTURE_RELATIONSHIP": 8
+  },
+  "priority_distribution": {
+    "P3": 8
+  },
+  "average_confidence": 0.764,
+  "average_composite_score": 0.39575000000000005,
+  "high_priority_count": 0
+}

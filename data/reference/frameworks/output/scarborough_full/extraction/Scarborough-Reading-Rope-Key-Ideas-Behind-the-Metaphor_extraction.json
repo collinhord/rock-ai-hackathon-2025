@@ -1,0 +1,846 @@
+{
+  "document": {
+    "filename": "Scarborough-Reading-Rope-Key-Ideas-Behind-the-Metaphor.pdf",
+    "format": "pdf",
+    "word_count": 1747,
+    "subject_area": "ela"
+  },
+  "extraction": {
+    "document_analysis": {
+      "subject_area": "ELA",
+      "document_type": "framework",
+      "primary_audience": "K-12",
+      "theoretical_framework": "Scarborough's Reading Rope (1992, published 2001), Simple View of Reading",
+      "key_themes": [
+        "Reading as a complex, multi-component skill",
+        "Integration of word recognition and language comprehension",
+        "Developmental progression toward skilled reading",
+        "Automaticity in word recognition",
+        "Strategic deployment of comprehension skills",
+        "Interactive nature of reading component development"
+      ]
+    },
+    "proposed_hierarchy": {
+      "levels": [
+        {
+          "level_name": "Skilled Reading (Endpoint)",
+          "level_number": 0,
+          "description": "The ultimate goal - fluent execution and coordination of word recognition and text comprehension",
+          "example": "Skilled Reading"
+        },
+        {
+          "level_name": "Strand Bundle",
+          "level_number": 1,
+          "description": "Major components of reading - two main bundles that interweave",
+          "example": "Word Recognition, Language Comprehension"
+        },
+        {
+          "level_name": "Strand",
+          "level_number": 2,
+          "description": "Individual types of knowledge or skills within each bundle (8 total strands)",
+          "example": "Phonological Awareness, Background Knowledge, Vocabulary"
+        }
+      ],
+      "rationale": "Scarborough's Rope uses a two-tier structure: two main bundles (Word Recognition with 3 strands, Language Comprehension with 5 strands) that interweave to form skilled reading. The metaphor emphasizes that strands do not develop independently but interact throughout development.",
+      "mapping_to_standard": {
+        "strand_bundle": "Maps to level 1 - Major reading components",
+        "strand": "Maps to level 2 - Constituent skills and knowledge types",
+        "skilled_reading": "Maps to level 0 - Ultimate endpoint/goal"
+      }
+    },
+    "extracted_concepts": [
+      {
+        "concept_id": "TEMP-001",
+        "name": "Skilled Reading",
+        "description": "The fluent execution and coordination of word recognition and text comprehension. This is the level of proficiency that a reader ultimately attains, typically in adulthood. Represented by the tightly woven rope made up of all component strands working together seamlessly.",
+        "level": "Endpoint",
+        "parent_concept": "ROOT",
+        "grade_range": "K-12",
+        "complexity_band": "9-12",
+        "cognitive_level": "create",
+        "prerequisites": [
+          "Word Recognition",
+          "Language Comprehension"
+        ],
+        "related_concepts": [
+          "Reading Fluency",
+          "Reading Proficiency"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Page describing endpoint",
+        "examples": [
+          "Adult-level reading proficiency",
+          "Coordinated word recognition and comprehension"
+        ],
+        "research_basis": "Scarborough (2001), based on 1970s-80s reading research"
+      },
+      {
+        "concept_id": "TEMP-002",
+        "name": "Word Recognition",
+        "description": "One of two main bundles in the Reading Rope, consisting of 3 strands. Involves the ability to recognize written words through phonological awareness, decoding, and sight recognition. Becomes increasingly automatic with practice (rapid, accurate, with little conscious effort). Critical foundation for reading comprehension.",
+        "level": "Strand Bundle",
+        "parent_concept": "Skilled Reading",
+        "grade_range": "K-12",
+        "complexity_band": "K-5",
+        "cognitive_level": "apply",
+        "prerequisites": [],
+        "related_concepts": [
+          "Language Comprehension",
+          "Decoding",
+          "Automaticity"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section",
+        "examples": [
+          "Phonological awareness",
+          "Decoding skills",
+          "Sight recognition"
+        ],
+        "research_basis": "Simple View of Reading, Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-003",
+        "name": "Language Comprehension",
+        "description": "One of two main bundles in the Reading Rope, consisting of 5 strands. Encompasses the knowledge and skills needed to understand language, including background knowledge, vocabulary, language structures, verbal reasoning, and literacy knowledge. Becomes increasingly strategic (purposeful, intentional, schema-building) in deployment as reading proficiency grows.",
+        "level": "Strand Bundle",
+        "parent_concept": "Skilled Reading",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "Word Recognition",
+          "Strategic Reading",
+          "Text Comprehension"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section",
+        "examples": [
+          "Background knowledge",
+          "Vocabulary",
+          "Language structures",
+          "Verbal reasoning",
+          "Literacy knowledge"
+        ],
+        "research_basis": "Simple View of Reading, Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-004",
+        "name": "Phonological Awareness",
+        "description": "A strand within Word Recognition. The ability to detect and manipulate sounds in spoken language, including awareness of syllables, onset-rime, and individual phonemes. Critical foundation for developing decoding skills. One of three strands in the Word Recognition bundle.",
+        "level": "Strand",
+        "parent_concept": "Word Recognition",
+        "grade_range": "K-2",
+        "complexity_band": "K-2",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "Decoding",
+          "Sight Recognition",
+          "Oral Vocabulary"
+        ],
+        "subject_metadata": {
+          "text_type": "mixed",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, visual diagram",
+        "examples": [
+          "Syllable awareness",
+          "Onset-rime manipulation",
+          "Phoneme detection"
+        ],
+        "research_basis": "1970s-80s reading research cited by Scarborough"
+      },
+      {
+        "concept_id": "TEMP-005",
+        "name": "Decoding",
+        "description": "A strand within Word Recognition. The ability to apply knowledge of letter-sound relationships to pronounce written words. Improves with instruction and practice, enabling readers to enlarge their vocabularies by reading text. Interacts with phonological awareness and sight recognition. One of three strands in the Word Recognition bundle.",
+        "level": "Strand",
+        "parent_concept": "Word Recognition",
+        "grade_range": "K-5",
+        "complexity_band": "K-5",
+        "cognitive_level": "apply",
+        "prerequisites": [
+          "Phonological Awareness"
+        ],
+        "related_concepts": [
+          "Phonological Awareness",
+          "Sight Recognition",
+          "Vocabulary"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, interactive development discussion",
+        "examples": [
+          "Letter-sound correspondence application",
+          "Word pronunciation",
+          "Phonics skills"
+        ],
+        "research_basis": "Simple View of Reading, Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-006",
+        "name": "Sight Recognition",
+        "description": "A strand within Word Recognition. The ability to recognize written words automatically and rapidly without conscious decoding effort. Develops through repeated exposure and practice with words. Contributes to reading fluency and automaticity. One of three strands in the Word Recognition bundle.",
+        "level": "Strand",
+        "parent_concept": "Word Recognition",
+        "grade_range": "K-12",
+        "complexity_band": "K-5",
+        "cognitive_level": "remember",
+        "prerequisites": [
+          "Phonological Awareness",
+          "Decoding"
+        ],
+        "related_concepts": [
+          "Decoding",
+          "Automaticity",
+          "Reading Fluency"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, visual diagram",
+        "examples": [
+          "High-frequency word recognition",
+          "Automatic word identification",
+          "Orthographic mapping"
+        ],
+        "research_basis": "1970s-80s reading research cited by Scarborough"
+      },
+      {
+        "concept_id": "TEMP-007",
+        "name": "Background Knowledge",
+        "description": "A strand within Language Comprehension. Prior knowledge about topics, concepts, and the world that readers bring to text. Essential for making inferences, connecting ideas, and constructing meaning. Gaining background knowledge often introduces new oral vocabulary words associated with the content. One of five strands in the Language Comprehension bundle.",
+        "level": "Strand",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "Vocabulary",
+          "Verbal Reasoning",
+          "Literacy Knowledge"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, interactive development discussion",
+        "examples": [
+          "Content knowledge",
+          "World knowledge",
+          "Domain-specific knowledge"
+        ],
+        "research_basis": "Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-008",
+        "name": "Vocabulary",
+        "description": "A strand within Language Comprehension. Knowledge of word meanings in oral and written language. Expands through exposure to language, reading, and instruction. Having a large oral vocabulary facilitates accurate and rapid decoding of printed words. Improving decoding skills enables readers to enlarge vocabularies by reading text. One of five strands in the Language Comprehension bundle.",
+        "level": "Strand",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "remember",
+        "prerequisites": [],
+        "related_concepts": [
+          "Background Knowledge",
+          "Language Structures",
+          "Decoding"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, interactive development discussion",
+        "examples": [
+          "Oral vocabulary",
+          "Written vocabulary",
+          "Academic vocabulary",
+          "Domain-specific terms"
+        ],
+        "research_basis": "Scarborough (2001), research on vocabulary-decoding relationship"
+      },
+      {
+        "concept_id": "TEMP-009",
+        "name": "Language Structures",
+        "description": "A strand within Language Comprehension. Knowledge of syntax, grammar, and how language is organized at the sentence and discourse levels. Understanding of how words combine to form meaningful phrases, sentences, and larger text structures. Essential for comprehending complex texts. One of five strands in the Language Comprehension bundle.",
+        "level": "Strand",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "Vocabulary",
+          "Verbal Reasoning",
+          "Literacy Knowledge"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, visual diagram",
+        "examples": [
+          "Syntax knowledge",
+          "Grammar understanding",
+          "Sentence structure",
+          "Discourse organization"
+        ],
+        "research_basis": "1970s-80s reading research cited by Scarborough"
+      },
+      {
+        "concept_id": "TEMP-010",
+        "name": "Verbal Reasoning",
+        "description": "A strand within Language Comprehension. The ability to think about and manipulate language to make inferences, draw conclusions, understand figurative language, and engage in higher-order thinking about text. Becomes increasingly strategic and purposeful as reading proficiency develops. One of five strands in the Language Comprehension bundle.",
+        "level": "Strand",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "K-12",
+        "complexity_band": "3-12",
+        "cognitive_level": "analyze",
+        "prerequisites": [
+          "Vocabulary",
+          "Language Structures"
+        ],
+        "related_concepts": [
+          "Background Knowledge",
+          "Literacy Knowledge",
+          "Strategic Reading"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, visual diagram",
+        "examples": [
+          "Making inferences",
+          "Drawing conclusions",
+          "Understanding figurative language",
+          "Critical thinking about text"
+        ],
+        "research_basis": "1970s-80s reading research cited by Scarborough"
+      },
+      {
+        "concept_id": "TEMP-011",
+        "name": "Literacy Knowledge",
+        "description": "A strand within Language Comprehension. Understanding of print concepts, text structures, genres, and conventions of written language. Knowledge about how different types of texts are organized and how to navigate them. Includes understanding of literacy practices and purposes. One of five strands in the Language Comprehension bundle.",
+        "level": "Strand",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "Language Structures",
+          "Background Knowledge",
+          "Text Comprehension"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Strands section, visual diagram",
+        "examples": [
+          "Print concepts",
+          "Genre knowledge",
+          "Text structure awareness",
+          "Literacy conventions"
+        ],
+        "research_basis": "1970s-80s reading research cited by Scarborough"
+      },
+      {
+        "concept_id": "TEMP-012",
+        "name": "Automaticity in Word Recognition",
+        "description": "A developmental characteristic of the Word Recognition bundle. As reading proficiency grows, word recognition processes are carried out with increasing automaticity - rapidly, accurately, and with little conscious effort. This frees cognitive resources for comprehension. Represented by curved arrow in the rope diagram.",
+        "level": "Developmental Characteristic",
+        "parent_concept": "Word Recognition",
+        "grade_range": "K-12",
+        "complexity_band": "3-12",
+        "cognitive_level": "apply",
+        "prerequisites": [
+          "Phonological Awareness",
+          "Decoding",
+          "Sight Recognition"
+        ],
+        "related_concepts": [
+          "Reading Fluency",
+          "Skilled Reading",
+          "Sight Recognition"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "Developmental shifts section",
+        "examples": [
+          "Rapid word identification",
+          "Effortless decoding",
+          "Automatic recognition"
+        ],
+        "research_basis": "Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-013",
+        "name": "Strategic Language Comprehension",
+        "description": "A developmental characteristic of the Language Comprehension bundle. As reading proficiency grows, language comprehension strands become increasingly strategic in their deployment - purposeful, intentional, and schema-building. Readers actively construct meaning and monitor understanding. Represented by curved arrow in the rope diagram.",
+        "level": "Developmental Characteristic",
+        "parent_concept": "Language Comprehension",
+        "grade_range": "3-12",
+        "complexity_band": "6-12",
+        "cognitive_level": "evaluate",
+        "prerequisites": [
+          "Background Knowledge",
+          "Vocabulary",
+          "Language Structures",
+          "Verbal Reasoning",
+          "Literacy Knowledge"
+        ],
+        "related_concepts": [
+          "Skilled Reading",
+          "Metacognition",
+          "Active Reading"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Developmental shifts section",
+        "examples": [
+          "Purposeful reading",
+          "Schema activation",
+          "Metacognitive monitoring",
+          "Intentional comprehension strategies"
+        ],
+        "research_basis": "Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-014",
+        "name": "Reading Fluency",
+        "description": "An indicator of overall reading skill level, not a separate strand. When readers get better at reading - as knowledge grows and skills are honed - a natural consequence is that they can carry it out with greater fluency. Fluency assessment serves as an efficient way to estimate overall reading proficiency. Reflects the integration of all rope strands.",
+        "level": "Performance Indicator",
+        "parent_concept": "Skilled Reading",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "apply",
+        "prerequisites": [
+          "Word Recognition",
+          "Language Comprehension"
+        ],
+        "related_concepts": [
+          "Automaticity in Word Recognition",
+          "Skilled Reading",
+          "Reading Proficiency"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "prose",
+          "skill_domain": "reading"
+        },
+        "source_page": "FAQ section on fluency",
+        "examples": [
+          "Reading rate",
+          "Accuracy",
+          "Prosody",
+          "Oral reading fluency"
+        ],
+        "research_basis": "Scarborough's explanation in FAQ"
+      },
+      {
+        "concept_id": "TEMP-015",
+        "name": "Interactive Development of Reading Components",
+        "description": "A core principle of the Reading Rope: strands do not develop independently. Growth on one strand often affects growth on others. Represented by the interweaving of individual strands and coiling of the two bundles. Instruction designed to strengthen one strand may promote progress in other strands as well.",
+        "level": "Developmental Principle",
+        "parent_concept": "Skilled Reading",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "understand",
+        "prerequisites": [],
+        "related_concepts": [
+          "All strands interact with each other"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Interactive nature section",
+        "examples": [
+          "Background knowledge introduces new vocabulary",
+          "Improved decoding enlarges vocabulary through reading",
+          "Large oral vocabulary facilitates decoding",
+          "Phonological awareness supports decoding development"
+        ],
+        "research_basis": "Scarborough (2001)"
+      },
+      {
+        "concept_id": "TEMP-016",
+        "name": "Reading Disability/Difficulty",
+        "description": "May stem from weakness in, or delayed acquisition of, underlying knowledge and skills that contribute to successful reading development. Metaphorically represented as 'fraying' of one or more strands. Weakness in a single strand may disrupt reading acquisition (especially if severe); weaknesses in several strands can impede progress even if mild. Per Simple View of Reading, impaired decoding interferes with reading comprehension even if language comprehension is unimpaired, and vice versa.",
+        "level": "Difficulty Pattern",
+        "parent_concept": "Skilled Reading",
+        "grade_range": "K-12",
+        "complexity_band": "K-12",
+        "cognitive_level": "analyze",
+        "prerequisites": [],
+        "related_concepts": [
+          "Word Recognition",
+          "Language Comprehension",
+          "Simple View of Reading"
+        ],
+        "subject_metadata": {
+          "text_type": "all",
+          "text_mode": "all",
+          "skill_domain": "reading"
+        },
+        "source_page": "Reading Disability section",
+        "examples": [
+          "Phonological awareness weakness affecting decoding",
+          "Vocabulary deficits limiting comprehension",
+          "Multiple mild weaknesses compounding difficulties",
+          "Dyslexia (word recognition difficulties)"
+        ],
+        "research_basis": "Simple View of Reading, Scarborough (2001)"
+      }
+    ],
+    "relationship_graph": {
+      "hierarchical": [
+        {
+          "parent": "Skilled Reading",
+          "child": "Word Recognition"
+        },
+        {
+          "parent": "Skilled Reading",
+          "child": "Language Comprehension"
+        },
+        {
+          "parent": "Word Recognition",
+          "child": "Phonological Awareness"
+        },
+        {
+          "parent": "Word Recognition",
+          "child": "Decoding"
+        },
+        {
+          "parent": "Word Recognition",
+          "child": "Sight Recognition"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Background Knowledge"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Vocabulary"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Language Structures"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Verbal Reasoning"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Literacy Knowledge"
+        },
+        {
+          "parent": "Word Recognition",
+          "child": "Automaticity in Word Recognition"
+        },
+        {
+          "parent": "Language Comprehension",
+          "child": "Strategic Language Comprehension"
+        }
+      ],
+      "prerequisite": [
+        {
+          "prerequisite": "Phonological Awareness",
+          "dependent": "Decoding"
+        },
+        {
+          "prerequisite": "Decoding",
+          "dependent": "Sight Recognition"
+        },
+        {
+          "prerequisite": "Phonological Awareness",
+          "dependent": "Automaticity in Word Recognition"
+        },
+        {
+          "prerequisite": "Decoding",
+          "dependent": "Automaticity in Word Recognition"
+        },
+        {
+          "prerequisite": "Sight Recognition",
+          "dependent": "Automaticity in Word Recognition"
+        },
+        {
+          "prerequisite": "Vocabulary",
+          "dependent": "Verbal Reasoning"
+        },
+        {
+          "prerequisite": "Language Structures",
+          "dependent": "Verbal Reasoning"
+        },
+        {
+          "prerequisite": "Background Knowledge",
+          "dependent": "Strategic Language Comprehension"
+        },
+        {
+          "prerequisite": "Vocabulary",
+          "dependent": "Strategic Language Comprehension"
+        },
+        {
+          "prerequisite": "Word Recognition",
+          "dependent": "Skilled Reading"
+        },
+        {
+          "prerequisite": "Language Comprehension",
+          "dependent": "Skilled Reading"
+        }
+      ],
+      "lateral": [
+        {
+          "concept": "Phonological Awareness",
+          "related_to": "Decoding",
+          "relationship": "foundational-support"
+        },
+        {
+          "concept": "Phonological Awareness",
+          "related_to": "Sight Recognition",
+          "relationship": "complementary"
+        },
+        {
+          "concept": "Decoding",
+          "related_to": "Sight Recognition",
+          "relationship": "complementary"
+        },
+        {
+          "concept": "Background Knowledge",
+          "related_to": "Vocabulary",
+          "relationship": "mutually-reinforcing"
+        },
+        {
+          "concept": "Vocabulary",
+          "related_to": "Language Structures",
+          "relationship": "complementary"
+        },
+        {
+          "concept": "Language Structures",
+          "related_to": "Verbal Reasoning",
+          "relationship": "foundational-support"
+        },
+        {
+          "concept": "Verbal Reasoning",
+          "related_to": "Literacy Knowledge",
+          "relationship": "complementary"
+        },
+        {
+          "concept": "Word Recognition",
+          "related_to": "Language Comprehension",
+          "relationship": "interweaving-coils"
+        },
+        {
+          "concept": "Vocabulary",
+          "related_to": "Decoding",
+          "relationship": "bidirectional-facilitation"
+        },
+        {
+          "concept": "Background Knowledge",
+          "related_to": "Vocabulary",
+          "relationship": "bidirectional-introduction"
+        }
+      ]
+    },
+    "grade_progressions": [
+      {
+        "concept_family": "Word Recognition",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Foundational development of phonological awareness, beginning decoding skills, and initial sight word recognition. Heavy emphasis on explicit instruction in letter-sound relationships and phonemic awareness."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Consolidation of decoding skills, expansion of sight word vocabulary, increasing automaticity in word recognition. Transition from learning to read to reading to learn."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Near-automatic word recognition for most grade-level texts, continued development with complex multisyllabic words, morphological awareness."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Fully automatic word recognition for most texts, efficient processing of academic and technical vocabulary, minimal cognitive resources devoted to word-level processing."
+          }
+        ]
+      },
+      {
+        "concept_family": "Language Comprehension",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Building foundational vocabulary, basic background knowledge, understanding of simple language structures, early literacy concepts (print awareness, book handling)."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Expanding vocabulary and background knowledge across content areas, developing understanding of more complex language structures, beginning strategic comprehension approaches."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Sophisticated vocabulary including academic language, extensive background knowledge, complex verbal reasoning, increasingly strategic and purposeful comprehension, genre awareness."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Advanced vocabulary and domain-specific knowledge, sophisticated verbal reasoning and critical thinking, highly strategic and intentional comprehension, schema-building across disciplines."
+          }
+        ]
+      },
+      {
+        "concept_family": "Phonological Awareness",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Explicit instruction and practice in detecting and manipulating sounds: syllables, onset-rime, individual phonemes. Critical foundation period for this skill."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Phonological awareness largely established; continued application in decoding multisyllabic words and morphologically complex words."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Phonological awareness fully developed for most students; applied automatically in word recognition."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Phonological awareness operates automatically; may be explicitly engaged for unfamiliar words or foreign language learning."
+          }
+        ]
+      },
+      {
+        "concept_family": "Decoding",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Systematic instruction in letter-sound correspondences, blending sounds to read words, decoding simple CVC words progressing to more complex patterns."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Decoding multisyllabic words, applying morphological knowledge, increasing accuracy and speed, transitioning toward automaticity."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Efficient decoding of complex words including academic and technical vocabulary, morphological analysis of unfamiliar words."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Automatic decoding of most words, strategic decoding of highly specialized or foreign terms, minimal conscious effort required."
+          }
+        ]
+      },
+      {
+        "concept_family": "Vocabulary",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Rapid oral vocabulary growth through conversation and read-alouds, beginning to learn words through reading, basic word learning strategies."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Expanding vocabulary through reading and content instruction, learning academic vocabulary, developing word consciousness and word learning strategies."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Sophisticated vocabulary including abstract concepts and academic language, domain-specific terminology, advanced word learning strategies, understanding of nuanced meanings."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Extensive vocabulary across disciplines, technical and specialized terms, sophisticated understanding of connotation and register, independent vocabulary acquisition through reading."
+          }
+        ]
+      },
+      {
+        "concept_family": "Automaticity and Strategic Reading",
+        "progression": [
+          {
+            "grade_band": "K-2",
+            "description": "Word recognition requires conscious effort; comprehension strategies are teacher-guided and explicit. Beginning to develop automatic recognition of high-frequency words."
+          },
+          {
+            "grade_band": "3-5",
+            "description": "Increasing automaticity in word recognition frees cognitive resources for comprehension; beginning to apply comprehension strategies more independently and purposefully."
+          },
+          {
+            "grade_band": "6-8",
+            "description": "Word recognition largely automatic for grade-level texts; comprehension strategies deployed strategically and intentionally; active schema-building and metacognitive monitoring."
+          },
+          {
+            "grade_band": "9-12",
+            "description": "Fully automatic word recognition; highly strategic, purposeful, and flexible comprehension; sophisticated metacognitive awareness; adaptation of strategies to text type and purpose."
+          }
+        ]
+      }
+    ],
+    "metadata_summary": {
+      "total_concepts_extracted": 16,
+      "concepts_by_level": {
+        "Endpoint": 1,
+        "Strand Bundle": 2,
+        "Strand": 8,
+        "Developmental Characteristic": 2,
+        "Performance Indicator": 1,
+        "Developmental Principle": 1,
+        "Difficulty Pattern": 1
+      },
+      "concepts_by_grade_band": {
+        "K-2": 2,
+        "K-5": 3,
+        "K-12": 9,
+        "3-12": 2,
+        "6-12": 1
+      },
+      "concepts_by_cognitive_level": {
+        "remember": 2,
+        "understand": 5,
+        "apply": 4,
+        "analyze": 2,
+        "evaluate": 1,
+        "create": 1
+      },
+      "key_insights": [
+        "The Reading Rope uses a two-bundle structure (Word Recognition with 3 strands, Language Comprehension with 5 strands) that interweave to form skilled reading",
+        "Development is interactive - strands do not develop independently but influence each other throughout the learning process",
+        "Two major developmental shifts occur: Word Recognition becomes increasingly automatic, while Language Comprehension becomes increasingly strategic",
+        "Reading fluency is viewed as an indicator of overall proficiency, not a separate component",
+        "The framework is grounded in Simple View of Reading: skilled reading requires both word recognition AND language comprehension",
+        "Reading difficulties can stem from weakness in any strand(s), with severity depending on which strands are affected and how severely",
+        "The framework was designed for educator accessibility and research-practice dialogue, not as a comprehensive model of all factors affecting reading"
+      ]
+    }
+  }
+}
