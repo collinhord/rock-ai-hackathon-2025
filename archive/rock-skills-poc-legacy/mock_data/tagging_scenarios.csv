@@ -1,0 +1,17 @@
+SCENARIO_ID,SCENARIO_NAME,CONTENT_ITEM,MASTER_CONCEPT,MATCHING_ROCK_SKILLS_COUNT,STATES_WITH_SKILLS,DESCRIPTION
+SC-001,Phoneme Blending Early K,CNT-001,Phoneme Blending,12,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA","Foundational phoneme blending skill - 12 state variants exist teaching same concept"
+SC-002,Context Clues Grade 4-5,CNT-002,Context Clues for Word Meaning,15,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR,MA","Using context to determine word meaning - widespread across states and grades"
+SC-003,Phoneme Segmentation K,CNT-003,Phoneme Segmentation,10,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL","Breaking words into phonemes - complementary to blending"
+SC-004,Main Idea Informational,CNT-004,Main Idea Identification,14,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR","Core comprehension skill with many state expressions"
+SC-005,Advanced Blending Digraphs,CNT-005,Phoneme Blending,12,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA","More complex blending - same 12 states as SC-001"
+SC-006,Author Purpose Upper Elem,CNT-006,Author's Purpose,13,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,MA","Analyzing author's intent across text types"
+SC-007,Multisyllabic Decoding,CNT-007,Decoding Multisyllabic Words,11,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ","Word attack strategies for longer words"
+SC-008,Synonym Context Clues,CNT-008,Context Clues for Word Meaning,15,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR,MA","Same concept as SC-002 - content could be tagged together"
+SC-009,Text Structure Cause-Effect,CNT-009,Text Structure Analysis,13,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO","Understanding organizational patterns in text"
+SC-010,Blending Progression 3-Phoneme,CNT-010,Phoneme Blending,12,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA","Sequential skill - same states as SC-001 and SC-005"
+SC-011,Inferencing Primary,CNT-011,Inferencing,16,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR,MA,NJ","Drawing conclusions - highly fragmented across states"
+SC-012,Antonym Context Clues,CNT-012,Context Clues for Word Meaning,15,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR,MA","Third content item for same master concept"
+SC-013,Phoneme Manipulation,CNT-013,Phoneme Manipulation,9,"TX,CA,OH,VA,FL,NY,PA,GA,NC","Advanced phonological awareness"
+SC-014,Main Idea Details Sort,CNT-014,Main Idea Identification,14,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,CO,OR","Same concept as SC-004 - could share tagging"
+SC-015,Author Purpose Assessment,CNT-015,Author's Purpose,13,"TX,CA,OH,VA,FL,NY,PA,GA,NC,IL,AZ,WA,MA","Assessment for SC-006 concept - same states"
+
