@@ -39,6 +39,7 @@ TODO_PRIVATE.md
 # Large ROCK data files (schemas)
 data/reference/rock_schemas/*.csv
 rock-skills/rock_data/*.csv
+rock-skills/data/input/rock_schemas/*.csv
 
 # Generated databases and mappings
 *.db
